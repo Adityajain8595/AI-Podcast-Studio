@@ -1,6 +1,5 @@
 import os
 import random
-import re
 import operator
 import time
 from typing import Annotated, List, TypedDict, Callable, Optional
