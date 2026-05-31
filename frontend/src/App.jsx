@@ -1438,8 +1438,8 @@ export default function App() {
                     <header className="bg-white/80 backdrop-blur-md border-b border-purple-100 sticky top-0 z-10 shadow-sm">
                         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <img 
-                                    src="/src/assets/image.png" 
+                                 <img 
+                                    src={logoImage}    // ← CHANGE THIS LINE
                                     alt="Podcast Studio Logo" 
                                     className="w-10 h-10 rounded-full shadow-md object-cover"
                                 />
