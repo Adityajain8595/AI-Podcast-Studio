@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 os.environ['TAVILY_API_KEY'] = os.getenv('TAVILY_API_KEY')
-GROQ_API_KEY = os.getenv('GROQ_ALTERNATE_KEY')
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
 # Rate limiting for API calls
 last_call_time = 0
