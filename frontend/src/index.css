@@ -1,0 +1,35 @@
+/* 1) Tailwind layers (must be at top) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Resizable sidebar styles */
+.select-none {
+    user-select: none;
+}
+
+/* Mermaid diagram container */
+.mermaid-diagram svg {
+    width: 100%;
+    height: auto;
+    min-height: 600px;
+}
+
+/* Scrollbar styling for sidebar */
+.documentation-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.documentation-sidebar::-webkit-scrollbar-track {
+    background: #1f2937;
+    border-radius: 4px;
+}
+
+.documentation-sidebar::-webkit-scrollbar-thumb {
+    background: #4c51bf;
+    border-radius: 4px;
+}
+
+.documentation-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #6b46c0;
+}

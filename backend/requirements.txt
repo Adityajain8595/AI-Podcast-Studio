@@ -1,0 +1,16 @@
+langchain
+python-dotenv
+langchain_community
+langchain_core
+langchain_tavily
+wikipedia
+python-multipart
+fastapi
+pydantic
+uvicorn
+google-cloud-aiplatform 
+google-cloud-texttospeech
+langchain-google-genai
+pydub==0.25.1
+aiofiles
+supabase
