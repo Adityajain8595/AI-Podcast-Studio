@@ -10,5 +10,4 @@ uvicorn
 google-cloud-texttospeech
 langchain-groq
 pydub==0.25.1
-pyaudioop
 supabase
