@@ -12,7 +12,8 @@ from pydantic import BaseModel
 from typing import Dict, Any
 from podcast_workflow import generate_podcast_script, set_progress_callback
 from tts_utils import generate_audio_from_script
-from supabase_client import get_user_credits, use_credit, get_user_credit_info
+from supabase_client import (save_podcast, get_user_podcasts, get_podcast_by_job_id, delete_podcast, use_credit, 
+                            get_user_credit_info, get_user_credits)
 
 # Initialize Supabase client for auth verification
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -102,22 +103,19 @@ async def get_credits(user_id: str = Depends(verify_auth)):
         "resets_at": credit_info["resets_at"]
     }
 
-def generate_with_progress(job_id: str, topic: str, language: str, speaker_voices: dict):
+def generate_with_progress(job_id: str, topic: str, language: str, speaker_voices: dict, user_id: str):
     """Background task that emits progress events during generation"""
     
     progress_events = []
     
     def emit_progress(event_data):
-        """Store progress events for this job"""
         progress_events.append(event_data)
         generated_results[job_id]["progress"] = progress_events.copy()
         generated_results[job_id]["status"] = event_data["status"]
     
-    # Callback for this generation
     set_progress_callback(emit_progress)
     
     try:
-        # Generate script
         generated_results[job_id]["status"] = "generating_script"
         script = generate_podcast_script(topic, language)
         generated_results[job_id]["script"] = script
@@ -129,10 +127,8 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
             "timestamp": time.time()
         })
         
-        # Generate audio
         audio_bytes = generate_audio_from_script(script, language, speaker_voices)
         
-        # Save files
         audio_path = os.path.join(AUDIO_DIR, f"{job_id}.mp3")
         script_path = os.path.join(AUDIO_DIR, f"{job_id}.txt")
         
@@ -141,17 +137,23 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
         with open(script_path, "w", encoding="utf-8") as f:
             f.write(script)
         
+        # Generate public URL (adjust for your deployment)
+        audio_url = f"/download/{job_id}"
+        
         generated_results[job_id]["audio_path"] = audio_path
         generated_results[job_id]["script_path"] = script_path
         generated_results[job_id]["status"] = "completed"
-        generated_results[job_id]["download_url"] = f"/download/{job_id}"
+        generated_results[job_id]["download_url"] = audio_url
+        
+        # Save to database
+        save_podcast(user_id, job_id, topic, language, script, audio_url)
         
         emit_progress({
             "step": "complete",
             "status": "completed",
             "message": "Podcast generation complete! Ready for download.",
             "timestamp": time.time(),
-            "details": {"download_url": f"/download/{job_id}"}
+            "details": {"download_url": audio_url}
         })
         
     except Exception as e:
@@ -169,14 +171,13 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
 async def generate_podcast(req: PodcastRequest, background_tasks: BackgroundTasks, user_id: str = Depends(verify_auth)):
     """Start podcast generation with daily credit check"""
     
-    # Check if user has daily credits
     available_credits = get_user_credits(user_id)
     
     if available_credits < CREDIT_COST_PER_PODCAST:
         credit_info = get_user_credit_info(user_id)
         raise HTTPException(
             status_code=403, 
-            detail=f"Daily limit reached. You've used {credit_info['credits_used_today']} of {credit_info['daily_limit']} free credits today. Credits reset in {credit_info['resets_in_seconds'] // 3600} hours."
+            detail=f"Daily limit reached. You've used {credit_info['credits_used_today']} of {credit_info['daily_limit']} free credits today."
         )
     
     job_id = str(uuid.uuid4())
@@ -189,12 +190,10 @@ async def generate_podcast(req: PodcastRequest, background_tasks: BackgroundTask
         "user_id": user_id
     }
     
-    # Use daily credit
     credit_used = use_credit(user_id)
     if not credit_used:
         raise HTTPException(status_code=403, detail="Failed to use credit. Daily limit may have been reached.")
     
-    # Get remaining credits after using
     remaining = get_user_credits(user_id)
     
     background_tasks.add_task(
@@ -202,7 +201,8 @@ async def generate_podcast(req: PodcastRequest, background_tasks: BackgroundTask
         job_id, 
         req.topic, 
         req.language, 
-        req.speaker_voices
+        req.speaker_voices,
+        user_id  # Pass user_id to save the podcast
     )
     
     return {
@@ -284,6 +284,66 @@ async def get_script(job_id: str):
     with open(script_path, "r", encoding="utf-8") as f:
         script = f.read()
     return {"script": script}
+
+
+@app.get("/user/podcasts")
+async def get_user_podcasts_endpoint(
+    limit: int = 50, 
+    offset: int = 0,
+    user_id: str = Depends(verify_auth)
+):
+    """Get all podcasts for the authenticated user"""
+    podcasts = get_user_podcasts(user_id, limit, offset)
+    
+    # Transform for frontend consumption
+    formatted_podcasts = []
+    for podcast in podcasts:
+        formatted_podcasts.append({
+            "id": podcast["id"],
+            "job_id": podcast["job_id"],
+            "topic": podcast["topic"],
+            "language": podcast["language"],
+            "created_at": podcast["created_at"],
+            "audio_url": podcast["audio_url"],
+            "script_preview": podcast["script"][:200] + "..." if len(podcast["script"]) > 200 else podcast["script"]
+        })
+    
+    return {
+        "podcasts": formatted_podcasts,
+        "total": len(formatted_podcasts),
+        "limit": limit,
+        "offset": offset
+    }
+
+
+@app.get("/user/podcasts/{job_id}")
+async def get_user_podcast(job_id: str, user_id: str = Depends(verify_auth)):
+    """Get a specific podcast by job_id"""
+    podcast = get_podcast_by_job_id(job_id, user_id)
+    
+    if not podcast:
+        raise HTTPException(status_code=404, detail="Podcast not found")
+    
+    return {
+        "id": podcast["id"],
+        "job_id": podcast["job_id"],
+        "topic": podcast["topic"],
+        "language": podcast["language"],
+        "script": podcast["script"],
+        "audio_url": podcast["audio_url"],
+        "created_at": podcast["created_at"]
+    }
+
+
+@app.delete("/user/podcasts/{job_id}")
+async def delete_user_podcast(job_id: str, user_id: str = Depends(verify_auth)):
+    """Delete a podcast (soft delete)"""
+    success = delete_podcast(job_id, user_id)
+    
+    if not success:
+        raise HTTPException(status_code=404, detail="Podcast not found or could not be deleted")
+    
+    return {"message": "Podcast deleted successfully"}
 
 
 def cleanup_files(*paths):

@@ -2,6 +2,7 @@ import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from datetime import date, datetime, timedelta
+from typing import List, Dict, Any, Optional
 
 load_dotenv()
 
@@ -21,14 +22,12 @@ CREDIT_COST_PER_PODCAST = 1
 def ensure_user_exists(user_id: str):
     """Ensure user exists in credits table"""
     try:
-        # Check if user exists
         result = supabase.table("user_credits")\
             .select("user_id")\
             .eq("user_id", user_id)\
             .execute()
         
         if not result.data:
-            # Create new user record
             supabase.table("user_credits").insert({
                 "user_id": user_id,
                 "daily_credits_used": 0,
@@ -44,10 +43,8 @@ def ensure_user_exists(user_id: str):
 def get_user_credits(user_id: str) -> int:
     """Get remaining credits for a user for today"""
     try:
-        # Ensure user exists
         ensure_user_exists(user_id)
         
-        # Get user record
         result = supabase.table("user_credits")\
             .select("daily_credits_used, last_reset_date")\
             .eq("user_id", user_id)\
@@ -57,14 +54,12 @@ def get_user_credits(user_id: str) -> int:
             record = result.data[0]
             last_reset = datetime.strptime(record["last_reset_date"], "%Y-%m-%d").date()
             
-            # Reset if last reset was not today
             if last_reset < date.today():
                 credits_used = 0
             else:
                 credits_used = record["daily_credits_used"]
             
             remaining = max(0, DAILY_CREDIT_LIMIT - credits_used)
-            print(f"User {user_id}: credits_used={credits_used}, remaining={remaining}")
             return remaining
         else:
             return DAILY_CREDIT_LIMIT
@@ -77,7 +72,6 @@ def use_credit(user_id: str) -> bool:
     try:
         ensure_user_exists(user_id)
         
-        # Get current record
         result = supabase.table("user_credits")\
             .select("daily_credits_used, last_reset_date")\
             .eq("user_id", user_id)\
@@ -89,18 +83,14 @@ def use_credit(user_id: str) -> bool:
         record = result.data[0]
         last_reset = datetime.strptime(record["last_reset_date"], "%Y-%m-%d").date()
         
-        # Reset if needed
         if last_reset < date.today():
             credits_used = 0
         else:
             credits_used = record["daily_credits_used"]
         
-        # Check if user has credits left
         if credits_used >= DAILY_CREDIT_LIMIT:
-            print(f"User {user_id} has no credits left (used {credits_used}/{DAILY_CREDIT_LIMIT})")
             return False
         
-        # Update credits used
         supabase.table("user_credits")\
             .update({
                 "daily_credits_used": credits_used + 1,
@@ -110,7 +100,6 @@ def use_credit(user_id: str) -> bool:
             .eq("user_id", user_id)\
             .execute()
         
-        print(f"User {user_id} used a credit. Now at {credits_used + 1}/{DAILY_CREDIT_LIMIT}")
         return True
     except Exception as e:
         print(f"Error using credit: {e}")
@@ -130,13 +119,11 @@ def get_user_credit_info(user_id: str) -> dict:
             record = result.data[0]
             last_reset = datetime.strptime(record["last_reset_date"], "%Y-%m-%d").date()
             
-            # Reset if needed
             if last_reset < date.today():
                 credits_used = 0
             else:
                 credits_used = record["daily_credits_used"]
             
-            # Calculate when credits reset (next midnight)
             now = datetime.now()
             next_reset = datetime(now.year, now.month, now.day) + timedelta(days=1)
             seconds_until_reset = (next_reset - now).total_seconds()
@@ -168,3 +155,64 @@ def get_user_credit_info(user_id: str) -> dict:
             "resets_at": None,
             "cost_per_generation": CREDIT_COST_PER_PODCAST
         }
+
+# Podcast storage functions
+def save_podcast(user_id: str, job_id: str, topic: str, language: str, script: str, audio_url: str) -> bool:
+    """Save generated podcast to user's storage"""
+    try:
+        supabase.table("podcasts").insert({
+            "user_id": user_id,
+            "job_id": job_id,
+            "topic": topic,
+            "language": language,
+            "script": script,
+            "audio_url": audio_url
+        }).execute()
+        return True
+    except Exception as e:
+        print(f"Error saving podcast: {e}")
+        return False
+
+def get_user_podcasts(user_id: str, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
+    """Get all podcasts for a specific user"""
+    try:
+        result = supabase.table("podcasts")\
+            .select("*")\
+            .eq("user_id", user_id)\
+            .eq("is_deleted", False)\
+            .order("created_at", desc=True)\
+            .range(offset, offset + limit - 1)\
+            .execute()
+        
+        return result.data if result.data else []
+    except Exception as e:
+        print(f"Error getting user podcasts: {e}")
+        return []
+
+def get_podcast_by_job_id(job_id: str, user_id: str) -> Optional[Dict[str, Any]]:
+    """Get a specific podcast by job_id"""
+    try:
+        result = supabase.table("podcasts")\
+            .select("*")\
+            .eq("job_id", job_id)\
+            .eq("user_id", user_id)\
+            .eq("is_deleted", False)\
+            .execute()
+        
+        return result.data[0] if result.data else None
+    except Exception as e:
+        print(f"Error getting podcast: {e}")
+        return None
+
+def delete_podcast(job_id: str, user_id: str) -> bool:
+    """Soft delete a podcast"""
+    try:
+        supabase.table("podcasts")\
+            .update({"is_deleted": True, "updated_at": datetime.now().isoformat()})\
+            .eq("job_id", job_id)\
+            .eq("user_id", user_id)\
+            .execute()
+        return True
+    except Exception as e:
+        print(f"Error deleting podcast: {e}")
+        return False
