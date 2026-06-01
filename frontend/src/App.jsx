@@ -114,33 +114,31 @@ const translations = {
     }
 };
 
-// --- Professional SVG Icons (No Emojis) ---
+// --- SVG Icons ---
 const HomeIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" />
+        <path d="M9 22V12H15V22" />
     </svg>
 );
 
 const PodcastIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C10.6868 2 9.38642 2.25866 8.17317 2.7612C6.95991 3.26375 5.85752 4.00035 4.92893 4.92893C3.05357 6.8043 2 9.34784 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" strokeWidth="2"/>
-        <path d="M12 12V17" stroke="currentColor" strokeWidth="2"/>
-        <path d="M16 14C16 14.5304 15.7893 15.0391 15.4142 15.4142C15.0391 15.7893 14.5304 16 14 16" stroke="currentColor" strokeWidth="2"/>
-        <path d="M8 14C8 14.5304 8.21071 15.0391 8.58579 15.4142C8.96086 15.7893 9.46957 16 10 16" stroke="currentColor" strokeWidth="2"/>
-        <path d="M18 11C18 12.5913 17.3679 14.1174 16.2426 15.2426C15.1174 16.3679 13.5913 17 12 17" stroke="currentColor" strokeWidth="2"/>
-        <path d="M6 11C6 12.5913 6.63214 14.1174 7.75736 15.2426C8.88258 16.3679 10.4087 17 12 17" stroke="currentColor" strokeWidth="2"/>
-        <circle cx="19" cy="19" r="3" stroke="currentColor" strokeWidth="2"/>
-        <path d="M21 21L23 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 2C10.6868 2 9.38642 2.25866 8.17317 2.7612C6.95991 3.26375 5.85752 4.00035 4.92893 4.92893C3.05357 6.8043 2 9.34784 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22" />
+        <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" />
+        <path d="M12 12V17" />
+        <path d="M16 14C16 14.5304 15.7893 15.0391 15.4142 15.4142C15.0391 15.7893 14.5304 16 14 16" />
+        <path d="M8 14C8 14.5304 8.21071 15.0391 8.58579 15.4142C8.96086 15.7893 9.46957 16 10 16" />
+        <circle cx="19" cy="19" r="3" />
+        <path d="M21 21L23 23" />
     </svg>
 );
 
 const LogoutIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M16 17L21 12L16 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" />
+        <path d="M16 17L21 12L16 7" />
+        <path d="M21 12H9" />
     </svg>
 );
 
@@ -203,10 +201,12 @@ const DocumentationIcon = () => (
     </svg>
 );
 
-const CloseIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M18 6L6 18" />
-        <path d="M6 6L18 18" />
+const GoogleIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
     </svg>
 );
 
@@ -231,24 +231,6 @@ const GlobalStyles = () => (
             font-family: 'Inter', sans-serif;
         }
         
-        .sidebar-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .sidebar-scroll::-webkit-scrollbar-track {
-            background: #f3e8ff;
-            border-radius: 3px;
-        }
-        
-        .sidebar-scroll::-webkit-scrollbar-thumb {
-            background: #c084fc;
-            border-radius: 3px;
-        }
-        
-        .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-            background: #a855f7;
-        }
-        
         .thinking-process-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -259,17 +241,8 @@ const GlobalStyles = () => (
         }
         
         .thinking-process-scroll::-webkit-scrollbar-thumb {
-            background: #a855f7;
+            background: #c084fc;
             border-radius: 3px;
-        }
-        
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        .animate-gradient {
-            animation: gradient-shift 3s ease infinite;
         }
         
         @keyframes float {
@@ -282,8 +255,8 @@ const GlobalStyles = () => (
         }
         
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.4); }
+            0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.5); }
         }
         
         .animate-glow {
@@ -300,8 +273,8 @@ const GlobalStyles = () => (
         }
         
         @keyframes pulse-slow {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
         
         .animate-pulse-slow {
@@ -309,46 +282,36 @@ const GlobalStyles = () => (
         }
         
         .bg-grid-pattern {
-            background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+            background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.15) 1px, transparent 1px);
             background-size: 32px 32px;
         }
     `}</style>
 );
 
-// --- Documentation Footer Component (at bottom of generation page) ---
+// --- Documentation Footer Component ---
 const DocumentationFooter = ({ language }) => {
     const [isOpen, setIsOpen] = useState(false);
     const t = translations[language];
     
-    const workflowSteps = [
-        { step: "1", title: "User Input", description: "User provides topic and language preference", icon: "🎯", color: "pink" },
-        { step: "2", title: "Planning", description: "LLM analyzes topic, extracts keywords and subtopics", icon: "📋", color: "purple" },
-        { step: "3", title: "Research", description: "Tavily API performs real-time web search", icon: "🔍", color: "indigo" },
-        { step: "4", title: "Interview", description: "Multi-turn dialogue between host and expert", icon: "🎙️", color: "violet" },
-        { step: "5", title: "Writing", description: "Convert conversation to natural dialogue", icon: "✍️", color: "fuchsia" },
-        { step: "6", title: "Audio Synthesis", description: "Google Cloud TTS generates neural voices", icon: "🎧", color: "purple" },
-        { step: "7", title: "Final Output", description: "MP3 audio with captions and transcript", icon: "✨", color: "pink" }
-    ];
-    
     return (
-        <div className="mt-12 pt-8 border-t border-purple-200">
+        <div className="mt-12 pt-8 border-t border-purple-800/30">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="group w-full flex items-center justify-between py-4 px-6 bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 rounded-2xl transition-all duration-300"
+                className="group w-full flex items-center justify-between py-4 px-6 bg-purple-900/50 hover:bg-purple-800/50 backdrop-blur-sm rounded-2xl transition-all duration-300 border border-purple-700/30"
             >
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-lg animate-glow">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-lg animate-glow text-white">
                         <DocumentationIcon />
                     </div>
                     <div className="text-left">
-                        <h3 className="font-semibold text-gray-800">{t.documentation}</h3>
-                        <p className="text-xs text-gray-500">Complete system architecture and API guide</p>
+                        <h3 className="font-semibold text-white">{t.documentation}</h3>
+                        <p className="text-xs text-purple-300">Complete system architecture and API guide</p>
                     </div>
                 </div>
                 <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-purple-500"
+                    className="text-purple-400"
                 >
                     <ChevronDownIcon />
                 </motion.div>
@@ -363,14 +326,14 @@ const DocumentationFooter = ({ language }) => {
                         transition={{ duration: 0.4 }}
                         className="overflow-hidden"
                     >
-                        <div className="mt-4 p-6 bg-white rounded-2xl border border-purple-200 shadow-xl">
+                        <div className="mt-4 p-6 bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 shadow-xl">
                             {/* Architecture Section */}
                             <div className="mb-8">
-                                <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                                     <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🏗️</span>
                                     {t.architecture}
                                 </h4>
-                                <div className="bg-gradient-to-br from-gray-900 to-purple-900 rounded-xl p-5 overflow-x-auto">
+                                <div className="bg-purple-950/50 rounded-xl p-5 overflow-x-auto">
                                     <pre className="text-xs text-purple-200 font-mono whitespace-pre-wrap leading-relaxed">
 {`
 ┌─────────────────────────────────────────────────────────────┐
@@ -410,64 +373,36 @@ const DocumentationFooter = ({ language }) => {
                                 </div>
                             </div>
                             
-                            {/* Workflow Steps */}
-                            <div className="mb-8">
-                                <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                    <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🔄</span>
-                                    {t.workflowDiagram}
-                                </h4>
-                                <div className="grid gap-3">
-                                    {workflowSteps.map((step, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: idx * 0.05 }}
-                                            className="flex items-center gap-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:shadow-md transition-shadow"
-                                        >
-                                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                                                {step.step}
-                                            </div>
-                                            <div className="flex-1">
-                                                <h5 className="font-semibold text-gray-800">{step.title}</h5>
-                                                <p className="text-xs text-gray-600">{step.description}</p>
-                                            </div>
-                                            <div className="text-2xl">{step.icon}</div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                            
                             {/* API Endpoints */}
                             <div className="mb-8">
-                                <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                                     <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🔌</span>
                                     {t.apiEndpoints}
                                 </h4>
                                 <div className="grid gap-2">
-                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                                        <code className="text-sm font-mono text-purple-600 font-semibold">POST /generate-podcast</code>
-                                        <p className="text-xs text-gray-600 mt-1">Starts podcast generation. Returns job_id for progress tracking.</p>
+                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
+                                        <code className="text-sm font-mono text-pink-400 font-semibold">POST /generate-podcast</code>
+                                        <p className="text-xs text-purple-300 mt-1">Starts podcast generation. Returns job_id for progress tracking.</p>
                                     </div>
-                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                                        <code className="text-sm font-mono text-pink-600 font-semibold">GET /stream-progress/{'{job_id}'}</code>
-                                        <p className="text-xs text-gray-600 mt-1">Server-Sent Events endpoint for real-time progress updates.</p>
+                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
+                                        <code className="text-sm font-mono text-purple-400 font-semibold">GET /stream-progress/{'{job_id}'}</code>
+                                        <p className="text-xs text-purple-300 mt-1">Server-Sent Events endpoint for real-time progress updates.</p>
                                     </div>
-                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                                        <code className="text-sm font-mono text-purple-600 font-semibold">GET /user/credits</code>
-                                        <p className="text-xs text-gray-600 mt-1">Returns daily credit usage and remaining credits.</p>
+                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
+                                        <code className="text-sm font-mono text-pink-400 font-semibold">GET /user/credits</code>
+                                        <p className="text-xs text-purple-300 mt-1">Returns daily credit usage and remaining credits.</p>
                                     </div>
-                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
-                                        <code className="text-sm font-mono text-pink-600 font-semibold">GET /user/podcasts</code>
-                                        <p className="text-xs text-gray-600 mt-1">Returns user's podcast history.</p>
+                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
+                                        <code className="text-sm font-mono text-purple-400 font-semibold">GET /user/podcasts</code>
+                                        <p className="text-xs text-purple-300 mt-1">Returns user's podcast history.</p>
                                     </div>
                                 </div>
                             </div>
                             
                             {/* Footer */}
-                            <div className="pt-6 text-center border-t border-purple-200">
-                                <p className="text-purple-600 font-semibold">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
-                                <p className="text-sm text-gray-500 mt-1">Developed by Aditya Jain</p>
+                            <div className="pt-6 text-center border-t border-purple-800/30">
+                                <p className="text-purple-400 font-semibold">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
+                                <p className="text-sm text-purple-500 mt-1">Developed by Aditya Jain</p>
                             </div>
                         </div>
                     </motion.div>
@@ -489,10 +424,10 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
     }, [logs, isExpanded]);
 
     return (
-        <div className="bg-gradient-to-br from-gray-900 to-purple-900 rounded-2xl overflow-hidden border border-purple-500/30 shadow-2xl mb-6">
+        <div className="bg-purple-950/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-700/30 shadow-2xl mb-6">
             <button
                 onClick={onToggle}
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4 flex items-center justify-between hover:opacity-90 transition-all"
+                className="w-full bg-gradient-to-r from-purple-700 to-pink-700 px-6 py-4 flex items-center justify-between hover:opacity-90 transition-all"
             >
                 <div className="flex items-center gap-3">
                     <div className={`w-2 h-2 ${isComplete ? 'bg-green-400' : 'bg-yellow-400'} rounded-full animate-pulse`}></div>
@@ -522,7 +457,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: Math.min(idx * 0.02, 0.5) }}
-                                    className="mb-3 pb-2 border-b border-purple-800 last:border-0"
+                                    className="mb-3 pb-2 border-b border-purple-800/50 last:border-0"
                                 >
                                     <div className="flex items-start gap-3">
                                         <span className="text-purple-400 text-xs">
@@ -543,108 +478,260 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
     );
 };
 
-// --- Audio Player Component ---
+// --- Audio Player with Waveform and Captions (Restored from original) ---
 const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentCaption, setCurrentCaption] = useState("");
+    const [parsedSegments, setParsedSegments] = useState([]);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
+    
     const audioRef = useRef(null);
-    
-    const formatTime = (seconds) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    const canvasRef = useRef(null);
+    const audioCtxRef = useRef(null);
+    const analyserRef = useRef(null);
+    const animationFrameRef = useRef(null);
+    const lastActiveSegmentRef = useRef(null);
+
+    const getRawSegments = useCallback(() => {
+        const lines = script.split('\n');
+        const segments = [];
+        let currentSpeaker = '';
+        let textBlock = '';
+
+        for (const line of lines) {
+            const interviewerMatch = line.match(/\*\*Interviewer:\*\*\s*(.*)/);
+            const expertMatch = line.match(/\*\*Expert:\*\*\s*(.*)/);
+
+            if (interviewerMatch) {
+                if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
+                currentSpeaker = 'Interviewer';
+                textBlock = interviewerMatch[1];
+            } else if (expertMatch) {
+                if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
+                currentSpeaker = 'Expert';
+                textBlock = expertMatch[1];
+            } else if (textBlock && line.trim() && !line.startsWith('---')) {
+                textBlock += ' ' + line.trim();
+            }
+        }
+        if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
+
+        return segments.map(seg => {
+            const break800s = (seg.rawText.match(/<break time=["']800ms["']\s*\/?>/g) || []).length;
+            const break500s = (seg.rawText.match(/<break time=["']500ms["']\s*\/?>/g) || []).length;
+            const break1s = (seg.rawText.match(/<break time=["']1s["']\s*\/?>/g) || []).length;
+
+            const internalSilence = (break800s * 0.8) + (break500s * 0.5) + (break1s * 1.0);
+            const cleanText = seg.rawText.replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
+
+            return {
+                speaker: seg.speaker,
+                text: cleanText,
+                charCount: cleanText.length,
+                internalSilence: internalSilence
+            };
+        });
+    }, [script]);
+
+    const handleLoadedMetadata = () => {
+        if (!audioRef.current) return;
+        
+        const totalDuration = audioRef.current.duration;
+        setDuration(totalDuration);
+        
+        const segments = getRawSegments();
+        const totalChars = segments.reduce((acc, seg) => acc + seg.charCount, 0);
+        const betweenChunkSilence = Math.max(0, (segments.length - 1) * 0.5);
+        const internalSilence = segments.reduce((acc, seg) => acc + seg.internalSilence, 0);
+        
+        const totalSilence = betweenChunkSilence + internalSilence;
+        const speakingTime = Math.max(0, totalDuration - totalSilence);
+        const timePerChar = speakingTime / totalChars;
+        
+        let trackTime = 0;
+        const timedSegments = segments.map((seg) => {
+            const speakingDuration = seg.charCount * timePerChar;
+            const totalSegDuration = speakingDuration + seg.internalSilence;
+            const start = trackTime;
+            const end = start + totalSegDuration;
+            trackTime = end + 0.5;
+            return { ...seg, start, end };
+        });
+        
+        setParsedSegments(timedSegments);
     };
-    
-    const cleanScript = script ? script.replace(/<[^>]*>/g, '') : "";
-    const lines = cleanScript.split('\n');
-    const dialogueLines = lines.filter(line => line.includes('**Interviewer:**') || line.includes('**Expert:**'));
-    
-    const updateCaption = (time) => {
-        const estimatedLineIndex = Math.floor((time / duration) * dialogueLines.length);
-        if (dialogueLines[estimatedLineIndex] && dialogueLines[estimatedLineIndex] !== currentCaption) {
-            setCurrentCaption(dialogueLines[estimatedLineIndex].replace(/\*\*/g, ''));
+
+    const initAudioVisualizer = () => {
+        if (!audioCtxRef.current && audioRef.current) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtxRef.current = new AudioContext();
+            analyserRef.current = audioCtxRef.current.createAnalyser();
+            analyserRef.current.fftSize = 128;
+            
+            const source = audioCtxRef.current.createMediaElementSource(audioRef.current);
+            source.connect(analyserRef.current);
+            analyserRef.current.connect(audioCtxRef.current.destination);
+        }
+        
+        if (audioCtxRef.current?.state === 'suspended') {
+            audioCtxRef.current.resume();
         }
     };
-    
-    const handleTimeUpdate = () => {
-        if (audioRef.current) {
-            setCurrentTime(audioRef.current.currentTime);
-            updateCaption(audioRef.current.currentTime);
+
+    const drawWaveform = useCallback(() => {
+        if (!analyserRef.current || !canvasRef.current) return;
+        
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const bufferLength = analyserRef.current.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        
+        analyserRef.current.getByteFrequencyData(dataArray);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const usableLength = 32;
+        const barWidth = canvas.width / (usableLength * 2);
+        const centerY = canvas.height / 2;
+        const centerX = canvas.width / 2;
+        
+        ctx.fillStyle = '#c084fc';
+        
+        for (let i = 0; i < usableLength; i++) {
+            const value = dataArray[i];
+            const barHeight = Math.max(3, (value / 255) * canvas.height * 0.8);
+            
+            ctx.fillRect(centerX + (i * barWidth), centerY - barHeight / 2, barWidth - 1, barHeight);
+            ctx.fillRect(centerX - ((i + 1) * barWidth), centerY - barHeight / 2, barWidth - 1, barHeight);
         }
-    };
-    
+        
+        animationFrameRef.current = requestAnimationFrame(drawWaveform);
+    }, []);
+
+    useEffect(() => {
+        if (isPlaying) {
+            initAudioVisualizer();
+            audioRef.current.play().catch(e => console.error("Play error:", e));
+            animationFrameRef.current = requestAnimationFrame(drawWaveform);
+        } else {
+            audioRef.current?.pause();
+            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        }
+        return () => {
+            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        };
+    }, [isPlaying, drawWaveform]);
+
+    const handleTimeUpdate = useCallback(() => {
+        if (!audioRef.current) return;
+        const current = audioRef.current.currentTime;
+        setCurrentTime(current);
+        
+        const activeSegment = parsedSegments.find(seg => 
+            current >= seg.start && current <= (seg.end + 0.5)
+        );
+        
+        if (activeSegment && activeSegment !== lastActiveSegmentRef.current) {
+            setCurrentCaption(`${activeSegment.speaker}: ${activeSegment.text}`);
+            lastActiveSegmentRef.current = activeSegment;
+        }
+    }, [parsedSegments]);
+
     const handleSeek = (e) => {
         const time = parseFloat(e.target.value);
         audioRef.current.currentTime = time;
         setCurrentTime(time);
-        updateCaption(time);
     };
-    
+
+    const skipBackward = () => {
+        if (audioRef.current) {
+            const newTime = Math.max(0, audioRef.current.currentTime - 10);
+            audioRef.current.currentTime = newTime;
+            setCurrentTime(newTime);
+        }
+    };
+
+    const skipForward = () => {
+        if (audioRef.current) {
+            const newTime = Math.min(duration, audioRef.current.currentTime + 10);
+            audioRef.current.currentTime = newTime;
+            setCurrentTime(newTime);
+        }
+    };
+
+    const formatTime = (timeInSecs) => {
+        const m = Math.floor(timeInSecs / 60).toString().padStart(2, '0');
+        const s = Math.floor(timeInSecs % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    };
+
     return (
-        <div className="bg-white rounded-2xl shadow-2xl border border-purple-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
+        <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-700 to-pink-700 px-6 py-4">
                 <h3 className="text-white font-semibold flex items-center gap-2">
                     <span>🎧</span> Now Playing
                 </h3>
             </div>
-            
+
             <audio
                 ref={audioRef}
                 src={audioUrl}
-                onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
+                crossOrigin="anonymous"
+                onLoadedMetadata={handleLoadedMetadata}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={() => setIsPlaying(false)}
             />
-            
+
             <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                        <button onClick={() => { if(audioRef.current) audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 10); }} className="w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-purple-100 hover:text-purple-600 flex items-center justify-center transition-all">
+                    <div className="flex items-center gap-6">
+                        <button onClick={skipBackward} className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white hover:bg-purple-800 rounded-full transition-colors">
                             <RewindIcon />
                         </button>
-                        <button onClick={() => setIsPlaying(!isPlaying)} className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white flex items-center justify-center hover:shadow-lg hover:scale-105 transition-all">
+                        <button onClick={() => setIsPlaying(!isPlaying)} className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:shadow-lg hover:scale-105 transition-all">
                             {isPlaying ? <PauseIcon /> : <PlayIcon />}
                         </button>
-                        <button onClick={() => { if(audioRef.current) audioRef.current.currentTime = Math.min(duration, audioRef.current.currentTime + 10); }} className="w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-purple-100 hover:text-purple-600 flex items-center justify-center transition-all">
+                        <button onClick={skipForward} className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white hover:bg-purple-800 rounded-full transition-colors">
                             <ForwardIcon />
                         </button>
                         <div className="ml-2">
-                            <h4 className="font-bold text-gray-800">AI-Generated Podcast</h4>
-                            <p className="text-xs text-gray-500">Dynamic AI conversation</p>
+                            <h4 className="font-bold text-white">AI-Generated Podcast</h4>
+                            <p className="text-sm text-purple-300">Dynamic conversation with AI experts</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={onNewPodcast} className="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700 transition-all flex items-center gap-2 text-sm">
+                        <button onClick={onNewPodcast} className="px-4 py-2 rounded-xl bg-purple-800/50 text-purple-200 hover:bg-purple-700 transition-all flex items-center gap-2 text-sm border border-purple-600/50">
                             <NewIcon /> New
                         </button>
-                        <button onClick={onDownload} className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 hover:from-purple-200 hover:to-pink-200 transition-all flex items-center gap-2 text-sm">
+                        <button onClick={onDownload} className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg transition-all flex items-center gap-2 text-sm">
                             <DownloadIcon /> Download
                         </button>
                     </div>
                 </div>
-                
-                <div className="mb-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <span className="text-xs text-gray-500 font-mono">{formatTime(currentTime)}</span>
-                        <input type="range" min="0" max={duration || 100} value={currentTime} onChange={handleSeek} className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600" />
-                        <span className="text-xs text-gray-500 font-mono">{formatTime(duration)}</span>
+
+                <div className="mb-6 bg-purple-950/50 rounded-xl p-4 border border-purple-700/30">
+                    <canvas ref={canvasRef} width="800" height="60" className="w-full h-16 rounded-md mb-2" />
+                    <div className="flex items-center gap-3">
+                        <span className="text-xs text-purple-400 font-mono">{formatTime(currentTime)}</span>
+                        <input type="range" min="0" max={duration || 100} value={currentTime} onChange={handleSeek} className="flex-1 h-2 bg-purple-800 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                        <span className="text-xs text-purple-400 font-mono">{formatTime(duration)}</span>
                     </div>
                 </div>
-                
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5 min-h-[100px] border border-purple-100">
+
+                <div className="bg-purple-950/50 rounded-xl p-5 border border-purple-700/30 min-h-[100px]">
                     {currentCaption ? (
                         <div>
-                            <span className="text-xs font-semibold uppercase tracking-wide text-purple-600">
-                                {currentCaption.includes('Interviewer') ? '🎙️ Interviewer' : '👨‍💻 Expert'}
+                            <span className="text-xs font-semibold uppercase tracking-wide text-pink-400">
+                                {currentCaption.split(':')[0]}
                             </span>
-                            <p className="text-gray-700 mt-2 leading-relaxed">
-                                {currentCaption.replace('Interviewer:', '').replace('Expert:', '').trim()}
+                            <p className="text-gray-200 mt-1 leading-relaxed">
+                                {currentCaption.substring(currentCaption.indexOf(':') + 1)}
                             </p>
                         </div>
                     ) : (
-                        <p className="text-gray-400 text-center">🎙️ Captions will appear here as the podcast plays...</p>
+                        <p className="text-purple-400 text-center mt-4">
+                            🎙️ Captions will appear here as the podcast plays...
+                        </p>
                     )}
                 </div>
             </div>
@@ -652,28 +739,23 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
     );
 };
 
-// --- Transcript Viewer ---
+// --- Transcript Viewer with Markdown ---
 const TranscriptViewer = ({ script }) => {
     const [isExpanded, setIsExpanded] = useState(true);
     const cleanScript = script ? script.replace(/<[^>]*>/g, '') : "";
 
     return (
-        <div className="bg-white rounded-2xl shadow-2xl border border-purple-200 overflow-hidden">
-            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 flex items-center justify-between hover:from-purple-100 hover:to-pink-100 transition-all">
-                <h3 className="font-semibold text-gray-800 flex items-center gap-2">📄 Full Transcript</h3>
-                <span className="text-gray-400">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
+        <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 overflow-hidden">
+            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-purple-800/50 to-pink-800/50 px-6 py-4 flex items-center justify-between hover:from-purple-800 hover:to-pink-800 transition-all">
+                <h3 className="font-semibold text-white flex items-center gap-2">📄 Full Transcript</h3>
+                <span className="text-purple-400">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
             </button>
             <AnimatePresence>
                 {isExpanded && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-                        <div className="p-6 max-h-[400px] overflow-y-auto bg-gray-50">
-                            <div className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
-                                {cleanScript.split('\n').map((line, i) => {
-                                    if (line.includes('**Interviewer:**')) return <p key={i} className="mt-3 font-semibold text-purple-700">🎙️ {line.replace(/\*\*/g, '')}</p>;
-                                    if (line.includes('**Expert:**')) return <p key={i} className="mt-2 font-semibold text-pink-600">👨‍💻 {line.replace(/\*\*/g, '')}</p>;
-                                    if (line.trim()) return <p key={i} className="text-gray-600">{line}</p>;
-                                    return <br key={i} />;
-                                })}
+                        <div className="p-6 max-h-[400px] overflow-y-auto bg-purple-950/30">
+                            <div className="text-gray-200 font-sans text-sm leading-relaxed prose prose-invert max-w-none">
+                                <ReactMarkdown>{cleanScript}</ReactMarkdown>
                             </div>
                         </div>
                     </motion.div>
@@ -701,27 +783,27 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
     };
     
     return (
-        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-200">
+        <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-xl p-3 border border-purple-700/30">
             <div className="flex items-center justify-between">
                 <div>
-                    <div className="text-2xl font-bold text-purple-700">{credits}</div>
-                    <div className="text-xs text-gray-600">{t.creditsLeft}</div>
+                    <div className="text-2xl font-bold text-pink-400">{credits}</div>
+                    <div className="text-xs text-purple-300">{t.creditsLeft}</div>
                 </div>
                 <div className="text-right">
-                    <div className="text-sm font-medium text-gray-700">{creditsUsed}/{dailyLimit} {t.usedToday}</div>
+                    <div className="text-sm font-medium text-purple-200">{creditsUsed}/{dailyLimit} {t.usedToday}</div>
                     {credits === 0 && timeRemaining > 0 && (
-                        <div className="text-xs text-orange-600">Resets in {formatTime(timeRemaining)}</div>
+                        <div className="text-xs text-orange-400">Resets in {formatTime(timeRemaining)}</div>
                     )}
                 </div>
             </div>
-            <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="mt-2 h-2 bg-purple-800 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500" style={{ width: `${(creditsUsed / dailyLimit) * 100}%` }} />
             </div>
         </div>
     );
 };
 
-// --- Podcast Card Component ---
+// --- Podcast Card Component (Redesigned) ---
 const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     const t = translations[language];
     const [isPlaying, setIsPlaying] = useState(false);
@@ -729,26 +811,28 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     const date = new Date(podcast.created_at).toLocaleDateString();
     
     return (
-        <div className="bg-white rounded-xl border border-purple-200 p-4 hover:shadow-xl transition-all duration-300 hover:border-purple-300">
-            <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-gray-800 flex-1">{podcast.topic}</h3>
-                <button onClick={() => onDelete(podcast.job_id)} className="text-gray-400 hover:text-red-500 transition-colors">
+        <div className="bg-purple-900/30 backdrop-blur-sm rounded-xl border border-purple-700/30 p-5 hover:shadow-xl hover:border-purple-500/50 transition-all duration-300 group">
+            <div className="flex justify-between items-start mb-3">
+                <div className="flex-1">
+                    <h3 className="font-semibold text-white text-lg">{podcast.topic}</h3>
+                    <p className="text-xs text-purple-400 mt-1">{date}</p>
+                </div>
+                <button onClick={() => onDelete(podcast.job_id)} className="text-purple-400 hover:text-red-400 transition-colors">
                     <DeleteIcon />
                 </button>
             </div>
-            <p className="text-xs text-gray-500 mb-3">{date}</p>
-            <p className="text-sm text-gray-600 mb-3 line-clamp-2">{podcast.script_preview}</p>
+            <p className="text-sm text-purple-200 mb-4 line-clamp-2">{podcast.script_preview}</p>
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <button onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-3">
+                    <button onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:shadow-md transition-all">
                         {isPlaying ? <PauseIcon /> : <PlayIcon />}
                     </button>
                     <audio ref={audioRef} src={podcast.audio_url} onEnded={() => setIsPlaying(false)} />
-                    <button onClick={() => window.open(podcast.audio_url, '_blank')} className="text-gray-500 hover:text-purple-600 transition-colors">
+                    <button onClick={() => window.open(podcast.audio_url, '_blank')} className="text-purple-300 hover:text-white transition-colors">
                         <DownloadIcon />
                     </button>
                 </div>
-                <button onClick={() => onPlay(podcast)} className="text-sm text-purple-600 hover:text-pink-600 font-medium transition-colors">
+                <button onClick={() => onPlay(podcast)} className="px-4 py-2 rounded-xl bg-purple-800/50 text-purple-200 hover:bg-purple-700 transition-all text-sm font-medium border border-purple-600/50">
                     {t.play} →
                 </button>
             </div>
@@ -756,7 +840,7 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     );
 };
 
-// --- Authentication Component ---
+// --- Authentication Component (with Google Sign In) ---
 const AuthScreen = ({ onAuth, setSession, backendStatus }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState("");
@@ -781,35 +865,55 @@ const AuthScreen = ({ onAuth, setSession, backendStatus }) => {
         finally { setLoading(false); }
     };
 
+    const handleGoogleSignIn = async () => {
+        if (!backendStatus.isConnected) { setError(t.errors.backendOffline); return; }
+        setLoading(true);
+        setError(null);
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin }
+            });
+            if (error) throw error;
+        } catch (err) { setError(err.message); setLoading(false); }
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-pink-900 relative overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-20"></div>
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-slow"></div>
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slow"></div>
             
             <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-white/20 shadow-2xl">
-                    <div className={`mb-4 text-center text-sm ${backendStatus.isConnected ? 'text-green-300' : 'text-red-300'}`}>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-purple-900/30 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-purple-500/30 shadow-2xl">
+                    <div className={`mb-4 text-center text-sm ${backendStatus.isConnected ? 'text-green-400' : 'text-red-400'}`}>
                         {backendStatus.isConnected ? '✓ Backend connected' : '⚠ Backend offline'}
                     </div>
                     <div className="text-center mb-8">
                         <img src={logoImage} alt="Logo" className="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg object-cover animate-float" />
                         <h1 className="text-3xl font-bold text-white mb-2">Podcast Studio</h1>
-                        <p className="text-purple-200">AI-Powered Podcast Generator</p>
-                        <div className="mt-3 inline-block bg-gradient-to-r from-purple-500 to-pink-500 rounded-full px-3 py-1">
+                        <p className="text-purple-300">AI-Powered Podcast Generator</p>
+                        <div className="mt-3 inline-block bg-gradient-to-r from-purple-600 to-pink-600 rounded-full px-3 py-1">
                             <span className="text-white text-sm">3 Free Credits Daily</span>
                         </div>
                     </div>
                     {error && <div className="mb-4 bg-red-500/20 border border-red-500 rounded-lg p-3"><p className="text-red-200 text-sm">{error}</p></div>}
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="Email" required disabled={!backendStatus.isConnected} />
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="Password" required disabled={!backendStatus.isConnected} />
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-purple-950/50 text-white placeholder-purple-400 border border-purple-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Email" required disabled={!backendStatus.isConnected} />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-purple-950/50 text-white placeholder-purple-400 border border-purple-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Password" required disabled={!backendStatus.isConnected} />
                         <button type="submit" disabled={loading || !backendStatus.isConnected} className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:shadow-lg transition-all disabled:opacity-50">
                             {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
                         </button>
-                        <p className="text-center text-purple-200 text-sm mt-4">
+                        <div className="relative my-4">
+                            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-purple-600/50"></div></div>
+                            <div className="relative flex justify-center text-xs"><span className="px-2 bg-purple-900/50 text-purple-300 rounded">OR</span></div>
+                        </div>
+                        <button type="button" onClick={handleGoogleSignIn} disabled={loading || !backendStatus.isConnected} className="w-full py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-all flex items-center justify-center gap-3 disabled:opacity-50 border border-purple-500/50">
+                            <GoogleIcon /> Continue with Google
+                        </button>
+                        <p className="text-center text-purple-300 text-sm mt-4">
                             {isLogin ? "Don't have an account? " : "Already have an account? "}
-                            <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null); }} className="text-white underline">
+                            <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null); }} className="text-pink-400 underline">
                                 {isLogin ? "Sign Up" : "Sign In"}
                             </button>
                         </p>
@@ -986,7 +1090,7 @@ export default function App() {
 
     if (backendStatus.checking) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 to-pink-900 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-purple-950 to-pink-900 flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin-slow mx-auto mb-4"></div>
                     <p className="text-white text-lg">Connecting to backend...</p>
@@ -1002,33 +1106,33 @@ export default function App() {
     return (
         <>
             <GlobalStyles />
-            <div className="flex h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-                {/* Sidebar - Pink/Purple Theme */}
-                <div className="w-72 bg-white/80 backdrop-blur-sm border-r border-purple-200 flex flex-col shadow-xl">
-                    <div className="p-6 border-b border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
+            <div className="flex h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-pink-900">
+                {/* Sidebar */}
+                <div className="w-72 bg-purple-950/50 backdrop-blur-sm border-r border-purple-700/30 flex flex-col shadow-xl">
+                    <div className="p-6 border-b border-purple-700/30 bg-gradient-to-r from-purple-900/50 to-pink-900/50">
                         <img src={logoImage} alt="Logo" className="w-16 h-16 rounded-full mx-auto mb-3 shadow-lg animate-float" />
-                        <h1 className="text-xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        <h1 className="text-xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                             {t.appTitle}
                         </h1>
-                        <p className="text-xs text-gray-500 text-center mt-1">{t.tagline}</p>
+                        <p className="text-xs text-purple-300 text-center mt-1">{t.tagline}</p>
                     </div>
                     
                     <nav className="flex-1 p-4 space-y-2">
-                        <button onClick={() => setActiveTab("home")} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg" : "text-gray-700 hover:bg-purple-100"}`}>
+                        <button onClick={() => setActiveTab("home")} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg" : "text-purple-300 hover:bg-purple-800/50"}`}>
                             <HomeIcon /> {t.home}
                         </button>
-                        <button onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg" : "text-gray-700 hover:bg-purple-100"}`}>
+                        <button onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg" : "text-purple-300 hover:bg-purple-800/50"}`}>
                             <PodcastIcon /> {t.yourPodcasts}
                         </button>
                     </nav>
                     
-                    <div className="p-4 border-t border-purple-200 space-y-3">
+                    <div className="p-4 border-t border-purple-700/30 space-y-3">
                         <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         <div className="flex gap-2">
-                            <button onClick={() => setLanguage('en')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'en' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-purple-100'}`}>English</button>
-                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'hi' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-purple-100'}`}>हिंदी</button>
+                            <button onClick={() => setLanguage('en')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'en' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-purple-800/50 text-purple-300 hover:bg-purple-700/50'}`}>English</button>
+                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'hi' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-purple-800/50 text-purple-300 hover:bg-purple-700/50'}`}>हिंदी</button>
                         </div>
-                        <button onClick={handleLogout} className="w-full px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all text-sm font-medium flex items-center justify-center gap-2">
+                        <button onClick={handleLogout} className="w-full px-4 py-2 rounded-xl bg-red-900/30 text-red-400 hover:bg-red-800/50 transition-all text-sm font-medium flex items-center justify-center gap-2 border border-red-700/30">
                             <LogoutIcon /> {t.logout}
                         </button>
                     </div>
@@ -1038,27 +1142,27 @@ export default function App() {
                 <div className="flex-1 overflow-y-auto">
                     <div className="max-w-4xl mx-auto px-6 py-8">
                         {!backendStatus.isConnected && (
-                            <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                                <p className="text-yellow-800 text-sm">⚠️ Backend offline. <button onClick={() => checkBackendConnection()} className="underline">Retry</button></p>
+                            <div className="mb-6 bg-yellow-900/30 border border-yellow-700/30 rounded-xl p-4">
+                                <p className="text-yellow-400 text-sm">⚠️ Backend offline. <button onClick={() => checkBackendConnection()} className="underline">Retry</button></p>
                             </div>
                         )}
                         
                         {activeTab === "home" && (
                             <>
                                 {credits > 0 && backendStatus.isConnected && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl shadow-xl border border-purple-200 p-8 mb-8">
-                                        <label className="block text-gray-700 font-semibold mb-2">{t.topicLabel}</label>
+                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 p-8 mb-8">
+                                        <label className="block text-white font-semibold mb-2">{t.topicLabel}</label>
                                         <div className="flex gap-3">
-                                            <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} disabled={isGenerating || !backendStatus.isConnected} placeholder={t.topicPlaceholder} className="flex-1 px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" />
-                                            <button onClick={generatePodcast} disabled={!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected} className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:scale-105'}`}>
+                                            <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} disabled={isGenerating || !backendStatus.isConnected} placeholder={t.topicPlaceholder} className="flex-1 px-5 py-3 rounded-xl bg-purple-950/50 text-white placeholder-purple-400 border border-purple-600/50 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" />
+                                            <button onClick={generatePodcast} disabled={!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected} className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected ? 'bg-purple-800/50 text-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:scale-105'}`}>
                                                 {isGenerating ? t.generating : t.generateButton}
                                             </button>
                                         </div>
                                         <div className="mt-5">
-                                            <p className="text-xs text-gray-400 mb-2">{t.tryThese}</p>
+                                            <p className="text-xs text-purple-400 mb-2">{t.tryThese}</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {["AI in Healthcare", "Future of Space Travel", "Climate Solutions", "Digital Art Revolution", "Quantum Computing", "Mars Colonization"].map((sample, idx) => (
-                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-gray-100 hover:bg-purple-100 text-gray-600 hover:text-purple-700 rounded-full text-sm transition-colors">{sample}</button>
+                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-purple-800/50 hover:bg-purple-700 text-purple-300 hover:text-white rounded-full text-sm transition-colors">{sample}</button>
                                                 ))}
                                             </div>
                                         </div>
@@ -1066,10 +1170,10 @@ export default function App() {
                                 )}
 
                                 {credits <= 0 && backendStatus.isConnected && !isGenerating && !podcast && (
-                                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8 text-center">
+                                    <div className="bg-yellow-900/30 border border-yellow-700/30 rounded-2xl p-8 text-center">
                                         <div className="text-6xl mb-4">⚠️</div>
-                                        <h3 className="text-xl font-semibold text-yellow-800 mb-2">{t.dailyLimitReached}</h3>
-                                        <p className="text-yellow-700">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
+                                        <h3 className="text-xl font-semibold text-yellow-400 mb-2">{t.dailyLimitReached}</h3>
+                                        <p className="text-yellow-300">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
                                     </div>
                                 )}
 
@@ -1084,12 +1188,12 @@ export default function App() {
                                     </div>
                                 )}
 
-                                {/* Documentation Footer - at bottom of generation page */}
+                                {/* Documentation Footer */}
                                 <DocumentationFooter language={language} />
 
                                 {error && (
-                                    <div className="bg-red-50 border border-red-200 rounded-2xl p-4 text-center mt-4">
-                                        <p className="text-red-600">{error}</p>
+                                    <div className="bg-red-900/30 border border-red-700/30 rounded-2xl p-4 text-center mt-4">
+                                        <p className="text-red-400">{error}</p>
                                         <button onClick={() => setError(null)} className="mt-2 text-sm text-red-500 underline">Dismiss</button>
                                     </div>
                                 )}
@@ -1098,11 +1202,11 @@ export default function App() {
                         
                         {activeTab === "podcasts" && (
                             <div className="space-y-6">
-                                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{t.yourPodcasts}</h2>
-                                {loadingPodcasts && <div className="text-center py-12 text-gray-500">{t.loading}</div>}
+                                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{t.yourPodcasts}</h2>
+                                {loadingPodcasts && <div className="text-center py-12 text-purple-400">{t.loading}</div>}
                                 {!loadingPodcasts && userPodcasts.length === 0 && (
-                                    <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-12 text-center">
-                                        <p className="text-gray-500">{t.noPodcasts}</p>
+                                    <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl p-12 text-center border border-purple-700/30">
+                                        <p className="text-purple-300">{t.noPodcasts}</p>
                                         <button onClick={() => setActiveTab("home")} className="mt-4 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:shadow-lg transition-all">{t.newPodcast}</button>
                                     </div>
                                 )}
