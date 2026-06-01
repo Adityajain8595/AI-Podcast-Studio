@@ -183,13 +183,11 @@ def generate_question(state: InterviewState):
         template="""You are a podcast host a highly popular, casual podcast interviewing an expert about: {topic}
         Your goal: Guide the conversation naturally and make it accessible to a general audience.
 
-        Previous conversation highlights and established facts for your awareness:
-        {running_summary}
         
         Guidelines:
         1. Keep it conversational: Ask questions like you're talking a friend or companion.
         2. Break it down: If the topic is complex, ask them to explain it simply or ask for an analogy. 
-        3. CONTEXTUAL AWARENESS: Only refer back to previously established conversation highlights and facts, if it naturally fits the current dialogue. DO NOT force past facts, numbers, or names into your question just because they exist in the summary.
+        3. DYNAMIC STARTERS (POSITIVE FRAMING): Always start your questions with fresh, active hooks (e.g., "Looking closely at...", "I'm curious about...", "What happens when...", "Let's uncover..."). Completely eliminate filler verbal crutches like starting your lines with "So," or "Well,".
         4. NO PHANTOM CALLBACKS: Do NOT invent things the expert "already mentioned". Look at the Previous conversation. If it's a new topic, introduce it fresh. Never start a question with "So you were talking about..." unless they literally just said it in the history.
         5. No robotic prompts: NEVER say "Can you give me a concrete example." Instead say things like, "What does that look like in real life?" or "Have you seen that happen?"
 
@@ -202,7 +200,7 @@ def generate_question(state: InterviewState):
     try:
         history = get_buffer_string(state["messages"][-4:]) if state["messages"] else "Start of interview"   
         chain = prompt | structured_llm
-        result = rate_limited_invoke(chain, topic=state["topic"], history=history, running_summary=state.get("running_summary", ""))
+        result = rate_limited_invoke(chain, topic=state["topic"], history=history)
         
         emit_progress("interview", "host_asked", f"Host asks: \"{result.question}\"")
         return {"messages": [AIMessage(content=result.question)]}
@@ -219,12 +217,9 @@ def generate_answer(state: InterviewState):
         template="""You are an expert being interviewed on a popular, casual podcast. Focus area: {topic}
         Answer using ONLY this context:{context}
 
-        Previous conversation highlights and established facts for your awareness:
-        {running_summary}
-
         Guidelines:
-        1. CONTEXTUAL AWARENESS: Base your answer STRICTLY on the provided context. Only refer back to previously established facts (like names or past examples) if it naturally fits the current dialogue. DO NOT force them into every answer.
-        2. NO FICTIONAL EXAMPLES (CRITICAL): Do NOT invent fake people, fake statistics, fake organizations, or fake events. Rely strictly on real-world facts provided in the context.
+        1. CONTEXTUAL AWARENESS & FACTUAL GROUNDING: Base your answer RELEVANTLY and STRICTLY on the provided context. If the provided search context lacks specific numeric details, personal names, or exact specs, DO NOT invent fictional data to fill the gap.
+        2. NO REAL-WORLD LORE FABRICATION: Do NOT invent fake historical individuals, fake companies, or fake events. If you must illustrate a complex mechanism, frame it explicitly as an illustrative hypothetical scenario (e.g., "Imagine if..." or "Let's say..").
         3. TEMPORAL CONSISTENCY: Pay close attention to the time period being discussed. Do not introduce modern concepts (like social media, apps, or modern technology) into historical events unless explicitly making a modern-day comparison.
         4. TONE: Speak like a human. Conversational, warm, and engaging. NO academic jargon. Break down complex ideas with simple analogies.
         5. Keep it concise: Don't monologue endlessly. Give the host room to react.
@@ -234,7 +229,7 @@ def generate_answer(state: InterviewState):
     try:   
         context = state["context"][-1] if state["context"] else "No context available." 
         chain = prompt | structured_llm
-        result = rate_limited_invoke(chain, topic=state["topic"], context=context, running_summary=state.get("running_summary", ""))
+        result = rate_limited_invoke(chain, topic=state["topic"], context=context)
         answer = AIMessage(content=result.answer)
         answer.name = "expert"
         
@@ -261,15 +256,12 @@ def write_section(state: InterviewState):
 
         Interview transcript:{section}
 
-        Previous conversation highlights and established facts for your awareness:
-        {running_summary}
-
         The Personas:
         - Interviewer (Host): 
             - Curious, casual, relatable. 
             - Acts as the proxy for the audience; frequently relates topics to everyday life, and asks follow-up questions. 
-            - Will gently interrupt to ask for clarification if the expert uses big words ("Wait, pause for a second, what exactly is...?"). 
-            - Uses dynamic conversational starters.
+            - Will gently interrupt to ask for clarification if the expert uses complex or technical terms.
+            - Uses dynamic conversational starters. Never start lines with "So," or "Well,".
             - You are already mid-interview, so NEVER introduce yourself. 
             - Do not overuse phrases like "wow", "exactly", "sure", "so" etc.
 
@@ -280,13 +272,12 @@ def write_section(state: InterviewState):
 
         Requirements:
         1. STRICT FACTUAL ACCURACY: Do NOT invent new facts, statistics, historical events, or character names that are not in the raw transcript.
-        2. CONTEXTUAL AWARENESS: You MAY refer to points in the 'Previous conversation highlights and established facts' to keep the conversation flowing, but ONLY if it naturally fits. DO NOT force past names or stats into this segment unnecessarily.
-        3. Create CHEMISTRY: Add conversational bridging, natural reactions, and agreements/disagreements.
-        4. SIMPLIFY: Translate any heavy jargon from the transcript into plain, accessible English.
-        5. DYNAMIC DIALOGUE: Adapt the transcript into a back-and-forth dialogue (6 to 8 shorter turns). People don't speak in giant paragraphs. Break up long expert answers by having the host chime in.
-        6. NO AMNESIA & NO PHANTOM CALLBACKS: This is segment {index} of an ongoing conversation. DO NOT re-introduce yourselves. Dive straight into the dialogue. Do NOT invent references to unseen segments.
-        7. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
-        8. Inject SSML tags for realistic audio pacing (no <emphasis> tags)
+        2. Create CHEMISTRY: Add conversational bridging, natural reactions, and agreements/disagreements.
+        3. SIMPLIFY: Translate any heavy jargon from the transcript into plain, accessible English.
+        4. DYNAMIC DIALOGUE: Adapt the transcript into a back-and-forth dialogue (6 to 8 shorter turns). People don't speak in giant paragraphs. Break up long expert answers by having the host chime in.
+        5. NO AMNESIA & NO PHANTOM CALLBACKS: This is segment {index} of an ongoing conversation. DO NOT re-introduce yourselves. Dive straight into the dialogue. Do NOT invent references to unseen segments.
+        6. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
+        7. Inject SSML tags for realistic audio pacing (no <emphasis> tags)
            - Use <break time="500ms"/> for short, dramatic pauses.
            - Use <break time="800ms"/> for a breath after a heavy point.
            - All tags MUST be exactly as shown and self-closing (ending with />). 
@@ -300,7 +291,7 @@ def write_section(state: InterviewState):
     )
     try:   
         chain = prompt | llm
-        result = rate_limited_invoke(chain, focus=state['topic'], section=state['section'], index=state['interview_index'], running_summary=state.get("running_summary", ""))
+        result = rate_limited_invoke(chain, focus=state['topic'], section=state['section'], index=state['interview_index'])
         content = result.content if hasattr(result, "content") else str(result)
 
         emit_progress("writing", "summarizing", "Extracting key facts for context memory...")
@@ -418,7 +409,8 @@ def write_full_report(state: ResearchState):
         - Use a friendly, casual, and relatable tone.
         - Welcome the listener and introduce yourself as Alex.
         - Hook the audience with a relatable observation or funny thought.
-        - Introduce your guest expert with random name and designation (according to the context), who will help break this topic down.
+        - Introduce your guest expert with a highly realistic, specialized female name and professional designation tailored exactly to the topic context. 
+          CRITICAL VARIETY DIRECTIVE: Do NOT use default names like 'Dr. Maya Patel'. Create an entirely fresh, unique name appropriate for the specific topic domain.
         - Keep it to 150-200 words.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences so you can breathe.
         - Replace any ampersands (&) with the word "and".
