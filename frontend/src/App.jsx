@@ -114,81 +114,139 @@ const translations = {
     }
 };
 
-// --- SVG Icons ---
-const PlaySVG = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 3L19 12L5 21V3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor"/>
-    </svg>
-);
-
-const PauseSVG = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
-        <rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
-    </svg>
-);
-
-const RewindSVG = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12.5 8C9.84796 8 7.39116 9.38792 5.99996 11.5L5.99999 8H3.99999V16H12V14L8.43265 14C9.51654 12.1818 11.6669 11 14 11C17.3137 11 20 13.6863 20 17H22C22 12.0294 17.9706 8 13 8H12.5Z" fill="currentColor"/>
-        <path d="M8 10L4 14L0 10H8Z" fill="currentColor"/>
-    </svg>
-);
-
-const ForwardSVG = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11.5 8H11C6.02944 8 2 12.0294 2 17H4C4 13.6863 6.68629 11 10 11C12.3331 11 14.4835 12.1818 15.5674 14H12V16H20V8L20 11.5C18.6088 9.38792 16.152 8 13.5 8H11.5Z" fill="currentColor"/>
-        <path d="M16 10L20 14L24 10H16Z" fill="currentColor"/>
-    </svg>
-);
-
-const DownloadSVG = () => (
+// --- Professional SVG Icons (No Emojis) ---
+const HomeIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
 
-const NewPodcastSVG = () => (
+const PodcastIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+        <path d="M12 2C10.6868 2 9.38642 2.25866 8.17317 2.7612C6.95991 3.26375 5.85752 4.00035 4.92893 4.92893C3.05357 6.8043 2 9.34784 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7362 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" stroke="currentColor" strokeWidth="2"/>
+        <path d="M12 12V17" stroke="currentColor" strokeWidth="2"/>
+        <path d="M16 14C16 14.5304 15.7893 15.0391 15.4142 15.4142C15.0391 15.7893 14.5304 16 14 16" stroke="currentColor" strokeWidth="2"/>
+        <path d="M8 14C8 14.5304 8.21071 15.0391 8.58579 15.4142C8.96086 15.7893 9.46957 16 10 16" stroke="currentColor" strokeWidth="2"/>
+        <path d="M18 11C18 12.5913 17.3679 14.1174 16.2426 15.2426C15.1174 16.3679 13.5913 17 12 17" stroke="currentColor" strokeWidth="2"/>
+        <path d="M6 11C6 12.5913 6.63214 14.1174 7.75736 15.2426C8.88258 16.3679 10.4087 17 12 17" stroke="currentColor" strokeWidth="2"/>
+        <circle cx="19" cy="19" r="3" stroke="currentColor" strokeWidth="2"/>
+        <path d="M21 21L23 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
     </svg>
 );
 
-const DeleteSVG = () => (
+const LogoutIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M16 17L21 12L16 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+const PlayIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5 3L19 12L5 21V3Z" />
+    </svg>
+);
+
+const PauseIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <rect x="6" y="4" width="4" height="16" />
+        <rect x="14" y="4" width="4" height="16" />
+    </svg>
+);
+
+const RewindIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polygon points="19 19 11 12 19 5 19 19" />
+        <polygon points="11 19 3 12 11 5 11 19" />
+    </svg>
+);
+
+const ForwardIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polygon points="5 19 13 12 5 5 5 19" />
+        <polygon points="13 19 21 12 13 5 13 19" />
+    </svg>
+);
+
+const DownloadIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <path d="M7 10l5 5 5-5" />
+        <path d="M12 15V3" />
+    </svg>
+);
+
+const NewIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 5v14M5 12h14" />
+        <circle cx="12" cy="12" r="10" />
+    </svg>
+);
+
+const DeleteIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M3 6h18" />
         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
     </svg>
 );
 
-// --- Global Inline Styles ---
+const DocumentationIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        <path d="M8 7h8" />
+        <path d="M8 11h6" />
+        <path d="M8 15h4" />
+    </svg>
+);
+
+const CloseIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M18 6L6 18" />
+        <path d="M6 6L18 18" />
+    </svg>
+);
+
+const ChevronDownIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M6 9L12 15L18 9" />
+    </svg>
+);
+
+const ChevronUpIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M18 15L12 9L6 15" />
+    </svg>
+);
+
+// --- Global Styles ---
 const GlobalStyles = () => (
     <style>{`
-        .sidebar-scroll {
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #6b21a5 #1f2937;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
         }
         
         .sidebar-scroll::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         
         .sidebar-scroll::-webkit-scrollbar-track {
-            background: #1f2937;
-            border-radius: 4px;
+            background: #f3e8ff;
+            border-radius: 3px;
         }
         
         .sidebar-scroll::-webkit-scrollbar-thumb {
-            background: #6b21a5;
-            border-radius: 4px;
+            background: #c084fc;
+            border-radius: 3px;
         }
         
         .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-            background: #805ad5;
+            background: #a855f7;
         }
         
         .thinking-process-scroll::-webkit-scrollbar {
@@ -196,174 +254,225 @@ const GlobalStyles = () => (
         }
         
         .thinking-process-scroll::-webkit-scrollbar-track {
-            background: #374151;
+            background: #4c1d95;
             border-radius: 3px;
         }
         
         .thinking-process-scroll::-webkit-scrollbar-thumb {
-            background: #6b21a5;
+            background: #a855f7;
             border-radius: 3px;
         }
         
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
-        .animate-pulse-slow {
-            animation: pulse-slow 3s ease-in-out infinite;
+        .animate-gradient {
+            animation: gradient-shift 3s ease infinite;
         }
         
-        @keyframes spin {
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.4); }
+        }
+        
+        .animate-glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         
         .animate-spin-slow {
-            animation: spin 1s linear infinite;
+            animation: spin-slow 1s linear infinite;
+        }
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
+        }
+        
+        .bg-grid-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+            background-size: 32px 32px;
         }
     `}</style>
 );
 
-// --- Documentation Dropdown Component (moved from sidebar) ---
-const DocumentationDropdown = ({ language }) => {
+// --- Documentation Footer Component (at bottom of generation page) ---
+const DocumentationFooter = ({ language }) => {
     const [isOpen, setIsOpen] = useState(false);
     const t = translations[language];
     
     const workflowSteps = [
-        { step: "1", title: "User Input", description: "User provides topic and language preference (English or Hindi)", icon: "📝", color: "blue" },
-        { step: "2", title: "Planning Stage", description: "LLM analyzes topic, extracts 5 keywords and 5 subtopics for deep exploration", icon: "📋", color: "purple" },
-        { step: "3", title: "Research Stage", description: "Tavily API performs real-time web search for each subtopic", icon: "🔍", color: "cyan" },
-        { step: "4", title: "Interview Simulation", description: "Multi-turn dialogue between host and expert (2 turns per subtopic)", icon: "🎙️", color: "green" },
-        { step: "5", title: "Script Writing", description: "Convert conversation to natural dialogue with SSML pacing tags", icon: "✍️", color: "yellow" },
-        { step: "6", title: "Audio Synthesis", description: "Google Cloud TTS generates neural voices for Interviewer and Expert", icon: "🔊", color: "orange" },
-        { step: "7", title: "Final Output", description: "MP3 audio with live captions, transcript, and waveform visualization", icon: "✅", color: "red" }
+        { step: "1", title: "User Input", description: "User provides topic and language preference", icon: "🎯", color: "pink" },
+        { step: "2", title: "Planning", description: "LLM analyzes topic, extracts keywords and subtopics", icon: "📋", color: "purple" },
+        { step: "3", title: "Research", description: "Tavily API performs real-time web search", icon: "🔍", color: "indigo" },
+        { step: "4", title: "Interview", description: "Multi-turn dialogue between host and expert", icon: "🎙️", color: "violet" },
+        { step: "5", title: "Writing", description: "Convert conversation to natural dialogue", icon: "✍️", color: "fuchsia" },
+        { step: "6", title: "Audio Synthesis", description: "Google Cloud TTS generates neural voices", icon: "🎧", color: "purple" },
+        { step: "7", title: "Final Output", description: "MP3 audio with captions and transcript", icon: "✨", color: "pink" }
     ];
     
-    const getColorClass = (color) => {
-        const colors = {
-            blue: "border-blue-500/50 bg-blue-500/10",
-            purple: "border-purple-500/50 bg-purple-500/10",
-            cyan: "border-cyan-500/50 bg-cyan-500/10",
-            green: "border-green-500/50 bg-green-500/10",
-            yellow: "border-yellow-500/50 bg-yellow-500/10",
-            orange: "border-orange-500/50 bg-orange-500/10",
-            red: "border-red-500/50 bg-red-500/10"
-        };
-        return colors[color] || colors.purple;
-    };
-    
     return (
-        <div className="relative">
+        <div className="mt-12 pt-8 border-t border-purple-200">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-sm text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+                className="group w-full flex items-center justify-between py-4 px-6 bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 rounded-2xl transition-all duration-300"
             >
-                📚 {t.documentation} <span className="text-xs">{isOpen ? '▲' : '▼'}</span>
-            </button>
-            
-            {isOpen && (
-                <div className="absolute bottom-full mb-2 left-0 w-[500px] bg-gray-900 rounded-lg shadow-xl border border-gray-700 z-20 max-h-[500px] overflow-y-auto">
-                    <div className="sticky top-0 bg-gradient-to-r from-purple-700 to-indigo-700 p-4">
-                        <div className="flex justify-between items-center">
-                            <h3 className="text-white font-bold">{t.documentation}</h3>
-                            <button onClick={() => setIsOpen(false)} className="text-white text-xl">&times;</button>
-                        </div>
-                        <p className="text-purple-200 text-sm mt-1">Complete system documentation and workflow guide</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-lg animate-glow">
+                        <DocumentationIcon />
                     </div>
-                    
-                    <div className="p-5 space-y-6">
-                        {/* System Architecture */}
-                        <div>
-                            <h4 className="text-lg font-bold text-white mb-3 pb-2 border-b border-gray-700">
-                                {t.architecture}
-                            </h4>
-                            <div className="bg-gray-800 rounded-lg p-4 overflow-x-auto">
-                                <pre className="text-xs text-gray-300 font-mono whitespace-pre-wrap leading-relaxed">
-{`
-┌─────────────────────────────────────────────────────────┐
-│              FRONTEND (React + Vite)                    │
-│  • User authentication (Supabase Auth)                  │
-│  • Real-time progress streaming (SSE)                   │
-│  • Audio player with waveform visualization             │
-│  • Live captions synchronized with audio                │
-└─────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│              BACKEND (FastAPI + Uvicorn)                │
-│  • RESTful API endpoints                                │
-│  • Daily credit management (3 credits/day)              │
-│  • Asynchronous job queue                               │
-│  • Server-Sent Events (SSE)                             │
-└─────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│              AI WORKFLOW (LangGraph)                    │
-│  • Multi-agent orchestration                            │
-│  • State graph with conditional routing                 │
-│  • Subgraph composition                                 │
-└─────────────────────────────────────────────────────────┘`}
-                                </pre>
-                            </div>
-                        </div>
-                        
-                        {/* Workflow Diagram */}
-                        <div>
-                            <h4 className="text-lg font-bold text-white mb-3 pb-2 border-b border-gray-700">
-                                {t.workflowDiagram}
-                            </h4>
-                            <div className="space-y-3">
-                                {workflowSteps.map((step, idx) => (
-                                    <div key={idx} className="flex gap-3">
-                                        <div className={`flex-shrink-0 w-10 h-10 rounded-full ${getColorClass(step.color)} border-2 flex items-center justify-center text-xl`}>
-                                            {step.icon}
-                                        </div>
-                                        <div className="flex-1 bg-gray-800 rounded-lg p-3">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <span className="text-xs font-bold text-purple-400">Step {step.step}</span>
-                                                <h5 className="font-bold text-white text-sm">{step.title}</h5>
-                                            </div>
-                                            <p className="text-gray-400 text-xs">{step.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        
-                        {/* API Endpoints */}
-                        <div>
-                            <h4 className="text-lg font-bold text-white mb-3 pb-2 border-b border-gray-700">
-                                {t.apiEndpoints}
-                            </h4>
-                            <div className="space-y-2">
-                                <div className="bg-gray-800 rounded-lg p-3">
-                                    <code className="text-xs font-mono text-green-400">POST /generate-podcast</code>
-                                    <p className="text-xs text-gray-400 mt-1">Starts podcast generation. Returns job_id.</p>
-                                </div>
-                                <div className="bg-gray-800 rounded-lg p-3">
-                                    <code className="text-xs font-mono text-blue-400">GET /stream-progress/{'{job_id}'}</code>
-                                    <p className="text-xs text-gray-400 mt-1">SSE endpoint for real-time progress updates.</p>
-                                </div>
-                                <div className="bg-gray-800 rounded-lg p-3">
-                                    <code className="text-xs font-mono text-yellow-400">GET /user/credits</code>
-                                    <p className="text-xs text-gray-400 mt-1">Returns daily credit usage.</p>
-                                </div>
-                                <div className="bg-gray-800 rounded-lg p-3">
-                                    <code className="text-xs font-mono text-purple-400">GET /user/podcasts</code>
-                                    <p className="text-xs text-gray-400 mt-1">Returns user's podcast history.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Footer */}
-                        <div className="pt-4 border-t border-gray-700 text-center">
-                            <p className="text-purple-400 text-sm font-semibold">Developed by Aditya Jain</p>
-                        </div>
+                    <div className="text-left">
+                        <h3 className="font-semibold text-gray-800">{t.documentation}</h3>
+                        <p className="text-xs text-gray-500">Complete system architecture and API guide</p>
                     </div>
                 </div>
-            )}
+                <motion.div
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-purple-500"
+                >
+                    <ChevronDownIcon />
+                </motion.div>
+            </button>
+            
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4 }}
+                        className="overflow-hidden"
+                    >
+                        <div className="mt-4 p-6 bg-white rounded-2xl border border-purple-200 shadow-xl">
+                            {/* Architecture Section */}
+                            <div className="mb-8">
+                                <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                    <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🏗️</span>
+                                    {t.architecture}
+                                </h4>
+                                <div className="bg-gradient-to-br from-gray-900 to-purple-900 rounded-xl p-5 overflow-x-auto">
+                                    <pre className="text-xs text-purple-200 font-mono whitespace-pre-wrap leading-relaxed">
+{`
+┌─────────────────────────────────────────────────────────────┐
+│                   FRONTEND (React + Vite)                   │
+│  • User authentication (Supabase Auth)                      │
+│  • Real-time progress streaming (SSE)                       │
+│  • Audio player with waveform visualization                 │
+│  • Live captions synchronized with audio                    │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  BACKEND (FastAPI + Uvicorn)                │
+│  • RESTful API endpoints                                    │
+│  • Daily credit management (3 credits/day)                  │
+│  • Asynchronous job queue & progress tracking               │
+│  • Server-Sent Events (SSE) for real-time updates           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  AI WORKFLOW (LangGraph)                    │
+│  • Multi-agent orchestration framework                      │
+│  • State graph with conditional routing                     │
+│  • Subgraph composition for modular design                  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   EXTERNAL SERVICES                         │
+│  • Groq: Ultra-fast LLM inference (GPT-OSS-120B)            │
+│  • Tavily: Real-time web search API                         │
+│  • Google Cloud TTS: Neural text-to-speech voices           │
+│  • Supabase: Authentication & credits database              │
+└─────────────────────────────────────────────────────────────┘`}
+                                    </pre>
+                                </div>
+                            </div>
+                            
+                            {/* Workflow Steps */}
+                            <div className="mb-8">
+                                <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                    <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🔄</span>
+                                    {t.workflowDiagram}
+                                </h4>
+                                <div className="grid gap-3">
+                                    {workflowSteps.map((step, idx) => (
+                                        <motion.div
+                                            key={idx}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                            className="flex items-center gap-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:shadow-md transition-shadow"
+                                        >
+                                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                                                {step.step}
+                                            </div>
+                                            <div className="flex-1">
+                                                <h5 className="font-semibold text-gray-800">{step.title}</h5>
+                                                <p className="text-xs text-gray-600">{step.description}</p>
+                                            </div>
+                                            <div className="text-2xl">{step.icon}</div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            {/* API Endpoints */}
+                            <div className="mb-8">
+                                <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                    <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🔌</span>
+                                    {t.apiEndpoints}
+                                </h4>
+                                <div className="grid gap-2">
+                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                        <code className="text-sm font-mono text-purple-600 font-semibold">POST /generate-podcast</code>
+                                        <p className="text-xs text-gray-600 mt-1">Starts podcast generation. Returns job_id for progress tracking.</p>
+                                    </div>
+                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                        <code className="text-sm font-mono text-pink-600 font-semibold">GET /stream-progress/{'{job_id}'}</code>
+                                        <p className="text-xs text-gray-600 mt-1">Server-Sent Events endpoint for real-time progress updates.</p>
+                                    </div>
+                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                        <code className="text-sm font-mono text-purple-600 font-semibold">GET /user/credits</code>
+                                        <p className="text-xs text-gray-600 mt-1">Returns daily credit usage and remaining credits.</p>
+                                    </div>
+                                    <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                        <code className="text-sm font-mono text-pink-600 font-semibold">GET /user/podcasts</code>
+                                        <p className="text-xs text-gray-600 mt-1">Returns user's podcast history.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Footer */}
+                            <div className="pt-6 text-center border-t border-purple-200">
+                                <p className="text-purple-600 font-semibold">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
+                                <p className="text-sm text-gray-500 mt-1">Developed by Aditya Jain</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
@@ -379,34 +488,20 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
         }
     }, [logs, isExpanded]);
 
-    const getStepIcon = (log) => {
-        if (log.status === 'error') return '❌';
-        if (log.status === 'success' || log.status === 'complete') return '✅';
-        if (log.step === 'planning') return '📋';
-        if (log.step === 'research') return '🔍';
-        if (log.step === 'interview') return '🎙️';
-        if (log.step === 'writing') return '✍️';
-        if (log.step === 'tts') return '🔊';
-        if (log.step === 'final') return '📝';
-        if (log.status === 'calling') return '🔄';
-        if (log.status === 'started') return '🚀';
-        return '⚡';
-    };
-
     return (
-        <div className="bg-gray-900 rounded-2xl overflow-hidden border border-purple-500/20 shadow-2xl mb-6">
+        <div className="bg-gradient-to-br from-gray-900 to-purple-900 rounded-2xl overflow-hidden border border-purple-500/30 shadow-2xl mb-6">
             <button
                 onClick={onToggle}
-                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 px-5 py-3 flex items-center justify-between hover:opacity-90 transition-opacity"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4 flex items-center justify-between hover:opacity-90 transition-all"
             >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     <div className={`w-2 h-2 ${isComplete ? 'bg-green-400' : 'bg-yellow-400'} rounded-full animate-pulse`}></div>
-                    <h3 className="text-white font-semibold text-sm tracking-wide">
-                        {isComplete ? "✓ " + t.thinkingProcess + " Complete" : "🎙️ " + t.thinkingProcess}
+                    <h3 className="text-white font-semibold">
+                        {isComplete ? "✓ " + t.thinkingProcess + " Complete" : "⚡ " + t.thinkingProcess}
                     </h3>
                 </div>
                 <div className="flex items-center gap-2 text-white">
-                    <span className="text-sm">{isExpanded ? '▲' : '▼'}</span>
+                    <span className="text-sm">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
                     <span className="text-xs opacity-75">{isExpanded ? t.hideLogs : t.showLogs}</span>
                 </div>
             </button>
@@ -423,22 +518,19 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                         <div className="h-64 overflow-y-auto p-4 font-mono text-sm thinking-process-scroll">
                             {logs.map((log, idx) => (
                                 <motion.div
-                                    key={`${log.timestamp}-${idx}`}
+                                    key={idx}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: Math.min(idx * 0.02, 0.5) }}
-                                    className={`mb-2 pb-2 border-b border-gray-800 last:border-0 ${
-                                        log.status === 'error' ? 'text-red-400' : 'text-gray-300'
-                                    }`}
+                                    className="mb-3 pb-2 border-b border-purple-800 last:border-0"
                                 >
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-base min-w-[28px]">{getStepIcon(log)}</span>
-                                        <div className="flex-1">
-                                            <span className="text-purple-400 text-xs mr-2">
-                                                {log.timestamp ? new Date(log.timestamp * 1000).toLocaleTimeString() : new Date().toLocaleTimeString()}
-                                            </span>
-                                            <span className="text-sm">{log.message}</span>
-                                        </div>
+                                    <div className="flex items-start gap-3">
+                                        <span className="text-purple-400 text-xs">
+                                            {log.timestamp ? new Date(log.timestamp * 1000).toLocaleTimeString() : new Date().toLocaleTimeString()}
+                                        </span>
+                                        <span className={`text-sm ${log.status === 'error' ? 'text-red-400' : 'text-gray-300'}`}>
+                                            {log.message}
+                                        </span>
                                     </div>
                                 </motion.div>
                             ))}
@@ -451,286 +543,108 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
     );
 };
 
-// --- Audio Player with Captions & Reactive Waveform ---
+// --- Audio Player Component ---
 const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentCaption, setCurrentCaption] = useState("");
-    const [parsedSegments, setParsedSegments] = useState([]);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
-    
     const audioRef = useRef(null);
-    const canvasRef = useRef(null);
-    const audioCtxRef = useRef(null);
-    const analyserRef = useRef(null);
-    const animationFrameRef = useRef(null);
-    const lastActiveSegmentRef = useRef(null);
-
-    const getRawSegments = useCallback(() => {
-        const lines = script.split('\n');
-        const segments = [];
-        let currentSpeaker = '';
-        let textBlock = '';
-
-        for (const line of lines) {
-            const interviewerMatch = line.match(/\*\*Interviewer:\*\*\s*(.*)/);
-            const expertMatch = line.match(/\*\*Expert:\*\*\s*(.*)/);
-
-            if (interviewerMatch) {
-                if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
-                currentSpeaker = 'Interviewer';
-                textBlock = interviewerMatch[1];
-            } else if (expertMatch) {
-                if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
-                currentSpeaker = 'Expert';
-                textBlock = expertMatch[1];
-            } else if (textBlock && line.trim() && !line.startsWith('---')) {
-                textBlock += ' ' + line.trim();
-            }
-        }
-        if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
-
-        return segments.map(seg => {
-            const break800s = (seg.rawText.match(/<break time=["']800ms["']\s*\/?>/g) || []).length;
-            const break500s = (seg.rawText.match(/<break time=["']500ms["']\s*\/?>/g) || []).length;
-            const break1s = (seg.rawText.match(/<break time=["']1s["']\s*\/?>/g) || []).length;
-
-            const internalSilence = (break800s * 0.8) + (break500s * 0.5) + (break1s * 1.0);
-            const cleanText = seg.rawText.replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
-
-            return {
-                speaker: seg.speaker,
-                text: cleanText,
-                charCount: cleanText.length,
-                internalSilence: internalSilence
-            };
-        });
-    }, [script]);
-
-    const handleLoadedMetadata = () => {
-        if (!audioRef.current) return;
-        
-        const totalDuration = audioRef.current.duration;
-        setDuration(totalDuration);
-        
-        const segments = getRawSegments();
-        const totalChars = segments.reduce((acc, seg) => acc + seg.charCount, 0);
-        const betweenChunkSilence = Math.max(0, (segments.length - 1) * 0.5);
-        const internalSilence = segments.reduce((acc, seg) => acc + seg.internalSilence, 0);
-        
-        const totalSilence = betweenChunkSilence + internalSilence;
-        const speakingTime = Math.max(0, totalDuration - totalSilence);
-        const timePerChar = speakingTime / totalChars;
-        
-        let trackTime = 0;
-        const timedSegments = segments.map((seg) => {
-            const speakingDuration = seg.charCount * timePerChar;
-            const totalSegDuration = speakingDuration + seg.internalSilence;
-            const start = trackTime;
-            const end = start + totalSegDuration;
-            trackTime = end + 0.5;
-            return { ...seg, start, end };
-        });
-        
-        setParsedSegments(timedSegments);
+    
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
-
-    const initAudioVisualizer = () => {
-        if (!audioCtxRef.current && audioRef.current) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtxRef.current = new AudioContext();
-            analyserRef.current = audioCtxRef.current.createAnalyser();
-            analyserRef.current.fftSize = 128;
-            
-            const source = audioCtxRef.current.createMediaElementSource(audioRef.current);
-            source.connect(analyserRef.current);
-            analyserRef.current.connect(audioCtxRef.current.destination);
-        }
-        
-        if (audioCtxRef.current?.state === 'suspended') {
-            audioCtxRef.current.resume();
+    
+    const cleanScript = script ? script.replace(/<[^>]*>/g, '') : "";
+    const lines = cleanScript.split('\n');
+    const dialogueLines = lines.filter(line => line.includes('**Interviewer:**') || line.includes('**Expert:**'));
+    
+    const updateCaption = (time) => {
+        const estimatedLineIndex = Math.floor((time / duration) * dialogueLines.length);
+        if (dialogueLines[estimatedLineIndex] && dialogueLines[estimatedLineIndex] !== currentCaption) {
+            setCurrentCaption(dialogueLines[estimatedLineIndex].replace(/\*\*/g, ''));
         }
     };
-
-    const drawWaveform = useCallback(() => {
-        if (!analyserRef.current || !canvasRef.current) return;
-        
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const bufferLength = analyserRef.current.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        
-        analyserRef.current.getByteFrequencyData(dataArray);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        const usableLength = 32;
-        const barWidth = canvas.width / (usableLength * 2);
-        const centerY = canvas.height / 2;
-        const centerX = canvas.width / 2;
-        
-        ctx.fillStyle = '#3b82f6';
-        
-        for (let i = 0; i < usableLength; i++) {
-            const value = dataArray[i];
-            const barHeight = Math.max(3, (value / 255) * canvas.height * 0.8);
-            
-            ctx.fillRect(centerX + (i * barWidth), centerY - barHeight / 2, barWidth - 1, barHeight);
-            ctx.fillRect(centerX - ((i + 1) * barWidth), centerY - barHeight / 2, barWidth - 1, barHeight);
+    
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            setCurrentTime(audioRef.current.currentTime);
+            updateCaption(audioRef.current.currentTime);
         }
-        
-        animationFrameRef.current = requestAnimationFrame(drawWaveform);
-    }, []);
-
-    useEffect(() => {
-        if (isPlaying) {
-            initAudioVisualizer();
-            audioRef.current.play().catch(e => console.error("Play error:", e));
-            animationFrameRef.current = requestAnimationFrame(drawWaveform);
-        } else {
-            audioRef.current?.pause();
-            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-        }
-        return () => {
-            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-        };
-    }, [isPlaying, drawWaveform]);
-
-    const handleTimeUpdate = useCallback(() => {
-        if (!audioRef.current) return;
-        const current = audioRef.current.currentTime;
-        setCurrentTime(current);
-        
-        const activeSegment = parsedSegments.find(seg => 
-            current >= seg.start && current <= (seg.end + 0.5)
-        );
-        
-        if (activeSegment && activeSegment !== lastActiveSegmentRef.current) {
-            setCurrentCaption(`${activeSegment.speaker}: ${activeSegment.text}`);
-            lastActiveSegmentRef.current = activeSegment;
-        }
-    }, [parsedSegments]);
-
+    };
+    
     const handleSeek = (e) => {
         const time = parseFloat(e.target.value);
         audioRef.current.currentTime = time;
         setCurrentTime(time);
+        updateCaption(time);
     };
-
-    const skipBackward = () => {
-        if (audioRef.current) {
-            const newTime = Math.max(0, audioRef.current.currentTime - 10);
-            audioRef.current.currentTime = newTime;
-            setCurrentTime(newTime);
-        }
-    };
-
-    const skipForward = () => {
-        if (audioRef.current) {
-            const newTime = Math.min(duration, audioRef.current.currentTime + 10);
-            audioRef.current.currentTime = newTime;
-            setCurrentTime(newTime);
-        }
-    };
-
-    const formatTime = (timeInSecs) => {
-        const m = Math.floor(timeInSecs / 60).toString().padStart(2, '0');
-        const s = Math.floor(timeInSecs % 60).toString().padStart(2, '0');
-        return `${m}:${s}`;
-    };
-
+    
     return (
-        <div className="bg-white rounded-2xl shadow-2xl border border-purple-100 overflow-hidden">
-            <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4">
+        <div className="bg-white rounded-2xl shadow-2xl border border-purple-200 overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4">
                 <h3 className="text-white font-semibold flex items-center gap-2">
                     <span>🎧</span> Now Playing
                 </h3>
             </div>
-
+            
             <audio
                 ref={audioRef}
                 src={audioUrl}
-                crossOrigin="anonymous"
-                onLoadedMetadata={handleLoadedMetadata}
+                onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={() => setIsPlaying(false)}
             />
-
+            
             <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-6">
-                        <button 
-                            onClick={skipBackward} 
-                            className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors"
-                            title="Rewind 10 seconds"
-                        >
-                            <RewindSVG />
+                    <div className="flex items-center gap-4">
+                        <button onClick={() => { if(audioRef.current) audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 10); }} className="w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-purple-100 hover:text-purple-600 flex items-center justify-center transition-all">
+                            <RewindIcon />
                         </button>
-
-                        <button
-                            onClick={() => setIsPlaying(!isPlaying)}
-                            className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center hover:shadow-lg hover:scale-105 transition-all"
-                        >
-                            {isPlaying ? <PauseSVG /> : <PlaySVG />}
+                        <button onClick={() => setIsPlaying(!isPlaying)} className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white flex items-center justify-center hover:shadow-lg hover:scale-105 transition-all">
+                            {isPlaying ? <PauseIcon /> : <PlayIcon />}
                         </button>
-
-                        <button 
-                            onClick={skipForward} 
-                            className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors"
-                            title="Skip forward 10 seconds"
-                        >
-                            <ForwardSVG />
+                        <button onClick={() => { if(audioRef.current) audioRef.current.currentTime = Math.min(duration, audioRef.current.currentTime + 10); }} className="w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-purple-100 hover:text-purple-600 flex items-center justify-center transition-all">
+                            <ForwardIcon />
                         </button>
-
                         <div className="ml-2">
                             <h4 className="font-bold text-gray-800">AI-Generated Podcast</h4>
-                            <p className="text-sm text-gray-500">Dynamic conversation with AI experts</p>
+                            <p className="text-xs text-gray-500">Dynamic AI conversation</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={onNewPodcast} className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex items-center gap-2 text-sm">
-                            <NewPodcastSVG /> New
+                        <button onClick={onNewPodcast} className="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700 transition-all flex items-center gap-2 text-sm">
+                            <NewIcon /> New
                         </button>
-                        <button onClick={onDownload} className="px-4 py-2 rounded-lg bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors flex items-center gap-2 text-sm">
-                            <DownloadSVG /> Download
+                        <button onClick={onDownload} className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 hover:from-purple-200 hover:to-pink-200 transition-all flex items-center gap-2 text-sm">
+                            <DownloadIcon /> Download
                         </button>
                     </div>
                 </div>
-
-                <div className="mb-6 bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <canvas 
-                        ref={canvasRef} 
-                        width="800" 
-                        height="60" 
-                        className="w-full h-16 rounded-md mb-2"
-                    />
-                    <div className="flex items-center gap-3">
+                
+                <div className="mb-6">
+                    <div className="flex items-center gap-3 mb-2">
                         <span className="text-xs text-gray-500 font-mono">{formatTime(currentTime)}</span>
-                        <input
-                            type="range"
-                            min="0"
-                            max={duration || 100}
-                            value={currentTime}
-                            onChange={handleSeek}
-                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
-                        />
+                        <input type="range" min="0" max={duration || 100} value={currentTime} onChange={handleSeek} className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600" />
                         <span className="text-xs text-gray-500 font-mono">{formatTime(duration)}</span>
                     </div>
                 </div>
-
-                <div className="bg-gray-50 rounded-xl p-5 border border-gray-100 min-h-[100px]">
+                
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5 min-h-[100px] border border-purple-100">
                     {currentCaption ? (
                         <div>
-                            <span className="text-xs font-semibold uppercase tracking-wide text-blue-600">
-                                {currentCaption.split(':')[0]}
+                            <span className="text-xs font-semibold uppercase tracking-wide text-purple-600">
+                                {currentCaption.includes('Interviewer') ? '🎙️ Interviewer' : '👨‍💻 Expert'}
                             </span>
-                            <p className="text-gray-700 mt-1 leading-relaxed">
-                                {currentCaption.substring(currentCaption.indexOf(':') + 1)}
+                            <p className="text-gray-700 mt-2 leading-relaxed">
+                                {currentCaption.replace('Interviewer:', '').replace('Expert:', '').trim()}
                             </p>
                         </div>
                     ) : (
-                        <p className="text-gray-400 text-center mt-4">
-                            🎙️ Captions will appear here as the podcast plays...
-                        </p>
+                        <p className="text-gray-400 text-center">🎙️ Captions will appear here as the podcast plays...</p>
                     )}
                 </div>
             </div>
@@ -744,29 +658,22 @@ const TranscriptViewer = ({ script }) => {
     const cleanScript = script ? script.replace(/<[^>]*>/g, '') : "";
 
     return (
-        <div className="bg-white rounded-2xl shadow-2xl border border-purple-100 overflow-hidden">
-            <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="w-full bg-gradient-to-r from-gray-50 to-purple-50 px-6 py-4 flex items-center justify-between hover:bg-purple-50 transition-colors"
-            >
-                <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-                    <span>📄</span> Full Transcript
-                </h3>
-                <span className="text-gray-400">{isExpanded ? '▼' : '▲'}</span>
+        <div className="bg-white rounded-2xl shadow-2xl border border-purple-200 overflow-hidden">
+            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 flex items-center justify-between hover:from-purple-100 hover:to-pink-100 transition-all">
+                <h3 className="font-semibold text-gray-800 flex items-center gap-2">📄 Full Transcript</h3>
+                <span className="text-gray-400">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
             </button>
-
             <AnimatePresence>
                 {isExpanded && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                    >
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
                         <div className="p-6 max-h-[400px] overflow-y-auto bg-gray-50">
-                            <div className="text-gray-700 font-sans text-sm leading-relaxed [&>p]:mb-4 [&>hr]:my-6 [&>hr]:border-gray-300 [&>strong]:text-gray-900 [&>strong]:font-bold">
-                                <ReactMarkdown>{cleanScript}</ReactMarkdown>
+                            <div className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
+                                {cleanScript.split('\n').map((line, i) => {
+                                    if (line.includes('**Interviewer:**')) return <p key={i} className="mt-3 font-semibold text-purple-700">🎙️ {line.replace(/\*\*/g, '')}</p>;
+                                    if (line.includes('**Expert:**')) return <p key={i} className="mt-2 font-semibold text-pink-600">👨‍💻 {line.replace(/\*\*/g, '')}</p>;
+                                    if (line.trim()) return <p key={i} className="text-gray-600">{line}</p>;
+                                    return <br key={i} />;
+                                })}
                             </div>
                         </div>
                     </motion.div>
@@ -783,50 +690,32 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
     
     useEffect(() => {
         if (resetsInSeconds <= 0) return;
-        const timer = setInterval(() => {
-            setTimeRemaining(prev => Math.max(0, prev - 1));
-        }, 1000);
+        const timer = setInterval(() => setTimeRemaining(prev => Math.max(0, prev - 1)), 1000);
         return () => clearInterval(timer);
     }, [resetsInSeconds]);
     
-    const formatTimeRemaining = (seconds) => {
+    const formatTime = (seconds) => {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
-        if (hours > 0) return `${hours}h ${minutes}m`;
-        return `${minutes}m`;
+        return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
     };
     
-    const percentUsed = (creditsUsed / dailyLimit) * 100;
-    
     return (
-        <div className={`px-3 py-1.5 rounded-lg ${credits > 0 ? 'bg-green-100' : 'bg-red-100'}`}>
-            <div className="flex items-center gap-2">
-                <div className="text-center">
-                    <div className={`text-xl font-bold ${credits > 0 ? 'text-green-700' : 'text-red-700'}`}>
-                        {credits}
-                    </div>
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-3 border border-purple-200">
+            <div className="flex items-center justify-between">
+                <div>
+                    <div className="text-2xl font-bold text-purple-700">{credits}</div>
                     <div className="text-xs text-gray-600">{t.creditsLeft}</div>
                 </div>
-                <div className="w-px h-6 bg-gray-300"></div>
-                <div>
-                    <div className="text-xs font-medium text-gray-700">
-                        {creditsUsed}/{dailyLimit} {t.usedToday}
-                    </div>
+                <div className="text-right">
+                    <div className="text-sm font-medium text-gray-700">{creditsUsed}/{dailyLimit} {t.usedToday}</div>
                     {credits === 0 && timeRemaining > 0 && (
-                        <div className="text-xs text-orange-600">
-                            Resets in {formatTimeRemaining(timeRemaining)}
-                        </div>
-                    )}
-                    {credits > 0 && (
-                        <div className="text-xs text-gray-500">{t.resetsAt}</div>
+                        <div className="text-xs text-orange-600">Resets in {formatTime(timeRemaining)}</div>
                     )}
                 </div>
             </div>
-            <div className="mt-1 w-full bg-gray-200 rounded-full h-1">
-                <div 
-                    className={`h-1 rounded-full transition-all duration-500 ${credits === 0 ? 'bg-red-500' : 'bg-green-500'}`}
-                    style={{ width: `${percentUsed}%` }}
-                />
+            <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500" style={{ width: `${(creditsUsed / dailyLimit) * 100}%` }} />
             </div>
         </div>
     );
@@ -840,35 +729,26 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     const date = new Date(podcast.created_at).toLocaleDateString();
     
     return (
-        <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl border border-purple-200 p-4 hover:shadow-xl transition-all duration-300 hover:border-purple-300">
             <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-gray-800 flex-1 text-sm">{podcast.topic}</h3>
-                <button onClick={() => onDelete(podcast.job_id)} className="text-gray-400 hover:text-red-500">
-                    <DeleteSVG />
+                <h3 className="font-semibold text-gray-800 flex-1">{podcast.topic}</h3>
+                <button onClick={() => onDelete(podcast.job_id)} className="text-gray-400 hover:text-red-500 transition-colors">
+                    <DeleteIcon />
                 </button>
             </div>
             <p className="text-xs text-gray-500 mb-3">{date}</p>
             <p className="text-sm text-gray-600 mb-3 line-clamp-2">{podcast.script_preview}</p>
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <button 
-                        onClick={() => {
-                            if (audioRef.current) {
-                                if (isPlaying) audioRef.current.pause();
-                                else audioRef.current.play();
-                                setIsPlaying(!isPlaying);
-                            }
-                        }} 
-                        className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-700"
-                    >
-                        {isPlaying ? <PauseSVG /> : <PlaySVG />}
+                    <button onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:shadow-md transition-all">
+                        {isPlaying ? <PauseIcon /> : <PlayIcon />}
                     </button>
                     <audio ref={audioRef} src={podcast.audio_url} onEnded={() => setIsPlaying(false)} />
-                    <button onClick={() => window.open(podcast.audio_url, '_blank')} className="text-gray-600 hover:text-purple-600">
-                        <DownloadSVG />
+                    <button onClick={() => window.open(podcast.audio_url, '_blank')} className="text-gray-500 hover:text-purple-600 transition-colors">
+                        <DownloadIcon />
                     </button>
                 </div>
-                <button onClick={() => onPlay(podcast)} className="text-sm text-purple-600 hover:text-purple-700">
+                <button onClick={() => onPlay(podcast)} className="text-sm text-purple-600 hover:text-pink-600 font-medium transition-colors">
                     {t.play} →
                 </button>
             </div>
@@ -887,167 +767,49 @@ const AuthScreen = ({ onAuth, setSession, backendStatus }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!backendStatus.isConnected) {
-            setError(t.errors.backendOffline);
-            return;
-        }
-        
+        if (!backendStatus.isConnected) { setError(t.errors.backendOffline); return; }
         setLoading(true);
         setError(null);
-
         try {
             let result;
-            if (isLogin) {
-                result = await supabase.auth.signInWithPassword({ email, password });
-            } else {
-                result = await supabase.auth.signUp({ 
-                    email, 
-                    password,
-                    options: { emailRedirectTo: window.location.origin }
-                });
-            }
-
+            if (isLogin) result = await supabase.auth.signInWithPassword({ email, password });
+            else result = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } });
             if (result.error) throw result.error;
-
-            if (result.data.session) {
-                setSession(result.data.session);
-                onAuth(true);
-            } else if (result.data.user && !isLogin) {
-                setError("Check your email for confirmation link.");
-            }
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleGoogleSignIn = async () => {
-        if (!backendStatus.isConnected) {
-            setError(t.errors.backendOffline);
-            return;
-        }
-        
-        setLoading(true);
-        setError(null);
-        
-        try {
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: { redirectTo: window.location.origin }
-            });
-            if (error) throw error;
-        } catch (err) {
-            setError(err.message);
-            setLoading(false);
-        }
+            if (result.data.session) { setSession(result.data.session); onAuth(true); }
+            else if (result.data.user && !isLogin) setError("Check your email for confirmation link.");
+        } catch (err) { setError(err.message); }
+        finally { setLoading(false); }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-slow"></div>
-                <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slow"></div>
-            </div>
+        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-900 to-purple-800 relative overflow-hidden">
+            <div className="absolute inset-0 bg-grid-pattern opacity-20"></div>
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-slow"></div>
             
             <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-white/20 shadow-2xl"
-                >
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-white/20 shadow-2xl">
                     <div className={`mb-4 text-center text-sm ${backendStatus.isConnected ? 'text-green-300' : 'text-red-300'}`}>
-                        {backendStatus.isConnected ? '✓ Backend connected' : '⚠ Backend offline - Please wait'}
+                        {backendStatus.isConnected ? '✓ Backend connected' : '⚠ Backend offline'}
                     </div>
-                    
                     <div className="text-center mb-8">
-                        <img 
-                            src={logoImage} 
-                            alt="Podcast Studio Logo" 
-                            className="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg object-cover"
-                        />
+                        <img src={logoImage} alt="Logo" className="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg object-cover animate-float" />
                         <h1 className="text-3xl font-bold text-white mb-2">Podcast Studio</h1>
                         <p className="text-purple-200">AI-Powered Podcast Generator</p>
-                        <div className="mt-3 inline-block bg-purple-500/30 rounded-full px-3 py-1">
-                            <span className="text-yellow-300 text-sm">3 Free Credits Daily</span>
+                        <div className="mt-3 inline-block bg-gradient-to-r from-purple-500 to-pink-500 rounded-full px-3 py-1">
+                            <span className="text-white text-sm">3 Free Credits Daily</span>
                         </div>
                     </div>
-
-                    {error && (
-                        <div className="mb-4 bg-red-500/20 border border-red-500 rounded-lg p-3">
-                            <p className="text-red-200 text-sm">{error}</p>
-                        </div>
-                    )}
-
+                    {error && <div className="mb-4 bg-red-500/20 border border-red-500 rounded-lg p-3"><p className="text-red-200 text-sm">{error}</p></div>}
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-white text-sm font-medium mb-2">Email</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400"
-                                placeholder="you@example.com"
-                                required
-                                disabled={!backendStatus.isConnected}
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-white text-sm font-medium mb-2">Password</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400"
-                                placeholder="••••••••"
-                                required
-                                disabled={!backendStatus.isConnected}
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading || !backendStatus.isConnected}
-                            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="Email" required disabled={!backendStatus.isConnected} />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="Password" required disabled={!backendStatus.isConnected} />
+                        <button type="submit" disabled={loading || !backendStatus.isConnected} className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:shadow-lg transition-all disabled:opacity-50">
                             {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
                         </button>
-
-                        <div className="relative my-4">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-white/20"></div>
-                            </div>
-                            <div className="relative flex justify-center text-xs">
-                                <span className="px-2 bg-white/10 text-white/60 rounded">OR</span>
-                            </div>
-                        </div>
-
-                        <button
-                            type="button"
-                            onClick={handleGoogleSignIn}
-                            disabled={loading || !backendStatus.isConnected}
-                            className="w-full py-3 rounded-xl bg-white text-gray-800 font-semibold hover:bg-gray-100 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <svg className="w-5 h-5" viewBox="0 0 24 24">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                            </svg>
-                            Continue with Google
-                        </button>
-
                         <p className="text-center text-purple-200 text-sm mt-4">
                             {isLogin ? "Don't have an account? " : "Already have an account? "}
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setIsLogin(!isLogin);
-                                    setError(null);
-                                }}
-                                className="text-white underline hover:no-underline"
-                            >
+                            <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null); }} className="text-white underline">
                                 {isLogin ? "Sign Up" : "Sign In"}
                             </button>
                         </p>
@@ -1080,38 +842,16 @@ export default function App() {
     
     const isMounted = useRef(true);
     const eventSourceRef = useRef(null);
-    const backendCheckInterval = useRef(null);
 
     const checkBackendConnection = async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}/`, {
-                method: 'GET',
-                signal: AbortSignal.timeout(10000)
-            });
-            
-            if (response.ok) {
-                setBackendStatus({ isConnected: true, checking: false });
-                return true;
-            }
+            const response = await fetch(`${BACKEND_URL}/`, { method: 'GET', signal: AbortSignal.timeout(10000) });
+            if (response.ok) { setBackendStatus({ isConnected: true, checking: false }); return true; }
             throw new Error("Backend not responding");
-        } catch (err) {
-            setBackendStatus({ isConnected: false, checking: false });
-            return false;
-        }
+        } catch (err) { setBackendStatus({ isConnected: false, checking: false }); return false; }
     };
 
-    useEffect(() => {
-        checkBackendConnection();
-        backendCheckInterval.current = setInterval(() => {
-            if (!backendStatus.isConnected) {
-                checkBackendConnection();
-            }
-        }, 30000);
-        
-        return () => {
-            if (backendCheckInterval.current) clearInterval(backendCheckInterval.current);
-        };
-    }, []);
+    useEffect(() => { checkBackendConnection(); }, []);
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -1122,7 +862,6 @@ export default function App() {
                 fetchUserPodcasts(session.access_token);
             }
         });
-
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             if (session && backendStatus.isConnected) {
                 setSession(session);
@@ -1138,17 +877,13 @@ export default function App() {
                 setUserPodcasts([]);
             }
         });
-
         return () => subscription.unsubscribe();
     }, [backendStatus.isConnected]);
 
     const fetchUserCredits = async (token) => {
         if (!backendStatus.isConnected) return;
-        
         try {
-            const response = await fetch(`${BACKEND_URL}/user/credits`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const response = await fetch(`${BACKEND_URL}/user/credits`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.ok) {
                 const data = await response.json();
                 setCredits(data.credits_remaining);
@@ -1156,211 +891,88 @@ export default function App() {
                 setDailyLimit(data.daily_limit);
                 setResetsInSeconds(data.resets_in_seconds);
             }
-        } catch (err) {
-            console.error("Failed to fetch credits:", err);
-        }
+        } catch (err) { console.error("Failed to fetch credits:", err); }
     };
 
     const fetchUserPodcasts = async (token) => {
         setLoadingPodcasts(true);
         try {
-            const response = await fetch(`${BACKEND_URL}/user/podcasts`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const response = await fetch(`${BACKEND_URL}/user/podcasts`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.ok) {
                 const data = await response.json();
                 setUserPodcasts(data.podcasts);
             }
-        } catch (err) {
-            console.error("Failed to fetch podcasts:", err);
-        }
-        finally {
-            setLoadingPodcasts(false);
-        }
+        } catch (err) { console.error("Failed to fetch podcasts:", err); }
+        finally { setLoadingPodcasts(false); }
     };
 
     const deletePodcast = async (jobId) => {
         try {
-            await fetch(`${BACKEND_URL}/user/podcasts/${jobId}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${session?.access_token}` }
-            });
+            await fetch(`${BACKEND_URL}/user/podcasts/${jobId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${session?.access_token}` } });
             setUserPodcasts(prev => prev.filter(p => p.job_id !== jobId));
-        } catch (err) {
-            console.error("Failed to delete podcast:", err);
-        }
+        } catch (err) { console.error("Failed to delete podcast:", err); }
     };
 
     const playPodcast = (podcastData) => {
-        setPodcast({
-            audioUrl: podcastData.audio_url,
-            script: "Loading...",
-            topic: podcastData.topic,
-            jobId: podcastData.job_id
-        });
-        
-        fetch(`${BACKEND_URL}/user/podcasts/${podcastData.job_id}`, {
-            headers: { 'Authorization': `Bearer ${session?.access_token}` }
-        })
-        .then(res => res.json())
-        .then(data => {
-            setPodcast({
-                audioUrl: data.audio_url,
-                script: data.script,
-                topic: data.topic,
-                jobId: data.job_id
-            });
-        });
-        
+        setPodcast({ audioUrl: podcastData.audio_url, script: "Loading...", topic: podcastData.topic, jobId: podcastData.job_id });
+        fetch(`${BACKEND_URL}/user/podcasts/${podcastData.job_id}`, { headers: { 'Authorization': `Bearer ${session?.access_token}` } })
+            .then(res => res.json())
+            .then(data => setPodcast({ audioUrl: data.audio_url, script: data.script, topic: data.topic, jobId: data.job_id }));
         setActiveTab("home");
     };
 
-    const getAuthHeaders = () => ({
-        'Authorization': `Bearer ${session?.access_token}`,
-        'Content-Type': 'application/json'
-    });
-
+    const getAuthHeaders = () => ({ 'Authorization': `Bearer ${session?.access_token}`, 'Content-Type': 'application/json' });
     const t = translations[language];
 
     useEffect(() => {
         isMounted.current = true;
-        return () => {
-            isMounted.current = false;
-            if (eventSourceRef.current) eventSourceRef.current.close();
-        };
+        return () => { isMounted.current = false; if (eventSourceRef.current) eventSourceRef.current.close(); };
     }, []);
-
-    const resetAndGenerate = async () => {
-        if (!backendStatus.isConnected) {
-            setError(t.errors.connection);
-            const connected = await checkBackendConnection();
-            if (!connected) {
-                setError(t.errors.backendOffline);
-                return;
-            }
-        }
-        
-        if (credits <= 0) {
-            setError(`${t.dailyLimitReached}. ${t.outOfCredits.replace('{limit}', dailyLimit)}`);
-            return;
-        }
-        
-        if (eventSourceRef.current) eventSourceRef.current.close();
-        setPodcast(null);
-        setGenerationLogs([]);
-        setError(null);
-        setIsLogsExpanded(true);
-        generatePodcast();
-    };
 
     const generatePodcast = async () => {
         if (!topic.trim() || credits <= 0) return;
-
         setIsGenerating(true);
-        setGenerationLogs([{ 
-            step: 'start', 
-            status: 'started', 
-            message: `Starting podcast generation for: "${topic}"...`,
-            timestamp: Date.now() / 1000
-        }]);
-
+        setGenerationLogs([{ step: 'start', status: 'started', message: `Starting podcast generation for: "${topic}"...`, timestamp: Date.now() / 1000 }]);
         try {
             const startRes = await fetch(`${BACKEND_URL}/generate-podcast`, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify({
-                    topic: topic,
-                    language: language,
-                    speaker_voices: { "Interviewer": "male", "Expert": "female" }
-                })
+                method: 'POST', headers: getAuthHeaders(),
+                body: JSON.stringify({ topic, language, speaker_voices: { "Interviewer": "male", "Expert": "female" } })
             });
-
-            if (!startRes.ok) {
-                const errorData = await startRes.json();
-                throw new Error(errorData.detail || t.errors.connection);
-            }
-            
+            if (!startRes.ok) { const errorData = await startRes.json(); throw new Error(errorData.detail || "Generation failed"); }
             const { job_id, credits_remaining } = await startRes.json();
             setCredits(credits_remaining);
             setCreditsUsedToday(prev => prev + 1);
-
             eventSourceRef.current = new EventSource(`${BACKEND_URL}/stream-progress/${job_id}`);
-
             eventSourceRef.current.onmessage = (event) => {
                 try {
                     const data = JSON.parse(event.data);
-                    
                     if (data.type === 'progress') {
-                        if (isMounted.current) {
-                            setGenerationLogs(prev => {
-                                const exists = prev.some(log => 
-                                    log.message === data.data.message && 
-                                    Math.abs((log.timestamp || 0) - (data.data.timestamp || 0)) < 0.5
-                                );
-                                if (exists) return prev;
-                                return [...prev, {
-                                    ...data.data,
-                                    timestamp: data.data.timestamp || Date.now() / 1000
-                                }];
-                            });
-                        }
+                        setGenerationLogs(prev => [...prev, { ...data.data, timestamp: data.data.timestamp || Date.now() / 1000 }]);
                     } else if (data.type === 'complete') {
-                        fetch(`${BACKEND_URL}/script/${job_id}`)
-                            .then(res => res.json())
-                            .then(scriptData => {
-                                if (isMounted.current) {
-                                    setPodcast({
-                                        audioUrl: `${BACKEND_URL}${data.download_url}`,
-                                        script: scriptData.script,
-                                        topic: topic,
-                                        jobId: job_id,
-                                        complete: true
-                                    });
-                                    setIsGenerating(false);
-                                    fetchUserPodcasts(session?.access_token);
-                                }
-                            })
-                            .catch(err => {
-                                console.error("Error fetching script:", err);
-                                if (isMounted.current) {
-                                    setError("Failed to fetch the generated script.");
-                                    setIsGenerating(false);
-                                }
-                            });
+                        fetch(`${BACKEND_URL}/script/${job_id}`).then(res => res.json()).then(scriptData => {
+                            if (isMounted.current) {
+                                setPodcast({ audioUrl: `${BACKEND_URL}${data.download_url}`, script: scriptData.script, topic, jobId: job_id });
+                                setIsGenerating(false);
+                                fetchUserPodcasts(session?.access_token);
+                            }
+                        });
                         eventSourceRef.current?.close();
                         eventSourceRef.current = null;
                     } else if (data.type === 'error') {
-                        console.error("SSE Error:", data.message);
-                        if (isMounted.current) {
-                            setError(data.message);
-                            setIsGenerating(false);
-                        }
+                        setError(data.message);
+                        setIsGenerating(false);
                         eventSourceRef.current?.close();
                         eventSourceRef.current = null;
                     }
-                } catch (err) {
-                    console.error("Error parsing SSE message:", err);
-                }
+                } catch (err) { console.error("Error parsing SSE:", err); }
             };
-
-            eventSourceRef.current.onerror = (err) => {
-                console.error("SSE connection error:", err);
-                if (isMounted.current && !podcast) {
-                    setError(t.errors.connection);
-                    setIsGenerating(false);
-                }
+            eventSourceRef.current.onerror = () => {
+                if (isMounted.current && !podcast) setError("Connection error");
+                setIsGenerating(false);
                 eventSourceRef.current?.close();
                 eventSourceRef.current = null;
             };
-
-        } catch (err) {
-            console.error("Generation error:", err);
-            if (isMounted.current) {
-                setError(err.message || t.errors.generation);
-                setIsGenerating(false);
-            }
-            if (eventSourceRef.current) eventSourceRef.current.close();
-        }
+        } catch (err) { setError(err.message); setIsGenerating(false); }
     };
 
     const handleLogout = async () => {
@@ -1368,22 +980,16 @@ export default function App() {
         setSession(null);
         setIsAuthenticated(false);
         setPodcast(null);
-        setCredits(0);
-        setCreditsUsedToday(0);
-        setTopic("");
-        setGenerationLogs([]);
-        setError(null);
         setUserPodcasts([]);
         if (eventSourceRef.current) eventSourceRef.current.close();
     };
 
     if (backendStatus.checking) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 to-purple-900 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-purple-900 to-pink-900 flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin-slow mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Checking backend connection...</p>
-                    <p className="text-purple-300 text-sm mt-2">This may take a moment on Render</p>
+                    <p className="text-white text-lg">Connecting to backend...</p>
                 </div>
             </div>
         );
@@ -1396,225 +1002,114 @@ export default function App() {
     return (
         <>
             <GlobalStyles />
-            <div className="flex h-screen bg-gradient-to-br from-gray-50 to-purple-50">
-                {/* Sidebar Menu Bar */}
-                <div className="w-64 bg-white border-r border-gray-200 flex flex-col shadow-lg">
-                    <div className="p-6 border-b border-gray-200">
-                        <img 
-                            src={logoImage}   
-                            alt="Podcast Studio Logo" 
-                            className="w-12 h-12 rounded-full mx-auto mb-3 shadow-md object-cover"
-                        />
-                        <h1 className="text-xl font-bold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            <div className="flex h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+                {/* Sidebar - Pink/Purple Theme */}
+                <div className="w-72 bg-white/80 backdrop-blur-sm border-r border-purple-200 flex flex-col shadow-xl">
+                    <div className="p-6 border-b border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
+                        <img src={logoImage} alt="Logo" className="w-16 h-16 rounded-full mx-auto mb-3 shadow-lg animate-float" />
+                        <h1 className="text-xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                             {t.appTitle}
                         </h1>
                         <p className="text-xs text-gray-500 text-center mt-1">{t.tagline}</p>
                     </div>
                     
-                    <nav className="flex-1 p-4">
-                        <button
-                            onClick={() => setActiveTab("home")}
-                            className={`w-full text-left px-4 py-3 rounded-lg mb-2 transition-all flex items-center gap-3 ${
-                                activeTab === "home" 
-                                    ? "bg-purple-100 text-purple-700 font-semibold" 
-                                    : "text-gray-600 hover:bg-gray-100"
-                            }`}
-                        >
-                            <span className="text-xl">🏠</span>
-                            <span>{t.home}</span>
+                    <nav className="flex-1 p-4 space-y-2">
+                        <button onClick={() => setActiveTab("home")} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg" : "text-gray-700 hover:bg-purple-100"}`}>
+                            <HomeIcon /> {t.home}
                         </button>
-                        
-                        <button
-                            onClick={() => {
-                                setActiveTab("podcasts");
-                                fetchUserPodcasts(session?.access_token);
-                            }}
-                            className={`w-full text-left px-4 py-3 rounded-lg mb-2 transition-all flex items-center gap-3 ${
-                                activeTab === "podcasts" 
-                                    ? "bg-purple-100 text-purple-700 font-semibold" 
-                                    : "text-gray-600 hover:bg-gray-100"
-                            }`}
-                        >
-                            <span className="text-xl">🎙️</span>
-                            <span>{t.yourPodcasts}</span>
+                        <button onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg" : "text-gray-700 hover:bg-purple-100"}`}>
+                            <PodcastIcon /> {t.yourPodcasts}
                         </button>
                     </nav>
                     
-                    <div className="p-4 border-t border-gray-200 space-y-3">
-                        <CreditDisplay 
-                            credits={credits} 
-                            creditsUsed={creditsUsedToday} 
-                            dailyLimit={dailyLimit} 
-                            resetsInSeconds={resetsInSeconds} 
-                            language={language} 
-                        />
-                        
+                    <div className="p-4 border-t border-purple-200 space-y-3">
+                        <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         <div className="flex gap-2">
-                            <button
-                                onClick={() => setLanguage('en')}
-                                className={`flex-1 px-2 py-1.5 text-sm rounded transition-all ${
-                                    language === 'en' 
-                                        ? 'bg-purple-600 text-white' 
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                            >
-                                English
-                            </button>
-                            <button
-                                onClick={() => setLanguage('hi')}
-                                className={`flex-1 px-2 py-1.5 text-sm rounded transition-all ${
-                                    language === 'hi' 
-                                        ? 'bg-purple-600 text-white' 
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                            >
-                                हिंदी
-                            </button>
+                            <button onClick={() => setLanguage('en')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'en' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-purple-100'}`}>English</button>
+                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'hi' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-purple-100'}`}>हिंदी</button>
                         </div>
-                        
-                        <button
-                            onClick={handleLogout}
-                            className="w-full px-4 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-sm font-medium flex items-center justify-center gap-2"
-                        >
-                            <span>🚪</span> {t.logout}
+                        <button onClick={handleLogout} className="w-full px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all text-sm font-medium flex items-center justify-center gap-2">
+                            <LogoutIcon /> {t.logout}
                         </button>
                     </div>
                 </div>
                 
-                {/* Main Content Area */}
+                {/* Main Content */}
                 <div className="flex-1 overflow-y-auto">
                     <div className="max-w-4xl mx-auto px-6 py-8">
                         {!backendStatus.isConnected && (
                             <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                                <p className="text-yellow-800 text-sm flex items-center gap-2">
-                                    <span>⚠️</span> Backend server is offline. Your credits may not display correctly.
-                                    <button onClick={() => checkBackendConnection()} className="text-yellow-700 underline">Retry</button>
-                                </p>
+                                <p className="text-yellow-800 text-sm">⚠️ Backend offline. <button onClick={() => checkBackendConnection()} className="underline">Retry</button></p>
                             </div>
                         )}
                         
                         {activeTab === "home" && (
                             <>
                                 {credits > 0 && backendStatus.isConnected && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl shadow-xl border border-purple-100 p-8 mb-8">
+                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl shadow-xl border border-purple-200 p-8 mb-8">
                                         <label className="block text-gray-700 font-semibold mb-2">{t.topicLabel}</label>
                                         <div className="flex gap-3">
-                                            <input 
-                                                type="text" 
-                                                value={topic} 
-                                                onChange={(e) => setTopic(e.target.value)} 
-                                                onKeyDown={(e) => e.key === 'Enter' && resetAndGenerate()} 
-                                                disabled={isGenerating || !backendStatus.isConnected} 
-                                                placeholder={t.topicPlaceholder} 
-                                                className="flex-1 px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" 
-                                            />
-                                            <button 
-                                                onClick={resetAndGenerate} 
-                                                disabled={!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected} 
-                                                className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${
-                                                    !topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected 
-                                                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                                                        : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-lg hover:scale-105'
-                                                }`}
-                                            >
+                                            <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} disabled={isGenerating || !backendStatus.isConnected} placeholder={t.topicPlaceholder} className="flex-1 px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" />
+                                            <button onClick={generatePodcast} disabled={!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected} className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:scale-105'}`}>
                                                 {isGenerating ? t.generating : t.generateButton}
                                             </button>
                                         </div>
                                         <div className="mt-5">
                                             <p className="text-xs text-gray-400 mb-2">{t.tryThese}</p>
                                             <div className="flex flex-wrap gap-2">
-                                                {["The DB Cooper Mystery", "Future of Quantum Computing", "Climate Change Solutions", "AI in Healthcare", "Mars Colonization", "Ancient Civilizations"].map((sample, idx) => (
-                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-gray-100 hover:bg-purple-100 text-gray-600 hover:text-purple-700 rounded-full text-sm transition-colors">
-                                                        {sample}
-                                                    </button>
+                                                {["AI in Healthcare", "Future of Space Travel", "Climate Solutions", "Digital Art Revolution", "Quantum Computing", "Mars Colonization"].map((sample, idx) => (
+                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-gray-100 hover:bg-purple-100 text-gray-600 hover:text-purple-700 rounded-full text-sm transition-colors">{sample}</button>
                                                 ))}
                                             </div>
-                                        </div>
-                                        
-                                        {/* Documentation Dropdown at bottom of generation panel */}
-                                        <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
-                                            <DocumentationDropdown language={language} />
                                         </div>
                                     </motion.div>
                                 )}
 
                                 {credits <= 0 && backendStatus.isConnected && !isGenerating && !podcast && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 text-center">
+                                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8 text-center">
                                         <div className="text-6xl mb-4">⚠️</div>
                                         <h3 className="text-xl font-semibold text-yellow-800 mb-2">{t.dailyLimitReached}</h3>
                                         <p className="text-yellow-700">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
-                                        <p className="text-yellow-600 text-sm mt-2">{t.creditsReset}</p>
-                                    </motion.div>
+                                    </div>
                                 )}
 
-                                {(isGenerating || (generationLogs.length > 0 && !podcast)) && generationLogs.length > 0 && (
-                                    <CollapsibleThinkingProcess 
-                                        logs={generationLogs} 
-                                        isComplete={!!podcast && !isGenerating} 
-                                        language={language} 
-                                        isExpanded={isLogsExpanded} 
-                                        onToggle={() => setIsLogsExpanded(!isLogsExpanded)} 
-                                    />
+                                {(isGenerating || generationLogs.length > 0) && generationLogs.length > 0 && (
+                                    <CollapsibleThinkingProcess logs={generationLogs} isComplete={!!podcast && !isGenerating} language={language} isExpanded={isLogsExpanded} onToggle={() => setIsLogsExpanded(!isLogsExpanded)} />
                                 )}
 
                                 {podcast && !isGenerating && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                                        <AudioPlayerWithCaptions 
-                                            audioUrl={podcast.audioUrl} 
-                                            script={podcast.script} 
-                                            onDownload={() => window.open(podcast.audioUrl, '_blank')} 
-                                            onNewPodcast={() => { 
-                                                if (eventSourceRef.current) eventSourceRef.current.close(); 
-                                                setPodcast(null); 
-                                                setTopic(""); 
-                                                setGenerationLogs([]); 
-                                                setError(null); 
-                                                if (session) fetchUserCredits(session.access_token); 
-                                            }} 
-                                        />
+                                    <div className="space-y-6">
+                                        <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} />
                                         <TranscriptViewer script={podcast.script} />
-                                    </motion.div>
+                                    </div>
                                 )}
 
+                                {/* Documentation Footer - at bottom of generation page */}
+                                <DocumentationFooter language={language} />
+
                                 {error && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-red-50 border border-red-200 rounded-2xl p-4 text-center">
+                                    <div className="bg-red-50 border border-red-200 rounded-2xl p-4 text-center mt-4">
                                         <p className="text-red-600">{error}</p>
                                         <button onClick={() => setError(null)} className="mt-2 text-sm text-red-500 underline">Dismiss</button>
-                                    </motion.div>
+                                    </div>
                                 )}
                             </>
                         )}
                         
                         {activeTab === "podcasts" && (
                             <div className="space-y-6">
-                                <h2 className="text-2xl font-bold text-gray-800">{t.yourPodcasts}</h2>
-                                
-                                {loadingPodcasts && (
-                                    <div className="text-center py-12 text-gray-500">{t.loading}</div>
-                                )}
-                                
+                                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{t.yourPodcasts}</h2>
+                                {loadingPodcasts && <div className="text-center py-12 text-gray-500">{t.loading}</div>}
                                 {!loadingPodcasts && userPodcasts.length === 0 && (
-                                    <div className="bg-gray-50 rounded-2xl p-12 text-center">
+                                    <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-12 text-center">
                                         <p className="text-gray-500">{t.noPodcasts}</p>
-                                        <button 
-                                            onClick={() => setActiveTab("home")} 
-                                            className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                                        >
-                                            {t.newPodcast}
-                                        </button>
+                                        <button onClick={() => setActiveTab("home")} className="mt-4 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:shadow-lg transition-all">{t.newPodcast}</button>
                                     </div>
                                 )}
-                                
                                 {userPodcasts.length > 0 && (
                                     <div className="grid gap-4">
                                         {userPodcasts.map(podcast => (
-                                            <PodcastCard 
-                                                key={podcast.job_id} 
-                                                podcast={podcast} 
-                                                onPlay={playPodcast} 
-                                                onDelete={deletePodcast} 
-                                                language={language} 
-                                            />
+                                            <PodcastCard key={podcast.job_id} podcast={podcast} onPlay={playPodcast} onDelete={deletePodcast} language={language} />
                                         ))}
                                     </div>
                                 )}
