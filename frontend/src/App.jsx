@@ -236,7 +236,7 @@ const GlobalStyles = () => (
         }
         
         body {
-            background: #030108;
+            background: #0a0118;
         }
         
         .thinking-process-scroll::-webkit-scrollbar {
@@ -244,12 +244,12 @@ const GlobalStyles = () => (
         }
         
         .thinking-process-scroll::-webkit-scrollbar-track {
-            background: rgba(139, 92, 246, 0.05);
+            background: rgba(168, 85, 247, 0.05);
             border-radius: 2px;
         }
         
         .thinking-process-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+            background: linear-gradient(180deg, #a855f7 0%, #ec4899 100%);
             border-radius: 2px;
         }
         
@@ -258,11 +258,11 @@ const GlobalStyles = () => (
         }
         
         .transcript-scroll::-webkit-scrollbar-track {
-            background: rgba(139, 92, 246, 0.05);
+            background: rgba(168, 85, 247, 0.05);
         }
         
         .transcript-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+            background: linear-gradient(180deg, #a855f7 0%, #ec4899 100%);
             border-radius: 2px;
         }
         
@@ -286,10 +286,10 @@ const GlobalStyles = () => (
         
         @keyframes pulse-glow {
             0%, 100% { 
-                box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.1);
+                box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), 0 0 40px rgba(236, 72, 153, 0.1);
             }
             50% { 
-                box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.2);
+                box-shadow: 0 0 30px rgba(168, 85, 247, 0.5), 0 0 60px rgba(236, 72, 153, 0.2);
             }
         }
         
@@ -336,16 +336,16 @@ const GlobalStyles = () => (
             height: 14px;
             width: 14px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #c084fc 0%, #ec4899 100%);
             cursor: pointer;
             margin-top: -5px;
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
         
         input[type="range"]::-webkit-slider-runnable-track {
             width: 100%;
             height: 4px;
-            background: rgba(139, 92, 246, 0.2);
+            background: rgba(168, 85, 247, 0.2);
             border-radius: 2px;
         }
         
@@ -364,7 +364,7 @@ const GlobalStyles = () => (
         }
         
         .input-glow:focus {
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3), 0 0 30px rgba(99, 102, 241, 0.15), inset 0 0 20px rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3), 0 0 30px rgba(168, 85, 247, 0.15), inset 0 0 20px rgba(168, 85, 247, 0.05);
         }
         
         .btn-mechanical {
@@ -377,6 +377,46 @@ const GlobalStyles = () => (
         
         .btn-mechanical:active {
             transform: scale(0.98);
+        }
+        
+        /* Grid pattern overlay */
+        .pattern-grid {
+            background-image: 
+                linear-gradient(rgba(168, 85, 247, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        
+        /* Radial gradient pattern */
+        .pattern-radial {
+            background-image: radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+                              radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.04) 0%, transparent 60%);
+        }
+        
+        /* Noise texture overlay */
+        .pattern-noise {
+            position: relative;
+        }
+        
+        .pattern-noise::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.015;
+            pointer-events: none;
+        }
+        
+        /* Diagonal lines pattern */
+        .pattern-diagonal {
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(168, 85, 247, 0.02) 10px,
+                rgba(168, 85, 247, 0.02) 11px
+            );
         }
     `}</style>
 );
@@ -392,10 +432,10 @@ const DocumentationFooter = ({ language }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className="group w-full flex items-center justify-between py-5 px-6 glass-card rounded-2xl transition-all duration-300 hover:bg-white/[0.03] hover:border-indigo-500/20"
+                className="group w-full flex items-center justify-between py-5 px-6 glass-card rounded-2xl transition-all duration-300 hover:bg-white/[0.03] hover:border-purple-500/20"
             >
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-white">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20 text-white">
                         <DocumentationIcon />
                     </div>
                     <div className="text-left">
@@ -406,7 +446,7 @@ const DocumentationFooter = ({ language }) => {
                 <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="text-indigo-400"
+                    className="text-purple-400"
                 >
                     <ChevronDownIcon />
                 </motion.div>
@@ -424,11 +464,11 @@ const DocumentationFooter = ({ language }) => {
                         <div className="mt-4 p-6 glass-card-elevated rounded-2xl shadow-2xl shadow-black/20">
                             <div className="mb-8">
                                 <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3 tracking-tight">
-                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">&#x1F3D7;</span>
+                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center text-white text-sm shadow-lg shadow-purple-500/20">&#x1F3D7;</span>
                                     {t.architecture}
                                 </h4>
                                 <div className="bg-black/40 rounded-xl p-5 overflow-x-auto border border-white/[0.04]">
-                                    <pre className="text-xs text-indigo-200/80 font-mono whitespace-pre-wrap leading-relaxed tracking-wide">
+                                    <pre className="text-xs text-purple-200/80 font-mono whitespace-pre-wrap leading-relaxed tracking-wide">
 {`
 ┌─────────────────────────────────────────────────────────────┐
 │                   FRONTEND (React + Vite)                   │
@@ -469,24 +509,24 @@ const DocumentationFooter = ({ language }) => {
                             
                             <div className="mb-8">
                                 <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3 tracking-tight">
-                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-sm shadow-lg shadow-cyan-500/20">&#x1F50C;</span>
+                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white text-sm shadow-lg shadow-cyan-500/20">&#x1F50C;</span>
                                     {t.apiEndpoints}
                                 </h4>
                                 <div className="grid gap-3">
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
                                         <code className="text-sm font-mono text-cyan-400 font-semibold tracking-wide">POST /generate-podcast</code>
                                         <p className="text-xs text-white/40 mt-2 tracking-wide">Starts podcast generation. Returns job_id for progress tracking.</p>
                                     </div>
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
-                                        <code className="text-sm font-mono text-violet-400 font-semibold tracking-wide">GET /stream-progress/{'{job_id}'}</code>
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
+                                        <code className="text-sm font-mono text-fuchsia-400 font-semibold tracking-wide">GET /stream-progress/{'{job_id}'}</code>
                                         <p className="text-xs text-white/40 mt-2 tracking-wide">Server-Sent Events endpoint for real-time progress updates.</p>
                                     </div>
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
                                         <code className="text-sm font-mono text-cyan-400 font-semibold tracking-wide">GET /user/credits</code>
                                         <p className="text-xs text-white/40 mt-2 tracking-wide">Returns daily credit usage and remaining credits.</p>
                                     </div>
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
-                                        <code className="text-sm font-mono text-violet-400 font-semibold tracking-wide">GET /user/podcasts</code>
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
+                                        <code className="text-sm font-mono text-fuchsia-400 font-semibold tracking-wide">GET /user/podcasts</code>
                                         <p className="text-xs text-white/40 mt-2 tracking-wide">Returns user&apos;s podcast history.</p>
                                     </div>
                                 </div>
@@ -523,7 +563,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
         >
             <button
                 onClick={onToggle}
-                className="w-full bg-gradient-to-r from-indigo-600/90 to-violet-600/90 px-6 py-5 flex items-center justify-between hover:from-indigo-500/90 hover:to-violet-500/90 transition-all"
+                className="w-full bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 px-6 py-5 flex items-center justify-between hover:from-purple-500/90 hover:via-fuchsia-500/90 hover:to-purple-500/90 transition-all"
             >
                 <div className="flex items-center gap-4">
                     <div className={`w-3 h-3 ${isComplete ? 'bg-emerald-400' : 'bg-amber-400'} rounded-full animate-pulse shadow-lg ${isComplete ? 'shadow-emerald-400/50' : 'shadow-amber-400/50'}`}></div>
@@ -556,7 +596,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                                     className="mb-4 pb-3 border-b border-white/[0.04] last:border-0"
                                 >
                                     <div className="flex items-start gap-4">
-                                        <span className="text-indigo-400/80 text-xs font-mono tracking-wider whitespace-nowrap">
+                                        <span className="text-purple-400/80 text-xs font-mono tracking-wider whitespace-nowrap">
                                             {log.timestamp ? new Date(log.timestamp * 1000).toLocaleTimeString() : new Date().toLocaleTimeString()}
                                         </span>
                                         <span className={`text-sm leading-relaxed ${log.status === 'error' ? 'text-red-400' : 'text-white/70'}`}>
@@ -691,11 +731,11 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         const centerY = canvas.height / 2;
         const centerX = canvas.width / 2;
         
-        // Gradient from indigo to violet
+        // Gradient from purple to fuchsia matching logo
         const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-        gradient.addColorStop(0, '#818cf8');
-        gradient.addColorStop(0.5, '#a78bfa');
-        gradient.addColorStop(1, '#818cf8');
+        gradient.addColorStop(0, '#c084fc');
+        gradient.addColorStop(0.5, '#e879f9');
+        gradient.addColorStop(1, '#c084fc');
         ctx.fillStyle = gradient;
         
         for (let i = 0; i < usableLength; i++) {
@@ -772,7 +812,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
             animate={{ opacity: 1, y: 0 }}
             className="glass-card-elevated rounded-2xl overflow-hidden shadow-2xl shadow-black/40"
         >
-            <div className="bg-gradient-to-r from-indigo-600/90 to-violet-600/90 px-6 py-5">
+            <div className="bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 px-6 py-5">
                 <h3 className="text-white font-semibold flex items-center gap-3 tracking-tight">
                     <span className="text-xl">&#x1F3A7;</span> Now Playing
                 </h3>
@@ -802,7 +842,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                             onClick={() => setIsPlaying(!isPlaying)} 
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-xl shadow-indigo-500/30 animate-pulse-glow"
+                            className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-purple-600 text-white flex items-center justify-center shadow-xl shadow-purple-500/30 animate-pulse-glow"
                         >
                             {isPlaying ? <PauseIcon /> : <PlayIcon />}
                         </motion.button>
@@ -832,7 +872,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                             onClick={onDownload} 
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2 text-sm btn-mechanical"
+                            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white hover:from-purple-500 hover:via-fuchsia-500 hover:to-purple-500 shadow-lg shadow-purple-500/20 transition-all flex items-center gap-2 text-sm btn-mechanical"
                         >
                             <DownloadIcon /> Download
                         </motion.button>
@@ -842,9 +882,9 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                 <div className="mb-6 bg-black/40 rounded-xl p-5 border border-white/[0.04]">
                     <canvas ref={canvasRef} width="800" height="60" className="w-full h-16 rounded-md mb-4" />
                     <div className="flex items-center gap-4">
-                        <span className="text-xs text-indigo-400 font-mono tracking-wider">{formatTime(currentTime)}</span>
+                        <span className="text-xs text-purple-400 font-mono tracking-wider">{formatTime(currentTime)}</span>
                         <input type="range" min="0" max={duration || 100} value={currentTime} onChange={handleSeek} className="flex-1 cursor-pointer" />
-                        <span className="text-xs text-indigo-400 font-mono tracking-wider">{formatTime(duration)}</span>
+                        <span className="text-xs text-purple-400 font-mono tracking-wider">{formatTime(duration)}</span>
                     </div>
                 </div>
 
@@ -885,7 +925,7 @@ const TranscriptViewer = ({ script }) => {
             transition={{ delay: 0.1 }}
             className="glass-card-elevated rounded-2xl overflow-hidden shadow-2xl shadow-black/30"
         >
-            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-violet-600/80 to-indigo-600/80 px-6 py-5 flex items-center justify-between hover:from-violet-500/80 hover:to-indigo-500/80 transition-all">
+            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-fuchsia-600/80 via-purple-600/80 to-fuchsia-600/80 px-6 py-5 flex items-center justify-between hover:from-fuchsia-500/80 hover:via-purple-500/80 hover:to-fuchsia-500/80 transition-all">
                 <h3 className="font-semibold text-white flex items-center gap-3 tracking-tight">&#x1F4C4; Full Transcript</h3>
                 <span className="text-white/80">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
             </button>
@@ -893,7 +933,7 @@ const TranscriptViewer = ({ script }) => {
                 {isExpanded && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
                         <div className="p-6 max-h-[400px] overflow-y-auto bg-black/30 transcript-scroll">
-                            <div className="text-white/70 font-sans text-sm leading-relaxed prose prose-invert max-w-none prose-headings:text-white prose-strong:text-indigo-300">
+                            <div className="text-white/70 font-sans text-sm leading-relaxed prose prose-invert max-w-none prose-headings:text-white prose-strong:text-purple-300">
                                 <ReactMarkdown>{cleanScript}</ReactMarkdown>
                             </div>
                         </div>
@@ -925,7 +965,7 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
         <div className="glass-card rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
                 <div>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">{credits}</div>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">{credits}</div>
                     <div className="text-xs text-white/40 uppercase tracking-widest">{t.creditsLeft}</div>
                 </div>
                 <div className="text-right">
@@ -940,7 +980,7 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
                     initial={{ width: 0 }}
                     animate={{ width: `${(creditsUsed / dailyLimit) * 100}%` }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full" 
+                    className="h-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-500 rounded-full" 
                 />
             </div>
         </div>
@@ -959,30 +999,19 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ y: -2 }}
-            className="glass-card rounded-xl p-5 hover:bg-white/[0.03] hover:border-indigo-500/20 transition-all duration-300 group"
+            className="glass-card rounded-xl p-5 hover:bg-white/[0.03] hover:border-cyan-500/20 transition-all duration-300 group"
         >
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-center">
                 <div className="flex-1">
                     <h3 className="font-semibold text-white text-lg tracking-tight">{podcast.topic}</h3>
                     <p className="text-xs text-white/30 mt-1 font-mono tracking-wider">{date}</p>
                 </div>
-                <motion.button 
-                    onClick={() => onDelete(podcast.job_id)} 
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-white/30 hover:text-red-400 transition-colors"
-                >
-                    <DeleteIcon />
-                </motion.button>
-            </div>
-            <p className="text-sm text-white/50 mb-5 line-clamp-2 leading-relaxed">{podcast.script_preview}</p>
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                     <motion.button 
                         onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/20"
+                        className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white flex items-center justify-center shadow-lg shadow-violet-500/20"
                     >
                         {isPlaying ? <PauseIcon /> : <PlayIcon />}
                     </motion.button>
@@ -990,19 +1019,27 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
                     <motion.button 
                         onClick={() => window.open(podcast.audio_url, '_blank')} 
                         whileHover={{ scale: 1.1 }}
-                        className="text-white/40 hover:text-white transition-colors"
+                        className="text-white/40 hover:text-cyan-400 transition-colors"
                     >
                         <DownloadIcon />
                     </motion.button>
+                    <motion.button 
+                        onClick={() => onPlay(podcast)} 
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="px-5 py-2.5 rounded-xl bg-white/[0.03] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all text-sm font-medium border border-white/[0.06] btn-mechanical"
+                    >
+                        {t.play}
+                    </motion.button>
+                    <motion.button 
+                        onClick={() => onDelete(podcast.job_id)} 
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="text-white/30 hover:text-red-400 transition-colors"
+                    >
+                        <DeleteIcon />
+                    </motion.button>
                 </div>
-                <motion.button 
-                    onClick={() => onPlay(podcast)} 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-5 py-2.5 rounded-xl bg-white/[0.03] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all text-sm font-medium border border-white/[0.06] btn-mechanical"
-                >
-                    {t.play} →
-                </motion.button>
             </div>
         </motion.div>
     );
@@ -1021,24 +1058,24 @@ const AuthScreen = ({ onAuth, setSession }) => {
 
     const carouselImages = [
         {
-            url: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&h=600&fit=crop",
+            url: "https://fairoaksrecoverycenter.com/wp-content/uploads/2025/04/listening-podcast-1000x667-1.jpg",
             quote: "Create professional podcasts in minutes with AI",
-            benefit: "&#x1F399; AI-Powered Generation"
+            benefit: "AI-Powered Generation"
         },
         {
-            url: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop",
+            url: "https://www.salon.com/app/uploads/2019/12/man-with-headphones-and-coffee-12271.jpg",
             quote: "High-quality audio with natural voices",
-            benefit: "&#x1F5E3; Natural Text-to-Speech"
+            benefit: "Natural Text-to-Speech"
         },
         {
-            url: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&h=600&fit=crop",
+            url: "https://miro.medium.com/v2/resize:fit:1200/1*7nJmYy0iBTFrBRnoGJ29ww.jpeg",
             quote: "Perfect for students, creators, and professionals",
-            benefit: "&#x1F4DA; Learn Anywhere, Anytime"
+            benefit: "Learn Anywhere, Anytime"
         },
         {
-            url: "https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=800&h=600&fit=crop",
+            url: "https://cdn.prod.website-files.com/5d70d85d6d5a384776dc97e4/64474a1c4fbf67541fda4e3e_listening%20to%20podcasts.webp",
             quote: "Save and access your podcasts anytime",
-            benefit: "&#x1F4BE; Cloud Storage Included"
+            benefit: "Cloud Storage Included"
         }
     ];
 
@@ -1096,16 +1133,16 @@ const AuthScreen = ({ onAuth, setSession }) => {
     const currentImage = carouselImages[currentImageIndex];
 
     return (
-        <div className="min-h-screen bg-[#030108] flex">
+        <div className="min-h-screen bg-[#0a0118] flex pattern-grid pattern-radial">
             {/* Left Side - Image Carousel */}
             <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/90 via-[#030108]/80 to-violet-950/90 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-950/90 via-[#0a0118]/80 to-fuchsia-950/90 z-10"></div>
                 <img 
                     src={currentImage.url}
                     alt="Podcast Studio"
                     className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-60'}`}
                 />
-                <div className="absolute bottom-0 left-0 right-0 z-20 p-12 bg-gradient-to-t from-[#030108] via-[#030108]/90 to-transparent">
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-12 bg-gradient-to-t from-[#0a0118] via-[#0a0118]/90 to-transparent">
                     <motion.p 
                         key={currentImageIndex}
                         initial={{ opacity: 0, y: 20 }}
@@ -1126,15 +1163,15 @@ const AuthScreen = ({ onAuth, setSession }) => {
                                         setTimeout(() => setIsAnimating(false), 100);
                                     }, 300);
                                 }}
-                                className={`h-1 rounded-full transition-all duration-500 ${idx === currentImageIndex ? 'w-10 bg-gradient-to-r from-cyan-400 to-indigo-500' : 'w-4 bg-white/20'}`}
+                                className={`h-1 rounded-full transition-all duration-500 ${idx === currentImageIndex ? 'w-10 bg-gradient-to-r from-cyan-400 via-purple-500 to-fuchsia-500' : 'w-4 bg-white/20'}`}
                             />
                         ))}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {carouselImages.map((img, idx) => (
-                            <div key={idx} className="flex items-center gap-3 text-white/50 text-sm">
+                            <div className="flex items-center gap-3 text-white/50 text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-indigo-500"></span>
-                                <span dangerouslySetInnerHTML={{ __html: img.benefit }} />
+                                <span>{img.benefit}</span>
                             </div>
                         ))}
                     </div>
@@ -1142,10 +1179,11 @@ const AuthScreen = ({ onAuth, setSession }) => {
             </div>
 
             {/* Right Side - Login Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative pattern-diagonal">
                 {/* Ambient glow effects */}
-                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-violet-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-fuchsia-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-600/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
                 
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -1155,13 +1193,13 @@ const AuthScreen = ({ onAuth, setSession }) => {
                 >
                     <div className="text-center mb-10">
                         <div className="relative inline-block">
-                            <img src={logoImage} alt="Logo" className="w-20 h-20 mx-auto mb-5 rounded-2xl shadow-2xl shadow-indigo-500/30 object-cover" />
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 blur-xl"></div>
+                            <img src={logoImage} alt="Logo" className="w-20 h-20 mx-auto mb-5 rounded-2xl shadow-2xl shadow-purple-500/30 object-cover" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 blur-xl"></div>
                         </div>
                         <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Podcast Studio</h1>
                         <p className="text-white/40 tracking-wide">AI-Powered Podcast Generator</p>
                         <div className="mt-4 inline-block glass-card rounded-full px-4 py-2">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 text-sm font-semibold">3 Free Credits Daily</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-fuchsia-400 text-sm font-semibold">3 Free Credits Daily</span>
                         </div>
                     </div>
 
@@ -1181,7 +1219,7 @@ const AuthScreen = ({ onAuth, setSession }) => {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] text-white placeholder-white/30 border border-white/[0.06] focus:outline-none focus:border-indigo-500/50 transition-all input-glow"
+                                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] text-white placeholder-white/30 border border-white/[0.06] focus:outline-none focus:border-purple-500/50 transition-all input-glow"
                                 placeholder="Email address"
                                 required
                             />
@@ -1191,7 +1229,7 @@ const AuthScreen = ({ onAuth, setSession }) => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] text-white placeholder-white/30 border border-white/[0.06] focus:outline-none focus:border-indigo-500/50 transition-all input-glow"
+                                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] text-white placeholder-white/30 border border-white/[0.06] focus:outline-none focus:border-purple-500/50 transition-all input-glow"
                                 placeholder="Password"
                                 required
                             />
@@ -1201,7 +1239,7 @@ const AuthScreen = ({ onAuth, setSession }) => {
                             disabled={loading}
                             whileHover={{ scale: 1.01 }}
                             whileTap={{ scale: 0.99 }}
-                            className="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold hover:from-indigo-500 hover:to-violet-500 transition-all disabled:opacity-50 shadow-xl shadow-indigo-500/20"
+                            className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white font-semibold hover:from-purple-500 hover:via-fuchsia-500 hover:to-purple-500 transition-all disabled:opacity-50 shadow-xl shadow-purple-500/20"
                         >
                             {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
                         </motion.button>
@@ -1211,7 +1249,7 @@ const AuthScreen = ({ onAuth, setSession }) => {
                                 <div className="w-full border-t border-white/[0.06]"></div>
                             </div>
                             <div className="relative flex justify-center text-xs">
-                                <span className="px-4 bg-[#030108] text-white/30 uppercase tracking-widest">Or continue with</span>
+                                <span className="px-4 bg-[#0a0118] text-white/30 uppercase tracking-widest">Or continue with</span>
                             </div>
                         </div>
 
@@ -1231,7 +1269,7 @@ const AuthScreen = ({ onAuth, setSession }) => {
                             <button
                                 type="button"
                                 onClick={() => { setIsLogin(!isLogin); setError(null); }}
-                                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 hover:from-cyan-300 hover:to-indigo-300 font-semibold"
+                                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-fuchsia-400 hover:from-cyan-300 hover:via-purple-300 hover:to-fuchsia-300 font-semibold"
                             >
                                 {isLogin ? "Sign Up" : "Sign In"}
                             </button>
@@ -1426,12 +1464,12 @@ export default function App() {
     return (
         <>
             <GlobalStyles />
-            <div className="flex h-screen bg-[#030108]">
+            <div className="flex h-screen bg-[#0a0118] pattern-grid">
                 {/* Sidebar */}
-                <div className="w-72 bg-[#070414] border-r border-white/[0.04] flex flex-col">
+                <div className="w-72 bg-[#0d0620] border-r border-white/[0.04] flex flex-col pattern-noise">
                     <div className="p-6 border-b border-white/[0.04]">
                         <div className="relative inline-block w-full">
-                            <img src={logoImage} alt="Logo" className="w-14 h-14 rounded-xl mx-auto mb-4 shadow-xl shadow-indigo-500/20" />
+                            <img src={logoImage} alt="Logo" className="w-14 h-14 rounded-xl mx-auto mb-4 shadow-xl shadow-purple-500/20" />
                         </div>
                         <h1 className="text-xl font-bold text-center text-white tracking-tight">
                             {t.appTitle}
@@ -1444,7 +1482,7 @@ export default function App() {
                             onClick={() => setActiveTab("home")} 
                             whileHover={{ x: 4 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
                         >
                             <HomeIcon /> <span className="font-medium">{t.home}</span>
                         </motion.button>
@@ -1452,7 +1490,7 @@ export default function App() {
                             onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} 
                             whileHover={{ x: 4 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
                         >
                             <PodcastIcon /> <span className="font-medium">{t.yourPodcasts}</span>
                         </motion.button>
@@ -1465,7 +1503,7 @@ export default function App() {
                                 onClick={() => setLanguage('en')} 
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'en' ? 'bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
+                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'en' ? 'bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
                             >
                                 English
                             </motion.button>
@@ -1473,7 +1511,7 @@ export default function App() {
                                 onClick={() => setLanguage('hi')} 
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'hi' ? 'bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
+                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'hi' ? 'bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
                             >
                                 हिंदी
                             </motion.button>
@@ -1490,10 +1528,11 @@ export default function App() {
                 </div>
                 
                 {/* Main Content */}
-                <div className="flex-1 overflow-y-auto relative">
+                <div className="flex-1 overflow-y-auto relative pattern-radial">
                     {/* Ambient background effects */}
-                    <div className="fixed top-0 right-0 w-1/2 h-1/2 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none"></div>
-                    <div className="fixed bottom-0 left-1/4 w-1/3 h-1/3 bg-violet-600/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="fixed top-0 right-0 w-1/2 h-1/2 bg-purple-600/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="fixed bottom-0 left-1/4 w-1/3 h-1/3 bg-fuchsia-600/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="fixed top-1/2 right-1/4 w-1/4 h-1/4 bg-cyan-600/3 rounded-full blur-3xl pointer-events-none"></div>
                     
                     <div className="max-w-4xl mx-auto px-6 py-10 relative z-10">
                         {activeTab === "home" && (
@@ -1516,23 +1555,23 @@ export default function App() {
                                                     onBlur={() => setInputFocused(false)}
                                                     disabled={isGenerating} 
                                                     placeholder={t.topicPlaceholder} 
-                                                    className="w-full px-6 py-4 rounded-xl bg-black/40 text-white placeholder-white/25 border border-white/[0.06] focus:outline-none focus:border-indigo-500/50 transition-all input-glow text-lg" 
+                                                    className="w-full px-6 py-4 rounded-xl bg-black/40 text-white placeholder-white/25 border border-white/[0.06] focus:outline-none focus:border-purple-500/50 transition-all input-glow text-lg" 
                                                 />
                                                 {inputFocused && (
                                                     <motion.div 
                                                         initial={{ opacity: 0, scale: 0.95 }}
                                                         animate={{ opacity: 1, scale: 1 }}
-                                                        className="absolute inset-0 -z-10 rounded-xl bg-indigo-500/10 blur-2xl"
+                                                        className="absolute inset-0 -z-10 rounded-xl bg-purple-500/10 blur-2xl"
                                                     />
                                                 )}
                                             </div>
-                                            <motion.button 
-                                                onClick={generatePodcast} 
-                                                disabled={!topic.trim() || isGenerating || credits <= 0} 
-                                                whileHover={{ scale: 1.02 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-xl btn-mechanical ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-white/[0.03] text-white/30 cursor-not-allowed border border-white/[0.04]' : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-indigo-500/20'}`}
-                                            >
+                                        <motion.button 
+                                            onClick={generatePodcast} 
+                                            disabled={!topic.trim() || isGenerating || credits <= 0} 
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-xl btn-mechanical ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-white/[0.03] text-white/30 cursor-not-allowed border border-white/[0.04]' : 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white hover:from-purple-500 hover:via-fuchsia-500 hover:to-purple-500 shadow-purple-500/20'}`}
+                                        >
                                                 {isGenerating ? t.generating : t.generateButton}
                                             </motion.button>
                                         </div>
@@ -1545,7 +1584,7 @@ export default function App() {
                                                         onClick={() => setTopic(sample)} 
                                                         whileHover={{ scale: 1.05, y: -2 }}
                                                         whileTap={{ scale: 0.98 }}
-                                                        className="px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] text-white/50 hover:text-white rounded-full text-sm transition-all border border-white/[0.04] hover:border-indigo-500/30"
+                                                        className="px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] text-white/50 hover:text-white rounded-full text-sm transition-all border border-white/[0.04] hover:border-purple-500/30"
                                                     >
                                                         {sample}
                                                     </motion.button>
@@ -1602,7 +1641,7 @@ export default function App() {
                                 <h2 className="text-3xl font-bold text-white tracking-tight">{t.yourPodcasts}</h2>
                                 {loadingPodcasts && (
                                     <div className="text-center py-16 text-white/40">
-                                        <div className="w-8 h-8 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4"></div>
+                                        <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
                                         {t.loading}
                                     </div>
                                 )}
@@ -1613,7 +1652,7 @@ export default function App() {
                                             onClick={() => setActiveTab("home")} 
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl hover:from-indigo-500 hover:to-violet-500 transition-all shadow-xl shadow-indigo-500/20"
+                                            className="px-8 py-3 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white rounded-xl hover:from-purple-500 hover:via-fuchsia-500 hover:to-purple-500 transition-all shadow-xl shadow-purple-500/20"
                                         >
                                             {t.newPodcast}
                                         </motion.button>
