@@ -236,12 +236,12 @@ const GlobalStyles = () => (
         }
         
         .thinking-process-scroll::-webkit-scrollbar-track {
-            background: #4c1d95;
+            background: #1a0a2e;
             border-radius: 3px;
         }
         
         .thinking-process-scroll::-webkit-scrollbar-thumb {
-            background: #c084fc;
+            background: #7c3aed;
             border-radius: 3px;
         }
         
@@ -254,15 +254,6 @@ const GlobalStyles = () => (
             animation: float 6s ease-in-out infinite;
         }
         
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.5); }
-        }
-        
-        .animate-glow {
-            animation: glow 3s ease-in-out infinite;
-        }
-        
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -272,18 +263,22 @@ const GlobalStyles = () => (
             animation: spin-slow 1s linear infinite;
         }
         
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
-        .animate-pulse-slow {
-            animation: pulse-slow 4s ease-in-out infinite;
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
         }
         
-        .bg-grid-pattern {
-            background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.15) 1px, transparent 1px);
-            background-size: 32px 32px;
+        .carousel-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        .carousel-slide-out {
+            animation: slideOut 0.5s ease-out forwards;
         }
     `}</style>
 );
@@ -300,7 +295,7 @@ const DocumentationFooter = ({ language }) => {
                 className="group w-full flex items-center justify-between py-4 px-6 bg-purple-900/50 hover:bg-purple-800/50 backdrop-blur-sm rounded-2xl transition-all duration-300 border border-purple-700/30"
             >
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center shadow-lg animate-glow text-white">
+                    <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center shadow-lg text-white">
                         <DocumentationIcon />
                     </div>
                     <div className="text-left">
@@ -327,10 +322,9 @@ const DocumentationFooter = ({ language }) => {
                         className="overflow-hidden"
                     >
                         <div className="mt-4 p-6 bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 shadow-xl">
-                            {/* Architecture Section */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                    <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🏗️</span>
+                                    <span className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-sm">🏗️</span>
                                     {t.architecture}
                                 </h4>
                                 <div className="bg-purple-950/50 rounded-xl p-5 overflow-x-auto">
@@ -373,10 +367,9 @@ const DocumentationFooter = ({ language }) => {
                                 </div>
                             </div>
                             
-                            {/* API Endpoints */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                    <span className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm">🔌</span>
+                                    <span className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-sm">🔌</span>
                                     {t.apiEndpoints}
                                 </h4>
                                 <div className="grid gap-2">
@@ -399,7 +392,6 @@ const DocumentationFooter = ({ language }) => {
                                 </div>
                             </div>
                             
-                            {/* Footer */}
                             <div className="pt-6 text-center border-t border-purple-800/30">
                                 <p className="text-purple-400 font-semibold">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
                                 <p className="text-sm text-purple-500 mt-1">Developed by Aditya Jain</p>
@@ -427,7 +419,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
         <div className="bg-purple-950/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-700/30 shadow-2xl mb-6">
             <button
                 onClick={onToggle}
-                className="w-full bg-gradient-to-r from-purple-700 to-pink-700 px-6 py-4 flex items-center justify-between hover:opacity-90 transition-all"
+                className="w-full bg-purple-800 px-6 py-4 flex items-center justify-between hover:bg-purple-700 transition-all"
             >
                 <div className="flex items-center gap-3">
                     <div className={`w-2 h-2 ${isComplete ? 'bg-green-400' : 'bg-yellow-400'} rounded-full animate-pulse`}></div>
@@ -478,7 +470,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
     );
 };
 
-// --- Audio Player with Waveform and Captions (Restored from original) ---
+// --- Audio Player with Waveform and Captions ---
 const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentCaption, setCurrentCaption] = useState("");
@@ -595,7 +587,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         const centerY = canvas.height / 2;
         const centerX = canvas.width / 2;
         
-        ctx.fillStyle = '#c084fc';
+        ctx.fillStyle = '#a855f7';
         
         for (let i = 0; i < usableLength; i++) {
             const value = dataArray[i];
@@ -667,7 +659,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
 
     return (
         <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 overflow-hidden">
-            <div className="bg-gradient-to-r from-purple-700 to-pink-700 px-6 py-4">
+            <div className="bg-purple-800 px-6 py-4">
                 <h3 className="text-white font-semibold flex items-center gap-2">
                     <span>🎧</span> Now Playing
                 </h3>
@@ -688,7 +680,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                         <button onClick={skipBackward} className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white hover:bg-purple-800 rounded-full transition-colors">
                             <RewindIcon />
                         </button>
-                        <button onClick={() => setIsPlaying(!isPlaying)} className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:shadow-lg hover:scale-105 transition-all">
+                        <button onClick={() => setIsPlaying(!isPlaying)} className="w-14 h-14 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-500 hover:shadow-lg hover:scale-105 transition-all">
                             {isPlaying ? <PauseIcon /> : <PlayIcon />}
                         </button>
                         <button onClick={skipForward} className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white hover:bg-purple-800 rounded-full transition-colors">
@@ -703,7 +695,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                         <button onClick={onNewPodcast} className="px-4 py-2 rounded-xl bg-purple-800/50 text-purple-200 hover:bg-purple-700 transition-all flex items-center gap-2 text-sm border border-purple-600/50">
                             <NewIcon /> New
                         </button>
-                        <button onClick={onDownload} className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg transition-all flex items-center gap-2 text-sm">
+                        <button onClick={onDownload} className="px-4 py-2 rounded-xl bg-purple-600 text-white hover:bg-purple-500 hover:shadow-lg transition-all flex items-center gap-2 text-sm">
                             <DownloadIcon /> Download
                         </button>
                     </div>
@@ -746,7 +738,7 @@ const TranscriptViewer = ({ script }) => {
 
     return (
         <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 overflow-hidden">
-            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-purple-800/50 to-pink-800/50 px-6 py-4 flex items-center justify-between hover:from-purple-800 hover:to-pink-800 transition-all">
+            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-purple-800/50 px-6 py-4 flex items-center justify-between hover:bg-purple-800 transition-all">
                 <h3 className="font-semibold text-white flex items-center gap-2">📄 Full Transcript</h3>
                 <span className="text-purple-400">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
             </button>
@@ -783,7 +775,7 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
     };
     
     return (
-        <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-xl p-3 border border-purple-700/30">
+        <div className="bg-purple-900/50 rounded-xl p-3 border border-purple-700/30">
             <div className="flex items-center justify-between">
                 <div>
                     <div className="text-2xl font-bold text-pink-400">{credits}</div>
@@ -797,13 +789,13 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
                 </div>
             </div>
             <div className="mt-2 h-2 bg-purple-800 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500" style={{ width: `${(creditsUsed / dailyLimit) * 100}%` }} />
+                <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{ width: `${(creditsUsed / dailyLimit) * 100}%` }} />
             </div>
         </div>
     );
 };
 
-// --- Podcast Card Component (Redesigned) ---
+// --- Podcast Card Component ---
 const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     const t = translations[language];
     const [isPlaying, setIsPlaying] = useState(false);
@@ -824,7 +816,7 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
             <p className="text-sm text-purple-200 mb-4 line-clamp-2">{podcast.script_preview}</p>
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <button onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:shadow-md transition-all">
+                    <button onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-500 hover:shadow-md transition-all">
                         {isPlaying ? <PauseIcon /> : <PlayIcon />}
                     </button>
                     <audio ref={audioRef} src={podcast.audio_url} onEnded={() => setIsPlaying(false)} />
@@ -840,33 +832,77 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     );
 };
 
-// --- Authentication Component (with Google Sign In) ---
-const AuthScreen = ({ onAuth, setSession, backendStatus }) => {
+// --- Authentication Component (Redesigned with Image Slider) ---
+const AuthScreen = ({ onAuth, setSession }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
     const t = translations.en;
+
+    const carouselImages = [
+        {
+            url: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&h=600&fit=crop",
+            quote: "Create professional podcasts in minutes with AI",
+            benefit: "🎙️ AI-Powered Generation"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop",
+            quote: "High-quality audio with natural voices",
+            benefit: "🗣️ Natural Text-to-Speech"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&h=600&fit=crop",
+            quote: "Perfect for students, creators, and professionals",
+            benefit: "📚 Learn Anywhere, Anytime"
+        },
+        {
+            url: "https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=800&h=600&fit=crop",
+            quote: "Save and access your podcasts anytime",
+            benefit: "💾 Cloud Storage Included"
+        }
+    ];
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setIsAnimating(true);
+            setTimeout(() => {
+                setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
+                setTimeout(() => setIsAnimating(false), 100);
+            }, 300);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!backendStatus.isConnected) { setError(t.errors.backendOffline); return; }
         setLoading(true);
         setError(null);
         try {
             let result;
-            if (isLogin) result = await supabase.auth.signInWithPassword({ email, password });
-            else result = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } });
+            if (isLogin) {
+                result = await supabase.auth.signInWithPassword({ email, password });
+            } else {
+                result = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin } });
+            }
             if (result.error) throw result.error;
-            if (result.data.session) { setSession(result.data.session); onAuth(true); }
-            else if (result.data.user && !isLogin) setError("Check your email for confirmation link.");
-        } catch (err) { setError(err.message); }
-        finally { setLoading(false); }
+            if (result.data.session) {
+                setSession(result.data.session);
+                onAuth(true);
+            } else if (result.data.user && !isLogin) {
+                setError("Check your email for confirmation link.");
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleGoogleSignIn = async () => {
-        if (!backendStatus.isConnected) { setError(t.errors.backendOffline); return; }
         setLoading(true);
         setError(null);
         try {
@@ -875,50 +911,127 @@ const AuthScreen = ({ onAuth, setSession, backendStatus }) => {
                 options: { redirectTo: window.location.origin }
             });
             if (error) throw error;
-        } catch (err) { setError(err.message); setLoading(false); }
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
     };
 
+    const currentImage = carouselImages[currentImageIndex];
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-pink-900 relative overflow-hidden">
-            <div className="absolute inset-0 bg-grid-pattern opacity-20"></div>
-            <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slow"></div>
-            
-            <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-purple-900/30 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-purple-500/30 shadow-2xl">
-                    <div className={`mb-4 text-center text-sm ${backendStatus.isConnected ? 'text-green-400' : 'text-red-400'}`}>
-                        {backendStatus.isConnected ? '✓ Backend connected' : '⚠ Backend offline'}
+        <div className="min-h-screen bg-purple-950 flex">
+            {/* Left Side - Image Carousel */}
+            <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+                <div className="absolute inset-0 bg-purple-950/70 z-10"></div>
+                <img 
+                    src={currentImage.url}
+                    alt="Podcast Studio"
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'}`}
+                />
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-12 bg-gradient-to-t from-purple-950 via-purple-950/80 to-transparent">
+                    <p className={`text-white text-2xl font-bold mb-4 transition-all duration-500 ${isAnimating ? 'opacity-0 transform translate-y-10' : 'opacity-100 transform translate-y-0'}`}>
+                        {currentImage.quote}
+                    </p>
+                    <div className="flex gap-2">
+                        {carouselImages.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => {
+                                    setIsAnimating(true);
+                                    setTimeout(() => {
+                                        setCurrentImageIndex(idx);
+                                        setTimeout(() => setIsAnimating(false), 100);
+                                    }, 300);
+                                }}
+                                className={`h-1 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'w-8 bg-pink-500' : 'w-4 bg-purple-500'}`}
+                            />
+                        ))}
                     </div>
+                    <div className="mt-8 grid grid-cols-2 gap-4">
+                        {carouselImages.map((img, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-purple-300 text-sm">
+                                <span className="w-1.5 h-1.5 rounded-full bg-pink-500"></span>
+                                {img.benefit}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Side - Login Form */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+                <div className="max-w-md w-full">
                     <div className="text-center mb-8">
-                        <img src={logoImage} alt="Logo" className="w-24 h-24 mx-auto mb-4 rounded-full shadow-lg object-cover animate-float" />
+                        <img src={logoImage} alt="Logo" className="w-20 h-20 mx-auto mb-4 rounded-full shadow-lg object-cover" />
                         <h1 className="text-3xl font-bold text-white mb-2">Podcast Studio</h1>
                         <p className="text-purple-300">AI-Powered Podcast Generator</p>
-                        <div className="mt-3 inline-block bg-gradient-to-r from-purple-600 to-pink-600 rounded-full px-3 py-1">
-                            <span className="text-white text-sm">3 Free Credits Daily</span>
+                        <div className="mt-3 inline-block bg-purple-800 rounded-full px-3 py-1">
+                            <span className="text-pink-400 text-sm">3 Free Credits Daily</span>
                         </div>
                     </div>
-                    {error && <div className="mb-4 bg-red-500/20 border border-red-500 rounded-lg p-3"><p className="text-red-200 text-sm">{error}</p></div>}
+
+                    {error && (
+                        <div className="mb-4 bg-red-900/50 border border-red-700 rounded-lg p-3">
+                            <p className="text-red-300 text-sm">{error}</p>
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-purple-950/50 text-white placeholder-purple-400 border border-purple-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Email" required disabled={!backendStatus.isConnected} />
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 rounded-xl bg-purple-950/50 text-white placeholder-purple-400 border border-purple-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Password" required disabled={!backendStatus.isConnected} />
-                        <button type="submit" disabled={loading || !backendStatus.isConnected} className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold hover:shadow-lg transition-all disabled:opacity-50">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl bg-purple-900/50 text-white placeholder-purple-400 border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            placeholder="Email address"
+                            required
+                        />
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl bg-purple-900/50 text-white placeholder-purple-400 border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            placeholder="Password"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-500 transition-all disabled:opacity-50"
+                        >
                             {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
                         </button>
+
                         <div className="relative my-4">
-                            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-purple-600/50"></div></div>
-                            <div className="relative flex justify-center text-xs"><span className="px-2 bg-purple-900/50 text-purple-300 rounded">OR</span></div>
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-purple-700"></div>
+                            </div>
+                            <div className="relative flex justify-center text-xs">
+                                <span className="px-2 bg-purple-950 text-purple-400 rounded">OR CONTINUE WITH</span>
+                            </div>
                         </div>
-                        <button type="button" onClick={handleGoogleSignIn} disabled={loading || !backendStatus.isConnected} className="w-full py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-all flex items-center justify-center gap-3 disabled:opacity-50 border border-purple-500/50">
-                            <GoogleIcon /> Continue with Google
+
+                        <button
+                            type="button"
+                            onClick={handleGoogleSignIn}
+                            disabled={loading}
+                            className="w-full py-3 rounded-xl bg-purple-900/50 text-white font-semibold hover:bg-purple-800 transition-all flex items-center justify-center gap-3 disabled:opacity-50 border border-purple-700"
+                        >
+                            <GoogleIcon /> Google
                         </button>
-                        <p className="text-center text-purple-300 text-sm mt-4">
+
+                        <p className="text-center text-purple-400 text-sm mt-6">
                             {isLogin ? "Don't have an account? " : "Already have an account? "}
-                            <button type="button" onClick={() => { setIsLogin(!isLogin); setError(null); }} className="text-pink-400 underline">
+                            <button
+                                type="button"
+                                onClick={() => { setIsLogin(!isLogin); setError(null); }}
+                                className="text-pink-400 hover:text-pink-300 font-medium"
+                            >
                                 {isLogin ? "Sign Up" : "Sign In"}
                             </button>
                         </p>
                     </form>
-                </motion.div>
+                </div>
             </div>
         </div>
     );
@@ -936,7 +1049,6 @@ export default function App() {
     const [podcast, setPodcast] = useState(null);
     const [error, setError] = useState(null);
     const [isLogsExpanded, setIsLogsExpanded] = useState(true);
-    const [backendStatus, setBackendStatus] = useState({ isConnected: false, checking: true });
     const [credits, setCredits] = useState(0);
     const [creditsUsedToday, setCreditsUsedToday] = useState(0);
     const [dailyLimit, setDailyLimit] = useState(DAILY_CREDIT_LIMIT);
@@ -949,25 +1061,25 @@ export default function App() {
 
     const checkBackendConnection = async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}/`, { method: 'GET', signal: AbortSignal.timeout(10000) });
-            if (response.ok) { setBackendStatus({ isConnected: true, checking: false }); return true; }
-            throw new Error("Backend not responding");
-        } catch (err) { setBackendStatus({ isConnected: false, checking: false }); return false; }
+            const response = await fetch(`${BACKEND_URL}/`, { method: 'GET', signal: AbortSignal.timeout(5000) });
+            return response.ok;
+        } catch (err) {
+            return false;
+        }
     };
-
-    useEffect(() => { checkBackendConnection(); }, []);
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session && backendStatus.isConnected) {
+            if (session) {
                 setSession(session);
                 setIsAuthenticated(true);
                 fetchUserCredits(session.access_token);
                 fetchUserPodcasts(session.access_token);
             }
         });
+
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            if (session && backendStatus.isConnected) {
+            if (session) {
                 setSession(session);
                 setIsAuthenticated(true);
                 fetchUserCredits(session.access_token);
@@ -981,11 +1093,11 @@ export default function App() {
                 setUserPodcasts([]);
             }
         });
+
         return () => subscription.unsubscribe();
-    }, [backendStatus.isConnected]);
+    }, []);
 
     const fetchUserCredits = async (token) => {
-        if (!backendStatus.isConnected) return;
         try {
             const response = await fetch(`${BACKEND_URL}/user/credits`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.ok) {
@@ -1018,10 +1130,22 @@ export default function App() {
     };
 
     const playPodcast = (podcastData) => {
-        setPodcast({ audioUrl: podcastData.audio_url, script: "Loading...", topic: podcastData.topic, jobId: podcastData.job_id });
+        setPodcast({ 
+            audioUrl: `${BACKEND_URL}${podcastData.audio_url}`, 
+            script: "Loading...", 
+            topic: podcastData.topic, 
+            jobId: podcastData.job_id 
+        });
         fetch(`${BACKEND_URL}/user/podcasts/${podcastData.job_id}`, { headers: { 'Authorization': `Bearer ${session?.access_token}` } })
             .then(res => res.json())
-            .then(data => setPodcast({ audioUrl: data.audio_url, script: data.script, topic: data.topic, jobId: data.job_id }));
+            .then(data => {
+                setPodcast({ 
+                    audioUrl: `${BACKEND_URL}${data.audio_url}`, 
+                    script: data.script, 
+                    topic: data.topic, 
+                    jobId: data.job_id 
+                });
+            });
         setActiveTab("home");
     };
 
@@ -1088,51 +1212,40 @@ export default function App() {
         if (eventSourceRef.current) eventSourceRef.current.close();
     };
 
-    if (backendStatus.checking) {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-950 to-pink-900 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin-slow mx-auto mb-4"></div>
-                    <p className="text-white text-lg">Connecting to backend...</p>
-                </div>
-            </div>
-        );
-    }
-
     if (!isAuthenticated) {
-        return <AuthScreen onAuth={setIsAuthenticated} setSession={setSession} backendStatus={backendStatus} />;
+        return <AuthScreen onAuth={setIsAuthenticated} setSession={setSession} />;
     }
 
     return (
         <>
             <GlobalStyles />
-            <div className="flex h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-pink-900">
+            <div className="flex h-screen bg-purple-950">
                 {/* Sidebar */}
-                <div className="w-72 bg-purple-950/50 backdrop-blur-sm border-r border-purple-700/30 flex flex-col shadow-xl">
-                    <div className="p-6 border-b border-purple-700/30 bg-gradient-to-r from-purple-900/50 to-pink-900/50">
-                        <img src={logoImage} alt="Logo" className="w-16 h-16 rounded-full mx-auto mb-3 shadow-lg animate-float" />
-                        <h1 className="text-xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <div className="w-72 bg-purple-950 border-r border-purple-800 flex flex-col">
+                    <div className="p-6 border-b border-purple-800">
+                        <img src={logoImage} alt="Logo" className="w-16 h-16 rounded-full mx-auto mb-3 shadow-lg" />
+                        <h1 className="text-xl font-bold text-center text-white">
                             {t.appTitle}
                         </h1>
-                        <p className="text-xs text-purple-300 text-center mt-1">{t.tagline}</p>
+                        <p className="text-xs text-purple-400 text-center mt-1">{t.tagline}</p>
                     </div>
                     
                     <nav className="flex-1 p-4 space-y-2">
-                        <button onClick={() => setActiveTab("home")} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg" : "text-purple-300 hover:bg-purple-800/50"}`}>
+                        <button onClick={() => setActiveTab("home")} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-purple-700 text-white" : "text-purple-300 hover:bg-purple-800"}`}>
                             <HomeIcon /> {t.home}
                         </button>
-                        <button onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg" : "text-purple-300 hover:bg-purple-800/50"}`}>
+                        <button onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-purple-700 text-white" : "text-purple-300 hover:bg-purple-800"}`}>
                             <PodcastIcon /> {t.yourPodcasts}
                         </button>
                     </nav>
                     
-                    <div className="p-4 border-t border-purple-700/30 space-y-3">
+                    <div className="p-4 border-t border-purple-800 space-y-3">
                         <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         <div className="flex gap-2">
-                            <button onClick={() => setLanguage('en')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'en' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-purple-800/50 text-purple-300 hover:bg-purple-700/50'}`}>English</button>
-                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'hi' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-purple-800/50 text-purple-300 hover:bg-purple-700/50'}`}>हिंदी</button>
+                            <button onClick={() => setLanguage('en')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'en' ? 'bg-purple-700 text-white' : 'bg-purple-900 text-purple-300 hover:bg-purple-800'}`}>English</button>
+                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'hi' ? 'bg-purple-700 text-white' : 'bg-purple-900 text-purple-300 hover:bg-purple-800'}`}>हिंदी</button>
                         </div>
-                        <button onClick={handleLogout} className="w-full px-4 py-2 rounded-xl bg-red-900/30 text-red-400 hover:bg-red-800/50 transition-all text-sm font-medium flex items-center justify-center gap-2 border border-red-700/30">
+                        <button onClick={handleLogout} className="w-full px-4 py-2 rounded-xl bg-red-900/30 text-red-400 hover:bg-red-800/50 transition-all text-sm font-medium flex items-center justify-center gap-2 border border-red-800">
                             <LogoutIcon /> {t.logout}
                         </button>
                     </div>
@@ -1141,20 +1254,14 @@ export default function App() {
                 {/* Main Content */}
                 <div className="flex-1 overflow-y-auto">
                     <div className="max-w-4xl mx-auto px-6 py-8">
-                        {!backendStatus.isConnected && (
-                            <div className="mb-6 bg-yellow-900/30 border border-yellow-700/30 rounded-xl p-4">
-                                <p className="text-yellow-400 text-sm">⚠️ Backend offline. <button onClick={() => checkBackendConnection()} className="underline">Retry</button></p>
-                            </div>
-                        )}
-                        
                         {activeTab === "home" && (
                             <>
-                                {credits > 0 && backendStatus.isConnected && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 p-8 mb-8">
+                                {credits > 0 && (
+                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-800 p-8 mb-8">
                                         <label className="block text-white font-semibold mb-2">{t.topicLabel}</label>
                                         <div className="flex gap-3">
-                                            <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} disabled={isGenerating || !backendStatus.isConnected} placeholder={t.topicPlaceholder} className="flex-1 px-5 py-3 rounded-xl bg-purple-950/50 text-white placeholder-purple-400 border border-purple-600/50 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" />
-                                            <button onClick={generatePodcast} disabled={!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected} className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${!topic.trim() || isGenerating || credits <= 0 || !backendStatus.isConnected ? 'bg-purple-800/50 text-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:scale-105'}`}>
+                                            <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} disabled={isGenerating} placeholder={t.topicPlaceholder} className="flex-1 px-5 py-3 rounded-xl bg-purple-950 text-white placeholder-purple-400 border border-purple-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" />
+                                            <button onClick={generatePodcast} disabled={!topic.trim() || isGenerating || credits <= 0} className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-purple-800 text-purple-400 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-500 hover:shadow-lg'}`}>
                                                 {isGenerating ? t.generating : t.generateButton}
                                             </button>
                                         </div>
@@ -1162,15 +1269,15 @@ export default function App() {
                                             <p className="text-xs text-purple-400 mb-2">{t.tryThese}</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {["AI in Healthcare", "Future of Space Travel", "Climate Solutions", "Digital Art Revolution", "Quantum Computing", "Mars Colonization"].map((sample, idx) => (
-                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-purple-800/50 hover:bg-purple-700 text-purple-300 hover:text-white rounded-full text-sm transition-colors">{sample}</button>
+                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-purple-300 hover:text-white rounded-full text-sm transition-colors">{sample}</button>
                                                 ))}
                                             </div>
                                         </div>
                                     </motion.div>
                                 )}
 
-                                {credits <= 0 && backendStatus.isConnected && !isGenerating && !podcast && (
-                                    <div className="bg-yellow-900/30 border border-yellow-700/30 rounded-2xl p-8 text-center">
+                                {credits <= 0 && !isGenerating && !podcast && (
+                                    <div className="bg-yellow-900/30 border border-yellow-800 rounded-2xl p-8 text-center">
                                         <div className="text-6xl mb-4">⚠️</div>
                                         <h3 className="text-xl font-semibold text-yellow-400 mb-2">{t.dailyLimitReached}</h3>
                                         <p className="text-yellow-300">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
@@ -1188,11 +1295,10 @@ export default function App() {
                                     </div>
                                 )}
 
-                                {/* Documentation Footer */}
                                 <DocumentationFooter language={language} />
 
                                 {error && (
-                                    <div className="bg-red-900/30 border border-red-700/30 rounded-2xl p-4 text-center mt-4">
+                                    <div className="bg-red-900/30 border border-red-800 rounded-2xl p-4 text-center mt-4">
                                         <p className="text-red-400">{error}</p>
                                         <button onClick={() => setError(null)} className="mt-2 text-sm text-red-500 underline">Dismiss</button>
                                     </div>
@@ -1202,12 +1308,12 @@ export default function App() {
                         
                         {activeTab === "podcasts" && (
                             <div className="space-y-6">
-                                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{t.yourPodcasts}</h2>
+                                <h2 className="text-2xl font-bold text-white">{t.yourPodcasts}</h2>
                                 {loadingPodcasts && <div className="text-center py-12 text-purple-400">{t.loading}</div>}
                                 {!loadingPodcasts && userPodcasts.length === 0 && (
-                                    <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl p-12 text-center border border-purple-700/30">
+                                    <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl p-12 text-center border border-purple-800">
                                         <p className="text-purple-300">{t.noPodcasts}</p>
-                                        <button onClick={() => setActiveTab("home")} className="mt-4 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:shadow-lg transition-all">{t.newPodcast}</button>
+                                        <button onClick={() => setActiveTab("home")} className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-500 transition-all">{t.newPodcast}</button>
                                     </div>
                                 )}
                                 {userPodcasts.length > 0 && (
