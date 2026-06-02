@@ -225,24 +225,45 @@ const ChevronUpIcon = () => (
 // --- Global Styles ---
 const GlobalStyles = () => (
     <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
         * {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+        
+        body {
+            background: #030108;
         }
         
         .thinking-process-scroll::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
         
         .thinking-process-scroll::-webkit-scrollbar-track {
-            background: #1a0a2e;
-            border-radius: 3px;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 2px;
         }
         
         .thinking-process-scroll::-webkit-scrollbar-thumb {
-            background: #7c3aed;
-            border-radius: 3px;
+            background: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+            border-radius: 2px;
+        }
+        
+        .transcript-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .transcript-scroll::-webkit-scrollbar-track {
+            background: rgba(139, 92, 246, 0.05);
+        }
+        
+        .transcript-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+            border-radius: 2px;
         }
         
         @keyframes float {
@@ -263,6 +284,30 @@ const GlobalStyles = () => (
             animation: spin-slow 1s linear infinite;
         }
         
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.2);
+            }
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+        
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
@@ -280,6 +325,59 @@ const GlobalStyles = () => (
         .carousel-slide-out {
             animation: slideOut 0.5s ease-out forwards;
         }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            cursor: pointer;
+            margin-top: -5px;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+        
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 2px;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        
+        .glass-card-elevated {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3), 0 0 30px rgba(99, 102, 241, 0.15), inset 0 0 20px rgba(99, 102, 241, 0.05);
+        }
+        
+        .btn-mechanical {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn-mechanical:hover {
+            transform: scale(1.02);
+        }
+        
+        .btn-mechanical:active {
+            transform: scale(0.98);
+        }
     `}</style>
 );
 
@@ -289,28 +387,30 @@ const DocumentationFooter = ({ language }) => {
     const t = translations[language];
     
     return (
-        <div className="mt-12 pt-8 border-t border-purple-800/30">
-            <button
+        <div className="mt-12 pt-8 border-t border-white/[0.04]">
+            <motion.button
                 onClick={() => setIsOpen(!isOpen)}
-                className="group w-full flex items-center justify-between py-4 px-6 bg-purple-900/50 hover:bg-purple-800/50 backdrop-blur-sm rounded-2xl transition-all duration-300 border border-purple-700/30"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className="group w-full flex items-center justify-between py-5 px-6 glass-card rounded-2xl transition-all duration-300 hover:bg-white/[0.03] hover:border-indigo-500/20"
             >
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center shadow-lg text-white">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-white">
                         <DocumentationIcon />
                     </div>
                     <div className="text-left">
-                        <h3 className="font-semibold text-white">{t.documentation}</h3>
-                        <p className="text-xs text-purple-300">Complete system architecture and API guide</p>
+                        <h3 className="font-semibold text-white tracking-tight">{t.documentation}</h3>
+                        <p className="text-xs text-white/40 tracking-wide uppercase">Complete system architecture and API guide</p>
                     </div>
                 </div>
                 <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-purple-400"
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="text-indigo-400"
                 >
                     <ChevronDownIcon />
                 </motion.div>
-            </button>
+            </motion.button>
             
             <AnimatePresence>
                 {isOpen && (
@@ -318,17 +418,17 @@ const DocumentationFooter = ({ language }) => {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        <div className="mt-4 p-6 bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 shadow-xl">
+                        <div className="mt-4 p-6 glass-card-elevated rounded-2xl shadow-2xl shadow-black/20">
                             <div className="mb-8">
-                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                    <span className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-sm">🏗️</span>
+                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3 tracking-tight">
+                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white text-sm shadow-lg shadow-indigo-500/20">&#x1F3D7;</span>
                                     {t.architecture}
                                 </h4>
-                                <div className="bg-purple-950/50 rounded-xl p-5 overflow-x-auto">
-                                    <pre className="text-xs text-purple-200 font-mono whitespace-pre-wrap leading-relaxed">
+                                <div className="bg-black/40 rounded-xl p-5 overflow-x-auto border border-white/[0.04]">
+                                    <pre className="text-xs text-indigo-200/80 font-mono whitespace-pre-wrap leading-relaxed tracking-wide">
 {`
 ┌─────────────────────────────────────────────────────────────┐
 │                   FRONTEND (React + Vite)                   │
@@ -368,33 +468,33 @@ const DocumentationFooter = ({ language }) => {
                             </div>
                             
                             <div className="mb-8">
-                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                    <span className="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-sm">🔌</span>
+                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3 tracking-tight">
+                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-sm shadow-lg shadow-cyan-500/20">&#x1F50C;</span>
                                     {t.apiEndpoints}
                                 </h4>
-                                <div className="grid gap-2">
-                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
-                                        <code className="text-sm font-mono text-pink-400 font-semibold">POST /generate-podcast</code>
-                                        <p className="text-xs text-purple-300 mt-1">Starts podcast generation. Returns job_id for progress tracking.</p>
+                                <div className="grid gap-3">
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
+                                        <code className="text-sm font-mono text-cyan-400 font-semibold tracking-wide">POST /generate-podcast</code>
+                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Starts podcast generation. Returns job_id for progress tracking.</p>
                                     </div>
-                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
-                                        <code className="text-sm font-mono text-purple-400 font-semibold">GET /stream-progress/{'{job_id}'}</code>
-                                        <p className="text-xs text-purple-300 mt-1">Server-Sent Events endpoint for real-time progress updates.</p>
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
+                                        <code className="text-sm font-mono text-violet-400 font-semibold tracking-wide">GET /stream-progress/{'{job_id}'}</code>
+                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Server-Sent Events endpoint for real-time progress updates.</p>
                                     </div>
-                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
-                                        <code className="text-sm font-mono text-pink-400 font-semibold">GET /user/credits</code>
-                                        <p className="text-xs text-purple-300 mt-1">Returns daily credit usage and remaining credits.</p>
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
+                                        <code className="text-sm font-mono text-cyan-400 font-semibold tracking-wide">GET /user/credits</code>
+                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Returns daily credit usage and remaining credits.</p>
                                     </div>
-                                    <div className="p-3 bg-purple-950/50 rounded-xl border border-purple-700/30">
-                                        <code className="text-sm font-mono text-purple-400 font-semibold">GET /user/podcasts</code>
-                                        <p className="text-xs text-purple-300 mt-1">Returns user's podcast history.</p>
+                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-indigo-500/20 transition-all">
+                                        <code className="text-sm font-mono text-violet-400 font-semibold tracking-wide">GET /user/podcasts</code>
+                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Returns user&apos;s podcast history.</p>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div className="pt-6 text-center border-t border-purple-800/30">
-                                <p className="text-purple-400 font-semibold">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
-                                <p className="text-sm text-purple-500 mt-1">Developed by Aditya Jain</p>
+                            <div className="pt-6 text-center border-t border-white/[0.04]">
+                                <p className="text-white/60 font-semibold tracking-tight">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
+                                <p className="text-sm text-white/30 mt-1 tracking-wide">Developed by Aditya Jain</p>
                             </div>
                         </div>
                     </motion.div>
@@ -416,20 +516,24 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
     }, [logs, isExpanded]);
 
     return (
-        <div className="bg-purple-950/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-purple-700/30 shadow-2xl mb-6">
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card-elevated rounded-2xl overflow-hidden shadow-2xl shadow-black/30 mb-6"
+        >
             <button
                 onClick={onToggle}
-                className="w-full bg-purple-800 px-6 py-4 flex items-center justify-between hover:bg-purple-700 transition-all"
+                className="w-full bg-gradient-to-r from-indigo-600/90 to-violet-600/90 px-6 py-5 flex items-center justify-between hover:from-indigo-500/90 hover:to-violet-500/90 transition-all"
             >
-                <div className="flex items-center gap-3">
-                    <div className={`w-2 h-2 ${isComplete ? 'bg-green-400' : 'bg-yellow-400'} rounded-full animate-pulse`}></div>
-                    <h3 className="text-white font-semibold">
+                <div className="flex items-center gap-4">
+                    <div className={`w-3 h-3 ${isComplete ? 'bg-emerald-400' : 'bg-amber-400'} rounded-full animate-pulse shadow-lg ${isComplete ? 'shadow-emerald-400/50' : 'shadow-amber-400/50'}`}></div>
+                    <h3 className="text-white font-semibold tracking-tight">
                         {isComplete ? "✓ " + t.thinkingProcess + " Complete" : "⚡ " + t.thinkingProcess}
                     </h3>
                 </div>
-                <div className="flex items-center gap-2 text-white">
-                    <span className="text-sm">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
-                    <span className="text-xs opacity-75">{isExpanded ? t.hideLogs : t.showLogs}</span>
+                <div className="flex items-center gap-3 text-white/80">
+                    <span className="text-xs font-medium uppercase tracking-widest">{isExpanded ? t.hideLogs : t.showLogs}</span>
+                    <span>{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
                 </div>
             </button>
             
@@ -439,23 +543,23 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        <div className="h-64 overflow-y-auto p-4 font-mono text-sm thinking-process-scroll">
+                        <div className="h-72 overflow-y-auto p-5 font-mono text-sm thinking-process-scroll bg-black/40">
                             {logs.map((log, idx) => (
                                 <motion.div
                                     key={idx}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: Math.min(idx * 0.02, 0.5) }}
-                                    className="mb-3 pb-2 border-b border-purple-800/50 last:border-0"
+                                    className="mb-4 pb-3 border-b border-white/[0.04] last:border-0"
                                 >
-                                    <div className="flex items-start gap-3">
-                                        <span className="text-purple-400 text-xs">
+                                    <div className="flex items-start gap-4">
+                                        <span className="text-indigo-400/80 text-xs font-mono tracking-wider whitespace-nowrap">
                                             {log.timestamp ? new Date(log.timestamp * 1000).toLocaleTimeString() : new Date().toLocaleTimeString()}
                                         </span>
-                                        <span className={`text-sm ${log.status === 'error' ? 'text-red-400' : 'text-gray-300'}`}>
+                                        <span className={`text-sm leading-relaxed ${log.status === 'error' ? 'text-red-400' : 'text-white/70'}`}>
                                             {log.message}
                                         </span>
                                     </div>
@@ -466,7 +570,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </motion.div>
     );
 };
 
@@ -587,14 +691,19 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         const centerY = canvas.height / 2;
         const centerX = canvas.width / 2;
         
-        ctx.fillStyle = '#a855f7';
+        // Gradient from indigo to violet
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+        gradient.addColorStop(0, '#818cf8');
+        gradient.addColorStop(0.5, '#a78bfa');
+        gradient.addColorStop(1, '#818cf8');
+        ctx.fillStyle = gradient;
         
         for (let i = 0; i < usableLength; i++) {
             const value = dataArray[i];
             const barHeight = Math.max(3, (value / 255) * canvas.height * 0.8);
             
-            ctx.fillRect(centerX + (i * barWidth), centerY - barHeight / 2, barWidth - 1, barHeight);
-            ctx.fillRect(centerX - ((i + 1) * barWidth), centerY - barHeight / 2, barWidth - 1, barHeight);
+            ctx.fillRect(centerX + (i * barWidth), centerY - barHeight / 2, barWidth - 2, barHeight);
+            ctx.fillRect(centerX - ((i + 1) * barWidth), centerY - barHeight / 2, barWidth - 2, barHeight);
         }
         
         animationFrameRef.current = requestAnimationFrame(drawWaveform);
@@ -658,10 +767,14 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
     };
 
     return (
-        <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 overflow-hidden">
-            <div className="bg-purple-800 px-6 py-4">
-                <h3 className="text-white font-semibold flex items-center gap-2">
-                    <span>🎧</span> Now Playing
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card-elevated rounded-2xl overflow-hidden shadow-2xl shadow-black/40"
+        >
+            <div className="bg-gradient-to-r from-indigo-600/90 to-violet-600/90 px-6 py-5">
+                <h3 className="text-white font-semibold flex items-center gap-3 tracking-tight">
+                    <span className="text-xl">&#x1F3A7;</span> Now Playing
                 </h3>
             </div>
 
@@ -674,60 +787,89 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                 onEnded={() => setIsPlaying(false)}
             />
 
-            <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+            <div className="p-6 bg-black/20">
+                <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-6">
-                        <button onClick={skipBackward} className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white hover:bg-purple-800 rounded-full transition-colors">
+                        <motion.button 
+                            onClick={skipBackward} 
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-12 h-12 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/[0.05] rounded-full transition-all"
+                        >
                             <RewindIcon />
-                        </button>
-                        <button onClick={() => setIsPlaying(!isPlaying)} className="w-14 h-14 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-500 hover:shadow-lg hover:scale-105 transition-all">
+                        </motion.button>
+                        <motion.button 
+                            onClick={() => setIsPlaying(!isPlaying)} 
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-xl shadow-indigo-500/30 animate-pulse-glow"
+                        >
                             {isPlaying ? <PauseIcon /> : <PlayIcon />}
-                        </button>
-                        <button onClick={skipForward} className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white hover:bg-purple-800 rounded-full transition-colors">
+                        </motion.button>
+                        <motion.button 
+                            onClick={skipForward} 
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-12 h-12 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/[0.05] rounded-full transition-all"
+                        >
                             <ForwardIcon />
-                        </button>
-                        <div className="ml-2">
-                            <h4 className="font-bold text-white">AI-Generated Podcast</h4>
-                            <p className="text-sm text-purple-300">Dynamic conversation with AI experts</p>
+                        </motion.button>
+                        <div className="ml-4">
+                            <h4 className="font-bold text-white tracking-tight">AI-Generated Podcast</h4>
+                            <p className="text-sm text-white/40">Dynamic conversation with AI experts</p>
                         </div>
                     </div>
-                    <div className="flex gap-2">
-                        <button onClick={onNewPodcast} className="px-4 py-2 rounded-xl bg-purple-800/50 text-purple-200 hover:bg-purple-700 transition-all flex items-center gap-2 text-sm border border-purple-600/50">
+                    <div className="flex gap-3">
+                        <motion.button 
+                            onClick={onNewPodcast} 
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="px-5 py-2.5 rounded-xl bg-white/[0.03] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all flex items-center gap-2 text-sm border border-white/[0.06] btn-mechanical"
+                        >
                             <NewIcon /> New
-                        </button>
-                        <button onClick={onDownload} className="px-4 py-2 rounded-xl bg-purple-600 text-white hover:bg-purple-500 hover:shadow-lg transition-all flex items-center gap-2 text-sm">
+                        </motion.button>
+                        <motion.button 
+                            onClick={onDownload} 
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2 text-sm btn-mechanical"
+                        >
                             <DownloadIcon /> Download
-                        </button>
+                        </motion.button>
                     </div>
                 </div>
 
-                <div className="mb-6 bg-purple-950/50 rounded-xl p-4 border border-purple-700/30">
-                    <canvas ref={canvasRef} width="800" height="60" className="w-full h-16 rounded-md mb-2" />
-                    <div className="flex items-center gap-3">
-                        <span className="text-xs text-purple-400 font-mono">{formatTime(currentTime)}</span>
-                        <input type="range" min="0" max={duration || 100} value={currentTime} onChange={handleSeek} className="flex-1 h-2 bg-purple-800 rounded-lg appearance-none cursor-pointer accent-purple-500" />
-                        <span className="text-xs text-purple-400 font-mono">{formatTime(duration)}</span>
+                <div className="mb-6 bg-black/40 rounded-xl p-5 border border-white/[0.04]">
+                    <canvas ref={canvasRef} width="800" height="60" className="w-full h-16 rounded-md mb-4" />
+                    <div className="flex items-center gap-4">
+                        <span className="text-xs text-indigo-400 font-mono tracking-wider">{formatTime(currentTime)}</span>
+                        <input type="range" min="0" max={duration || 100} value={currentTime} onChange={handleSeek} className="flex-1 cursor-pointer" />
+                        <span className="text-xs text-indigo-400 font-mono tracking-wider">{formatTime(duration)}</span>
                     </div>
                 </div>
 
-                <div className="bg-purple-950/50 rounded-xl p-5 border border-purple-700/30 min-h-[100px]">
+                <div className="bg-black/40 rounded-xl p-6 border border-white/[0.04] min-h-[120px]">
                     {currentCaption ? (
-                        <div>
-                            <span className="text-xs font-semibold uppercase tracking-wide text-pink-400">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <span className="text-xs font-semibold uppercase tracking-widest text-cyan-400">
                                 {currentCaption.split(':')[0]}
                             </span>
-                            <p className="text-gray-200 mt-1 leading-relaxed">
+                            <p className="text-white/80 mt-2 leading-relaxed text-lg">
                                 {currentCaption.substring(currentCaption.indexOf(':') + 1)}
                             </p>
-                        </div>
+                        </motion.div>
                     ) : (
-                        <p className="text-purple-400 text-center mt-4">
-                            🎙️ Captions will appear here as the podcast plays...
+                        <p className="text-white/30 text-center mt-6 tracking-wide">
+                            &#x1F399; Captions will appear here as the podcast plays...
                         </p>
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -737,23 +879,28 @@ const TranscriptViewer = ({ script }) => {
     const cleanScript = script ? script.replace(/<[^>]*>/g, '') : "";
 
     return (
-        <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-700/30 overflow-hidden">
-            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-purple-800/50 px-6 py-4 flex items-center justify-between hover:bg-purple-800 transition-all">
-                <h3 className="font-semibold text-white flex items-center gap-2">📄 Full Transcript</h3>
-                <span className="text-purple-400">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="glass-card-elevated rounded-2xl overflow-hidden shadow-2xl shadow-black/30"
+        >
+            <button onClick={() => setIsExpanded(!isExpanded)} className="w-full bg-gradient-to-r from-violet-600/80 to-indigo-600/80 px-6 py-5 flex items-center justify-between hover:from-violet-500/80 hover:to-indigo-500/80 transition-all">
+                <h3 className="font-semibold text-white flex items-center gap-3 tracking-tight">&#x1F4C4; Full Transcript</h3>
+                <span className="text-white/80">{isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
             </button>
             <AnimatePresence>
                 {isExpanded && (
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-                        <div className="p-6 max-h-[400px] overflow-y-auto bg-purple-950/30">
-                            <div className="text-gray-200 font-sans text-sm leading-relaxed prose prose-invert max-w-none">
+                        <div className="p-6 max-h-[400px] overflow-y-auto bg-black/30 transcript-scroll">
+                            <div className="text-white/70 font-sans text-sm leading-relaxed prose prose-invert max-w-none prose-headings:text-white prose-strong:text-indigo-300">
                                 <ReactMarkdown>{cleanScript}</ReactMarkdown>
                             </div>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </motion.div>
     );
 };
 
@@ -775,21 +922,26 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
     };
     
     return (
-        <div className="bg-purple-900/50 rounded-xl p-3 border border-purple-700/30">
-            <div className="flex items-center justify-between">
+        <div className="glass-card rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
                 <div>
-                    <div className="text-2xl font-bold text-pink-400">{credits}</div>
-                    <div className="text-xs text-purple-300">{t.creditsLeft}</div>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">{credits}</div>
+                    <div className="text-xs text-white/40 uppercase tracking-widest">{t.creditsLeft}</div>
                 </div>
                 <div className="text-right">
-                    <div className="text-sm font-medium text-purple-200">{creditsUsed}/{dailyLimit} {t.usedToday}</div>
+                    <div className="text-sm font-mono text-white/60 tracking-wide">{creditsUsed}/{dailyLimit} {t.usedToday}</div>
                     {credits === 0 && timeRemaining > 0 && (
-                        <div className="text-xs text-orange-400">Resets in {formatTime(timeRemaining)}</div>
+                        <div className="text-xs text-amber-400/80 mt-1">Resets in {formatTime(timeRemaining)}</div>
                     )}
                 </div>
             </div>
-            <div className="mt-2 h-2 bg-purple-800 rounded-full overflow-hidden">
-                <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{ width: `${(creditsUsed / dailyLimit) * 100}%` }} />
+            <div className="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${(creditsUsed / dailyLimit) * 100}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full" 
+                />
             </div>
         </div>
     );
@@ -803,32 +955,56 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     const date = new Date(podcast.created_at).toLocaleDateString();
     
     return (
-        <div className="bg-purple-900/30 backdrop-blur-sm rounded-xl border border-purple-700/30 p-5 hover:shadow-xl hover:border-purple-500/50 transition-all duration-300 group">
-            <div className="flex justify-between items-start mb-3">
+        <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -2 }}
+            className="glass-card rounded-xl p-5 hover:bg-white/[0.03] hover:border-indigo-500/20 transition-all duration-300 group"
+        >
+            <div className="flex justify-between items-start mb-4">
                 <div className="flex-1">
-                    <h3 className="font-semibold text-white text-lg">{podcast.topic}</h3>
-                    <p className="text-xs text-purple-400 mt-1">{date}</p>
+                    <h3 className="font-semibold text-white text-lg tracking-tight">{podcast.topic}</h3>
+                    <p className="text-xs text-white/30 mt-1 font-mono tracking-wider">{date}</p>
                 </div>
-                <button onClick={() => onDelete(podcast.job_id)} className="text-purple-400 hover:text-red-400 transition-colors">
+                <motion.button 
+                    onClick={() => onDelete(podcast.job_id)} 
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-white/30 hover:text-red-400 transition-colors"
+                >
                     <DeleteIcon />
-                </button>
+                </motion.button>
             </div>
-            <p className="text-sm text-purple-200 mb-4 line-clamp-2">{podcast.script_preview}</p>
+            <p className="text-sm text-white/50 mb-5 line-clamp-2 leading-relaxed">{podcast.script_preview}</p>
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <button onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center hover:bg-purple-500 hover:shadow-md transition-all">
+                <div className="flex items-center gap-4">
+                    <motion.button 
+                        onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} 
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/20"
+                    >
                         {isPlaying ? <PauseIcon /> : <PlayIcon />}
-                    </button>
+                    </motion.button>
                     <audio ref={audioRef} src={podcast.audio_url} onEnded={() => setIsPlaying(false)} />
-                    <button onClick={() => window.open(podcast.audio_url, '_blank')} className="text-purple-300 hover:text-white transition-colors">
+                    <motion.button 
+                        onClick={() => window.open(podcast.audio_url, '_blank')} 
+                        whileHover={{ scale: 1.1 }}
+                        className="text-white/40 hover:text-white transition-colors"
+                    >
                         <DownloadIcon />
-                    </button>
+                    </motion.button>
                 </div>
-                <button onClick={() => onPlay(podcast)} className="px-4 py-2 rounded-xl bg-purple-800/50 text-purple-200 hover:bg-purple-700 transition-all text-sm font-medium border border-purple-600/50">
+                <motion.button 
+                    onClick={() => onPlay(podcast)} 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-5 py-2.5 rounded-xl bg-white/[0.03] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all text-sm font-medium border border-white/[0.06] btn-mechanical"
+                >
                     {t.play} →
-                </button>
+                </motion.button>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -847,22 +1023,22 @@ const AuthScreen = ({ onAuth, setSession }) => {
         {
             url: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&h=600&fit=crop",
             quote: "Create professional podcasts in minutes with AI",
-            benefit: "🎙️ AI-Powered Generation"
+            benefit: "&#x1F399; AI-Powered Generation"
         },
         {
             url: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop",
             quote: "High-quality audio with natural voices",
-            benefit: "🗣️ Natural Text-to-Speech"
+            benefit: "&#x1F5E3; Natural Text-to-Speech"
         },
         {
             url: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&h=600&fit=crop",
             quote: "Perfect for students, creators, and professionals",
-            benefit: "📚 Learn Anywhere, Anytime"
+            benefit: "&#x1F4DA; Learn Anywhere, Anytime"
         },
         {
             url: "https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=800&h=600&fit=crop",
             quote: "Save and access your podcasts anytime",
-            benefit: "💾 Cloud Storage Included"
+            benefit: "&#x1F4BE; Cloud Storage Included"
         }
     ];
 
@@ -920,20 +1096,26 @@ const AuthScreen = ({ onAuth, setSession }) => {
     const currentImage = carouselImages[currentImageIndex];
 
     return (
-        <div className="min-h-screen bg-purple-950 flex">
+        <div className="min-h-screen bg-[#030108] flex">
             {/* Left Side - Image Carousel */}
             <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-                <div className="absolute inset-0 bg-purple-950/70 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/90 via-[#030108]/80 to-violet-950/90 z-10"></div>
                 <img 
                     src={currentImage.url}
                     alt="Podcast Studio"
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-60'}`}
                 />
-                <div className="absolute bottom-0 left-0 right-0 z-20 p-12 bg-gradient-to-t from-purple-950 via-purple-950/80 to-transparent">
-                    <p className={`text-white text-2xl font-bold mb-4 transition-all duration-500 ${isAnimating ? 'opacity-0 transform translate-y-10' : 'opacity-100 transform translate-y-0'}`}>
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-12 bg-gradient-to-t from-[#030108] via-[#030108]/90 to-transparent">
+                    <motion.p 
+                        key={currentImageIndex}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-white text-3xl font-bold mb-6 tracking-tight"
+                    >
                         {currentImage.quote}
-                    </p>
-                    <div className="flex gap-2">
+                    </motion.p>
+                    <div className="flex gap-2 mb-8">
                         {carouselImages.map((_, idx) => (
                             <button
                                 key={idx}
@@ -944,15 +1126,15 @@ const AuthScreen = ({ onAuth, setSession }) => {
                                         setTimeout(() => setIsAnimating(false), 100);
                                     }, 300);
                                 }}
-                                className={`h-1 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'w-8 bg-pink-500' : 'w-4 bg-purple-500'}`}
+                                className={`h-1 rounded-full transition-all duration-500 ${idx === currentImageIndex ? 'w-10 bg-gradient-to-r from-cyan-400 to-indigo-500' : 'w-4 bg-white/20'}`}
                             />
                         ))}
                     </div>
-                    <div className="mt-8 grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         {carouselImages.map((img, idx) => (
-                            <div key={idx} className="flex items-center gap-2 text-purple-300 text-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-pink-500"></span>
-                                {img.benefit}
+                            <div key={idx} className="flex items-center gap-3 text-white/50 text-sm">
+                                <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-indigo-500"></span>
+                                <span dangerouslySetInnerHTML={{ __html: img.benefit }} />
                             </div>
                         ))}
                     </div>
@@ -960,78 +1142,102 @@ const AuthScreen = ({ onAuth, setSession }) => {
             </div>
 
             {/* Right Side - Login Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-                <div className="max-w-md w-full">
-                    <div className="text-center mb-8">
-                        <img src={logoImage} alt="Logo" className="w-20 h-20 mx-auto mb-4 rounded-full shadow-lg object-cover" />
-                        <h1 className="text-3xl font-bold text-white mb-2">Podcast Studio</h1>
-                        <p className="text-purple-300">AI-Powered Podcast Generator</p>
-                        <div className="mt-3 inline-block bg-purple-800 rounded-full px-3 py-1">
-                            <span className="text-pink-400 text-sm">3 Free Credits Daily</span>
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
+                {/* Ambient glow effects */}
+                <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-violet-600/10 rounded-full blur-3xl"></div>
+                
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="max-w-md w-full relative z-10"
+                >
+                    <div className="text-center mb-10">
+                        <div className="relative inline-block">
+                            <img src={logoImage} alt="Logo" className="w-20 h-20 mx-auto mb-5 rounded-2xl shadow-2xl shadow-indigo-500/30 object-cover" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 blur-xl"></div>
+                        </div>
+                        <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Podcast Studio</h1>
+                        <p className="text-white/40 tracking-wide">AI-Powered Podcast Generator</p>
+                        <div className="mt-4 inline-block glass-card rounded-full px-4 py-2">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 text-sm font-semibold">3 Free Credits Daily</span>
                         </div>
                     </div>
 
                     {error && (
-                        <div className="mb-4 bg-red-900/50 border border-red-700 rounded-lg p-3">
-                            <p className="text-red-300 text-sm">{error}</p>
-                        </div>
+                        <motion.div 
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mb-6 bg-red-500/10 border border-red-500/20 rounded-xl p-4"
+                        >
+                            <p className="text-red-400 text-sm">{error}</p>
+                        </motion.div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl bg-purple-900/50 text-white placeholder-purple-400 border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            placeholder="Email address"
-                            required
-                        />
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl bg-purple-900/50 text-white placeholder-purple-400 border border-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            placeholder="Password"
-                            required
-                        />
-                        <button
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="relative group">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] text-white placeholder-white/30 border border-white/[0.06] focus:outline-none focus:border-indigo-500/50 transition-all input-glow"
+                                placeholder="Email address"
+                                required
+                            />
+                        </div>
+                        <div className="relative group">
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] text-white placeholder-white/30 border border-white/[0.06] focus:outline-none focus:border-indigo-500/50 transition-all input-glow"
+                                placeholder="Password"
+                                required
+                            />
+                        </div>
+                        <motion.button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-500 transition-all disabled:opacity-50"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            className="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold hover:from-indigo-500 hover:to-violet-500 transition-all disabled:opacity-50 shadow-xl shadow-indigo-500/20"
                         >
                             {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
-                        </button>
+                        </motion.button>
 
-                        <div className="relative my-4">
+                        <div className="relative my-6">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-purple-700"></div>
+                                <div className="w-full border-t border-white/[0.06]"></div>
                             </div>
                             <div className="relative flex justify-center text-xs">
-                                <span className="px-2 bg-purple-950 text-purple-400 rounded">OR CONTINUE WITH</span>
+                                <span className="px-4 bg-[#030108] text-white/30 uppercase tracking-widest">Or continue with</span>
                             </div>
                         </div>
 
-                        <button
+                        <motion.button
                             type="button"
                             onClick={handleGoogleSignIn}
                             disabled={loading}
-                            className="w-full py-3 rounded-xl bg-purple-900/50 text-white font-semibold hover:bg-purple-800 transition-all flex items-center justify-center gap-3 disabled:opacity-50 border border-purple-700"
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            className="w-full py-4 rounded-xl bg-white/[0.03] text-white font-semibold hover:bg-white/[0.06] transition-all flex items-center justify-center gap-3 disabled:opacity-50 border border-white/[0.06]"
                         >
                             <GoogleIcon /> Google
-                        </button>
+                        </motion.button>
 
-                        <p className="text-center text-purple-400 text-sm mt-6">
+                        <p className="text-center text-white/40 text-sm mt-8">
                             {isLogin ? "Don't have an account? " : "Already have an account? "}
                             <button
                                 type="button"
                                 onClick={() => { setIsLogin(!isLogin); setError(null); }}
-                                className="text-pink-400 hover:text-pink-300 font-medium"
+                                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 hover:from-cyan-300 hover:to-indigo-300 font-semibold"
                             >
                                 {isLogin ? "Sign Up" : "Sign In"}
                             </button>
                         </p>
                     </form>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
@@ -1055,6 +1261,7 @@ export default function App() {
     const [resetsInSeconds, setResetsInSeconds] = useState(0);
     const [userPodcasts, setUserPodcasts] = useState([]);
     const [loadingPodcasts, setLoadingPodcasts] = useState(false);
+    const [inputFocused, setInputFocused] = useState(false);
     
     const isMounted = useRef(true);
     const eventSourceRef = useRef(null);
@@ -1219,57 +1426,129 @@ export default function App() {
     return (
         <>
             <GlobalStyles />
-            <div className="flex h-screen bg-purple-950">
+            <div className="flex h-screen bg-[#030108]">
                 {/* Sidebar */}
-                <div className="w-72 bg-purple-950 border-r border-purple-800 flex flex-col">
-                    <div className="p-6 border-b border-purple-800">
-                        <img src={logoImage} alt="Logo" className="w-16 h-16 rounded-full mx-auto mb-3 shadow-lg" />
-                        <h1 className="text-xl font-bold text-center text-white">
+                <div className="w-72 bg-[#070414] border-r border-white/[0.04] flex flex-col">
+                    <div className="p-6 border-b border-white/[0.04]">
+                        <div className="relative inline-block w-full">
+                            <img src={logoImage} alt="Logo" className="w-14 h-14 rounded-xl mx-auto mb-4 shadow-xl shadow-indigo-500/20" />
+                        </div>
+                        <h1 className="text-xl font-bold text-center text-white tracking-tight">
                             {t.appTitle}
                         </h1>
-                        <p className="text-xs text-purple-400 text-center mt-1">{t.tagline}</p>
+                        <p className="text-xs text-white/30 text-center mt-1 uppercase tracking-widest">{t.tagline}</p>
                     </div>
                     
                     <nav className="flex-1 p-4 space-y-2">
-                        <button onClick={() => setActiveTab("home")} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-purple-700 text-white" : "text-purple-300 hover:bg-purple-800"}`}>
-                            <HomeIcon /> {t.home}
-                        </button>
-                        <button onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} className={`w-full px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-purple-700 text-white" : "text-purple-300 hover:bg-purple-800"}`}>
-                            <PodcastIcon /> {t.yourPodcasts}
-                        </button>
+                        <motion.button 
+                            onClick={() => setActiveTab("home")} 
+                            whileHover={{ x: 4 }}
+                            whileTap={{ scale: 0.98 }}
+                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                        >
+                            <HomeIcon /> <span className="font-medium">{t.home}</span>
+                        </motion.button>
+                        <motion.button 
+                            onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} 
+                            whileHover={{ x: 4 }}
+                            whileTap={{ scale: 0.98 }}
+                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                        >
+                            <PodcastIcon /> <span className="font-medium">{t.yourPodcasts}</span>
+                        </motion.button>
                     </nav>
                     
-                    <div className="p-4 border-t border-purple-800 space-y-3">
+                    <div className="p-4 border-t border-white/[0.04] space-y-4">
                         <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         <div className="flex gap-2">
-                            <button onClick={() => setLanguage('en')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'en' ? 'bg-purple-700 text-white' : 'bg-purple-900 text-purple-300 hover:bg-purple-800'}`}>English</button>
-                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-3 py-2 text-sm rounded-xl transition-all ${language === 'hi' ? 'bg-purple-700 text-white' : 'bg-purple-900 text-purple-300 hover:bg-purple-800'}`}>हिंदी</button>
+                            <motion.button 
+                                onClick={() => setLanguage('en')} 
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'en' ? 'bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
+                            >
+                                English
+                            </motion.button>
+                            <motion.button 
+                                onClick={() => setLanguage('hi')} 
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'hi' ? 'bg-gradient-to-r from-indigo-600/90 to-violet-600/90 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
+                            >
+                                हिंदी
+                            </motion.button>
                         </div>
-                        <button onClick={handleLogout} className="w-full px-4 py-2 rounded-xl bg-red-900/30 text-red-400 hover:bg-red-800/50 transition-all text-sm font-medium flex items-center justify-center gap-2 border border-red-800">
+                        <motion.button 
+                            onClick={handleLogout} 
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all text-sm font-medium flex items-center justify-center gap-2 border border-red-500/20"
+                        >
                             <LogoutIcon /> {t.logout}
-                        </button>
+                        </motion.button>
                     </div>
                 </div>
                 
                 {/* Main Content */}
-                <div className="flex-1 overflow-y-auto">
-                    <div className="max-w-4xl mx-auto px-6 py-8">
+                <div className="flex-1 overflow-y-auto relative">
+                    {/* Ambient background effects */}
+                    <div className="fixed top-0 right-0 w-1/2 h-1/2 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="fixed bottom-0 left-1/4 w-1/3 h-1/3 bg-violet-600/5 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div className="max-w-4xl mx-auto px-6 py-10 relative z-10">
                         {activeTab === "home" && (
                             <>
                                 {credits > 0 && (
-                                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-purple-900/30 backdrop-blur-sm rounded-2xl border border-purple-800 p-8 mb-8">
-                                        <label className="block text-white font-semibold mb-2">{t.topicLabel}</label>
-                                        <div className="flex gap-3">
-                                            <input type="text" value={topic} onChange={(e) => setTopic(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} disabled={isGenerating} placeholder={t.topicPlaceholder} className="flex-1 px-5 py-3 rounded-xl bg-purple-950 text-white placeholder-purple-400 border border-purple-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" />
-                                            <button onClick={generatePodcast} disabled={!topic.trim() || isGenerating || credits <= 0} className={`px-8 py-3 rounded-xl font-semibold transition-all shadow-md ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-purple-800 text-purple-400 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-500 hover:shadow-lg'}`}>
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: 20 }} 
+                                        animate={{ opacity: 1, y: 0 }} 
+                                        className="glass-card-elevated rounded-2xl p-8 mb-8 shadow-2xl shadow-black/30"
+                                    >
+                                        <label className="block text-white font-semibold mb-3 tracking-tight">{t.topicLabel}</label>
+                                        <div className="flex gap-4 relative">
+                                            <div className={`flex-1 relative ${inputFocused ? 'z-10' : ''}`}>
+                                                <input 
+                                                    type="text" 
+                                                    value={topic} 
+                                                    onChange={(e) => setTopic(e.target.value)} 
+                                                    onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} 
+                                                    onFocus={() => setInputFocused(true)}
+                                                    onBlur={() => setInputFocused(false)}
+                                                    disabled={isGenerating} 
+                                                    placeholder={t.topicPlaceholder} 
+                                                    className="w-full px-6 py-4 rounded-xl bg-black/40 text-white placeholder-white/25 border border-white/[0.06] focus:outline-none focus:border-indigo-500/50 transition-all input-glow text-lg" 
+                                                />
+                                                {inputFocused && (
+                                                    <motion.div 
+                                                        initial={{ opacity: 0, scale: 0.95 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        className="absolute inset-0 -z-10 rounded-xl bg-indigo-500/10 blur-2xl"
+                                                    />
+                                                )}
+                                            </div>
+                                            <motion.button 
+                                                onClick={generatePodcast} 
+                                                disabled={!topic.trim() || isGenerating || credits <= 0} 
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-xl btn-mechanical ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-white/[0.03] text-white/30 cursor-not-allowed border border-white/[0.04]' : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 shadow-indigo-500/20'}`}
+                                            >
                                                 {isGenerating ? t.generating : t.generateButton}
-                                            </button>
+                                            </motion.button>
                                         </div>
-                                        <div className="mt-5">
-                                            <p className="text-xs text-purple-400 mb-2">{t.tryThese}</p>
+                                        <div className="mt-6">
+                                            <p className="text-xs text-white/30 mb-3 uppercase tracking-widest">{t.tryThese}</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {["AI in Healthcare", "Future of Space Travel", "Climate Solutions", "Digital Art Revolution", "Quantum Computing", "Mars Colonization"].map((sample, idx) => (
-                                                    <button key={idx} onClick={() => setTopic(sample)} className="px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-purple-300 hover:text-white rounded-full text-sm transition-colors">{sample}</button>
+                                                    <motion.button 
+                                                        key={idx} 
+                                                        onClick={() => setTopic(sample)} 
+                                                        whileHover={{ scale: 1.05, y: -2 }}
+                                                        whileTap={{ scale: 0.98 }}
+                                                        className="px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] text-white/50 hover:text-white rounded-full text-sm transition-all border border-white/[0.04] hover:border-indigo-500/30"
+                                                    >
+                                                        {sample}
+                                                    </motion.button>
                                                 ))}
                                             </div>
                                         </div>
@@ -1277,11 +1556,15 @@ export default function App() {
                                 )}
 
                                 {credits <= 0 && !isGenerating && !podcast && (
-                                    <div className="bg-yellow-900/30 border border-yellow-800 rounded-2xl p-8 text-center">
-                                        <div className="text-6xl mb-4">⚠️</div>
-                                        <h3 className="text-xl font-semibold text-yellow-400 mb-2">{t.dailyLimitReached}</h3>
-                                        <p className="text-yellow-300">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
-                                    </div>
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-10 text-center"
+                                    >
+                                        <div className="text-6xl mb-5">&#x26A0;&#xFE0F;</div>
+                                        <h3 className="text-xl font-semibold text-amber-400 mb-3 tracking-tight">{t.dailyLimitReached}</h3>
+                                        <p className="text-amber-300/70">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
+                                    </motion.div>
                                 )}
 
                                 {(isGenerating || generationLogs.length > 0) && generationLogs.length > 0 && (
@@ -1298,32 +1581,59 @@ export default function App() {
                                 <DocumentationFooter language={language} />
 
                                 {error && (
-                                    <div className="bg-red-900/30 border border-red-800 rounded-2xl p-4 text-center mt-4">
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="bg-red-500/10 border border-red-500/20 rounded-2xl p-5 text-center mt-6"
+                                    >
                                         <p className="text-red-400">{error}</p>
-                                        <button onClick={() => setError(null)} className="mt-2 text-sm text-red-500 underline">Dismiss</button>
-                                    </div>
+                                        <button onClick={() => setError(null)} className="mt-3 text-sm text-red-500 hover:text-red-400 underline underline-offset-4">Dismiss</button>
+                                    </motion.div>
                                 )}
                             </>
                         )}
                         
                         {activeTab === "podcasts" && (
-                            <div className="space-y-6">
-                                <h2 className="text-2xl font-bold text-white">{t.yourPodcasts}</h2>
-                                {loadingPodcasts && <div className="text-center py-12 text-purple-400">{t.loading}</div>}
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="space-y-6"
+                            >
+                                <h2 className="text-3xl font-bold text-white tracking-tight">{t.yourPodcasts}</h2>
+                                {loadingPodcasts && (
+                                    <div className="text-center py-16 text-white/40">
+                                        <div className="w-8 h-8 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4"></div>
+                                        {t.loading}
+                                    </div>
+                                )}
                                 {!loadingPodcasts && userPodcasts.length === 0 && (
-                                    <div className="bg-purple-900/30 backdrop-blur-sm rounded-2xl p-12 text-center border border-purple-800">
-                                        <p className="text-purple-300">{t.noPodcasts}</p>
-                                        <button onClick={() => setActiveTab("home")} className="mt-4 px-6 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-500 transition-all">{t.newPodcast}</button>
+                                    <div className="glass-card-elevated rounded-2xl p-16 text-center">
+                                        <p className="text-white/40 mb-6">{t.noPodcasts}</p>
+                                        <motion.button 
+                                            onClick={() => setActiveTab("home")} 
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl hover:from-indigo-500 hover:to-violet-500 transition-all shadow-xl shadow-indigo-500/20"
+                                        >
+                                            {t.newPodcast}
+                                        </motion.button>
                                     </div>
                                 )}
                                 {userPodcasts.length > 0 && (
                                     <div className="grid gap-4">
-                                        {userPodcasts.map(podcast => (
-                                            <PodcastCard key={podcast.job_id} podcast={podcast} onPlay={playPodcast} onDelete={deletePodcast} language={language} />
+                                        {userPodcasts.map((podcast, idx) => (
+                                            <motion.div
+                                                key={podcast.job_id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: idx * 0.05 }}
+                                            >
+                                                <PodcastCard podcast={podcast} onPlay={playPodcast} onDelete={deletePodcast} language={language} />
+                                            </motion.div>
                                         ))}
                                     </div>
                                 )}
-                            </div>
+                            </motion.div>
                         )}
                     </div>
                 </div>
