@@ -1523,13 +1523,14 @@ export default function App() {
                 </div>
                 
                 {/* Main Content */}
-                <div className="flex-1 overflow-y-auto relative pattern-radial">
+                <div className="flex-1 overflow-y-auto relative pattern-radial w-full min-w-0">
                     {/* Ambient background effects */}
                     <div className="fixed top-0 right-0 w-1/2 h-1/2 bg-purple-600/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div className="fixed bottom-0 left-1/4 w-1/3 h-1/3 bg-fuchsia-600/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div className="fixed top-1/2 right-1/4 w-1/4 h-1/4 bg-cyan-600/3 rounded-full blur-3xl pointer-events-none"></div>
                     
-                    <div className="max-w-4xl mx-auto px-6 py-10 relative z-10">
+                    {/* Adjusted px alignment parameters here to save side-screen spaces on mobile grid cards */}
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 relative z-10 w-full min-w-0 overflow-x-hidden">
                         {activeTab === "home" && (
                             <>
                                 {credits > 0 && (
@@ -1631,9 +1632,9 @@ export default function App() {
                             <motion.div 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="space-y-6"
+                                className="space-y-6 w-full max-w-full overflow-x-hidden"
                             >
-                                <h2 className="text-3xl font-bold text-white tracking-tight">{t.yourPodcasts}</h2>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">{t.yourPodcasts}</h2>
                                 {loadingPodcasts && (
                                     <div className="text-center py-16 text-white/40">
                                         <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
@@ -1641,7 +1642,7 @@ export default function App() {
                                     </div>
                                 )}
                                 {!loadingPodcasts && userPodcasts.length === 0 && (
-                                    <div className="glass-card-elevated rounded-2xl p-16 text-center">
+                                    <div className="glass-card-elevated rounded-2xl p-8 sm:p-16 text-center">
                                         <p className="text-white/40 mb-6">{t.noPodcasts}</p>
                                         <motion.button 
                                             onClick={() => setActiveTab("home")} 
@@ -1653,14 +1654,16 @@ export default function App() {
                                         </motion.button>
                                     </div>
                                 )}
-                                {userPodcasts.length > 0 && (
-                                    <div className="grid gap-4">
+                                {!loadingPodcasts && userPodcasts.length > 0 && (
+                                    /* FIX: Forced w-full min-w-0 grid structure layout to constrain flex swelling */
+                                    <div className="grid gap-4 w-full min-w-0 layout-fix-wrapper">
                                         {userPodcasts.map((podcast, idx) => (
                                             <motion.div
                                                 key={podcast.job_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: idx * 0.05 }}
+                                                className="w-full min-w-0 block container-snap"
                                             >
                                                 <PodcastCard podcast={podcast} onPlay={playPodcast} onDelete={deletePodcast} language={language} />
                                             </motion.div>
