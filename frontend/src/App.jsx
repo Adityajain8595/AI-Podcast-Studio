@@ -1508,27 +1508,18 @@ export default function App() {
                     </div>
 
                     <div className="p-4 border-t border-white/[0.04] flex flex-col gap-4 items-center w-full lg:block">
-    
-                    {/* Enforces full width stretching and clear item alignment grids across small viewports */}
-                    <div className="w-full lg:hidden block">
-                        <CreditDisplay 
-                            credits={credits} 
-                            creditsUsed={creditsUsedToday} 
-                            dailyLimit={dailyLimit} 
-                            resetsInSeconds={resetsInSeconds} 
-                            language={language} 
-                        />
+                        <div className="w-full lg:hidden block">
+                            <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
+                        </div>
+                        <motion.button 
+                            onClick={handleLogout} 
+                            whileTap={{ scale: 0.98 }}
+                            className="w-full lg:w-auto lg:mt-4 px-4 py-2.5 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-medium flex items-center justify-center gap-2 border border-red-500/20 whitespace-nowrap"
+                        >
+                            <LogoutIcon /> 
+                            <span>{t.logout}</span>
+                        </motion.button>
                     </div>
-
-                    {/* Center positions the logout interface actions beautifully directly underneath the credit row */}
-                    <motion.button 
-                        onClick={handleLogout} 
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full lg:w-auto lg:mt-4 px-4 py-2.5 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-medium flex items-center justify-center gap-2 border border-red-500/20 whitespace-nowrap"
-                    >
-                        <LogoutIcon /> 
-                        <span>{t.logout}</span>
-                    </motion.button>
                 </div>
                 
                 {/* Main Content */}
