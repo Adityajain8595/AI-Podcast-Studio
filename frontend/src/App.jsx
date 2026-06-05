@@ -467,8 +467,8 @@ const DocumentationFooter = ({ language }) => {
                                     <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center text-white text-sm shadow-lg shadow-purple-500/20">&#x1F3D7;</span>
                                     {t.architecture}
                                 </h4>
-                                <div className="bg-black/40 rounded-xl p-5 overflow-x-auto border border-white/[0.04]">
-                                    <pre className="text-xs text-purple-200/80 font-mono whitespace-pre-wrap leading-relaxed tracking-wide">
+                               <div className="bg-black/40 rounded-xl p-5 overflow-x-auto border border-white/[0.04] w-full memory-scroll">
+                                <pre className="text-xs text-purple-200/80 font-mono whitespace-pre leading-relaxed tracking-wide block min-w-[550px]">
 {`
 ┌─────────────────────────────────────────────────────────────┐
 │                   FRONTEND (React + Vite)                   │
@@ -1463,7 +1463,7 @@ export default function App() {
     return (
         <>
             <GlobalStyles />
-            <div className="flex flex-col lg:flex-row min-h-screen h-screen bg-[#0a0118] pattern-grid overflow-hidden">
+            <div className="flex flex-col lg:flex-row min-h-screen lg:h-dvh bg-[#0a0118] pattern-grid overflow-y-auto lg:overflow-hidden">
                 
                 {/* Sidebar Component (Responsive Stack) */}
                 <div className="w-full lg:w-72 bg-[#0d0620] border-b lg:border-r border-white/[0.04] flex flex-col lg:h-full shrink-0 pattern-noise">
@@ -1477,7 +1477,7 @@ export default function App() {
                         <p className="hidden lg:block text-xs text-white/30 text-center mt-1 uppercase tracking-widest">{t.tagline}</p>
                     </div>
                     
-                    <nav className="p-3 lg:p-4 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible flex-1">
+                    <nav className="p-3 lg:p-4 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible shrink-0">
                         <motion.button 
                             onClick={() => setActiveTab("home")} 
                             whileTap={{ scale: 0.98 }}
@@ -1502,8 +1502,8 @@ export default function App() {
                         </div>
                     </div>
 
-                    <div className="p-3 lg:p-4 border-t border-white/[0.04] flex items-center justify-between lg:block">
-                        <div className="lg:hidden scale-75 transform origin-left">
+                    <div className="p-4 border-t border-white/[0.04] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:block">
+                        <div className="lg:hidden max-w-[180px] w-full">
                             <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         </div>
                         <motion.button 
@@ -1533,8 +1533,8 @@ export default function App() {
                                         className="glass-card-elevated rounded-2xl p-8 mb-8 shadow-2xl shadow-black/30"
                                     >
                                         <label className="block text-white font-semibold mb-3 tracking-tight">{t.topicLabel}</label>
-                                        <div className="flex gap-4 relative">
-                                            <div className={`flex-1 relative ${inputFocused ? 'z-10' : ''}`}>
+                                        <div className="flex flex-col sm:flex-row gap-3 relative">
+                                            <div className={`w-full sm:flex-1 relative ${inputFocused ? 'z-10' : ''}`}>
                                                 <input 
                                                     type="text" 
                                                     value={topic} 
