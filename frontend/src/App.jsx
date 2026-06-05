@@ -502,7 +502,8 @@ const DocumentationFooter = ({ language }) => {
 │  • Tavily: Real-time web search API                         │
 │  • Google Cloud TTS: Neural text-to-speech voices           │
 │  • Supabase: Authentication & credits database              │
-└─────────────────────────────────────────────────────────────┘`}
+└─────────────────────────────────────────────────────────────┘
+`}
                                     </pre>
                                 </div>
                             </div>
@@ -678,20 +679,22 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         
         const segments = getRawSegments();
         const totalChars = segments.reduce((acc, seg) => acc + seg.charCount, 0);
-        const betweenChunkSilence = Math.max(0, (segments.length - 1) * 0.5);
-        const internalSilence = segments.reduce((acc, seg) => acc + seg.internalSilence, 0);
         
-        const totalSilence = betweenChunkSilence + internalSilence;
-        const speakingTime = Math.max(0, totalDuration - totalSilence);
-        const timePerChar = speakingTime / totalChars;
+        // Use a clean 350ms static padding gap between discrete speaker exchanges
+        const baseTransitionGap = 0.35;
+        const totalSilence = segments.reduce((acc, seg) => acc + seg.internalSilence, 0) + (segments.length * baseTransitionGap);
         
-        let trackTime = 0;
+        const trueSpeakingDuration = Math.max(0, totalDuration - totalSilence);
+        const trueSecPerChar = totalChars > 0 ? trueSpeakingDuration / totalChars : 0;
+        
+        let timelineCursor = 0;
         const timedSegments = segments.map((seg) => {
-            const speakingDuration = seg.charCount * timePerChar;
-            const totalSegDuration = speakingDuration + seg.internalSilence;
-            const start = trackTime;
-            const end = start + totalSegDuration;
-            trackTime = end + 0.5;
+            const speakingDuration = seg.charCount * trueSecPerChar;
+            const start = timelineCursor;
+            const end = start + speakingDuration + seg.internalSilence;
+            
+            // Increment cursor directly to the edge of the next transition window
+            timelineCursor = end + baseTransitionGap;
             return { ...seg, start, end };
         });
         
@@ -768,8 +771,9 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         const current = audioRef.current.currentTime;
         setCurrentTime(current);
         
+        // Strict boundary lookups map text layers exactly to the elapsed audio clock
         const activeSegment = parsedSegments.find(seg => 
-            current >= seg.start && current <= (seg.end + 0.5)
+            current >= seg.start && current <= seg.end
         );
         
         if (activeSegment && activeSegment !== lastActiveSegmentRef.current) {
@@ -987,11 +991,8 @@ const CreditDisplay = ({ credits, creditsUsed, dailyLimit, resetsInSeconds, lang
     );
 };
 
-// --- Podcast Card Component ---
 const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
     const t = translations[language];
-    const [isPlaying, setIsPlaying] = useState(false);
-    const audioRef = useRef(null);
     const date = new Date(podcast.created_at).toLocaleDateString();
     
     return (
@@ -1002,40 +1003,38 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
             className="glass-card rounded-xl p-5 hover:bg-white/[0.03] hover:border-cyan-500/20 transition-all duration-300 group"
         >
             <div className="flex justify-between items-center">
-                <div className="flex-1">
-                    <h3 className="font-semibold text-white text-lg tracking-tight">{podcast.topic}</h3>
+                <div className="flex-1 pr-4">
+                    <h3 className="font-semibold text-white text-lg tracking-tight truncate">{podcast.topic}</h3>
                     <p className="text-xs text-white/30 mt-1 font-mono tracking-wider">{date}</p>
                 </div>
-                <div className="flex items-center gap-3">
+                
+                <div className="flex items-center gap-4 flex-shrink-0">
+                    {/* Master Action Trigger: Directly loads audio timeline, log files, and visualizer script views */}
                     <motion.button 
-                        onClick={() => { if(audioRef.current) { if(isPlaying) audioRef.current.pause(); else audioRef.current.play(); setIsPlaying(!isPlaying); } }} 
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white flex items-center justify-center shadow-lg shadow-violet-500/20"
+                        onClick={() => onPlay(podcast)} 
+                        whileHover={{ scale: 1.08 }}
+                        whileTap={{ scale: 0.92 }}
+                        className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white flex items-center justify-center shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 transition-all"
+                        title={t.play}
                     >
-                        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+                        <PlayIcon />
                     </motion.button>
-                    <audio ref={audioRef} src={podcast.audio_url} onEnded={() => setIsPlaying(false)} />
+
+                    {/* Secondary File Export Shortcut */}
                     <motion.button 
                         onClick={() => window.open(podcast.audio_url, '_blank')} 
-                        whileHover={{ scale: 1.1 }}
-                        className="text-white/40 hover:text-cyan-400 transition-colors"
+                        whileHover={{ scale: 1.15 }}
+                        className="text-white/40 hover:text-cyan-400 transition-colors p-1"
                     >
                         <DownloadIcon />
                     </motion.button>
-                    <motion.button 
-                        onClick={() => onPlay(podcast)} 
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="px-5 py-2.5 rounded-xl bg-white/[0.03] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all text-sm font-medium border border-white/[0.06] btn-mechanical"
-                    >
-                        {t.play}
-                    </motion.button>
+                    
+                    {/* Pipeline Destruct Event Button */}
                     <motion.button 
                         onClick={() => onDelete(podcast.job_id)} 
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.15 }}
                         whileTap={{ scale: 0.95 }}
-                        className="text-white/30 hover:text-red-400 transition-colors"
+                        className="text-white/30 hover:text-red-400 transition-colors p-1"
                     >
                         <DeleteIcon />
                     </motion.button>
@@ -1464,65 +1463,55 @@ export default function App() {
     return (
         <>
             <GlobalStyles />
-            <div className="flex h-screen bg-[#0a0118] pattern-grid">
-                {/* Sidebar */}
-                <div className="w-72 bg-[#0d0620] border-r border-white/[0.04] flex flex-col pattern-noise">
-                    <div className="p-6 border-b border-white/[0.04]">
-                        <div className="relative inline-block w-full">
-                            <img src={logoImage} alt="Logo" className="w-14 h-14 rounded-xl mx-auto mb-4 shadow-xl shadow-purple-500/20" />
+            <div className="flex flex-col lg:flex-row min-h-screen h-screen bg-[#0a0118] pattern-grid overflow-hidden">
+                
+                {/* Sidebar Component (Responsive Stack) */}
+                <div className="w-full lg:w-72 bg-[#0d0620] border-b lg:border-r border-white/[0.04] flex flex-col lg:h-full shrink-0 pattern-noise">
+                    <div className="p-4 lg:p-6 border-b border-white/[0.04] flex flex-row lg:flex-col items-center justify-between lg:justify-start gap-4">
+                        <div className="flex items-center gap-3 lg:block lg:text-center">
+                            <img src={logoImage} alt="Logo" className="w-10 h-10 lg:w-14 lg:h-14 rounded-xl mx-auto shadow-xl shadow-purple-500/20" />
+                            <h1 className="text-lg lg:text-xl font-bold text-white tracking-tight mt-0 lg:mt-4">
+                                {t.appTitle}
+                            </h1>
                         </div>
-                        <h1 className="text-xl font-bold text-center text-white tracking-tight">
-                            {t.appTitle}
-                        </h1>
-                        <p className="text-xs text-white/30 text-center mt-1 uppercase tracking-widest">{t.tagline}</p>
+                        <p className="hidden lg:block text-xs text-white/30 text-center mt-1 uppercase tracking-widest">{t.tagline}</p>
                     </div>
                     
-                    <nav className="flex-1 p-4 space-y-2">
+                    <nav className="p-3 lg:p-4 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible flex-1">
                         <motion.button 
                             onClick={() => setActiveTab("home")} 
-                            whileHover={{ x: 4 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                            className={`flex-1 lg:w-full px-4 py-2.5 lg:py-3.5 rounded-xl transition-all flex items-center justify-center lg:justify-start gap-3 whitespace-nowrap ${activeTab === "home" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
                         >
-                            <HomeIcon /> <span className="font-medium">{t.home}</span>
+                            <HomeIcon /> <span className="font-medium text-sm">{t.home}</span>
                         </motion.button>
                         <motion.button 
                             onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} 
-                            whileHover={{ x: 4 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                            className={`flex-1 lg:w-full px-4 py-2.5 lg:py-3.5 rounded-xl transition-all flex items-center justify-center lg:justify-start gap-3 whitespace-nowrap ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
                         >
-                            <PodcastIcon /> <span className="font-medium">{t.yourPodcasts}</span>
+                            <PodcastIcon /> <span className="font-medium text-sm">{t.yourPodcasts}</span>
                         </motion.button>
                     </nav>
                     
-                    <div className="p-4 border-t border-white/[0.04] space-y-4">
+                    <div className="hidden lg:block p-4 border-t border-white/[0.04] space-y-4">
                         <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         <div className="flex gap-2">
-                            <motion.button 
-                                onClick={() => setLanguage('en')} 
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'en' ? 'bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
-                            >
-                                English
-                            </motion.button>
-                            <motion.button 
-                                onClick={() => setLanguage('hi')} 
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className={`flex-1 px-3 py-2.5 text-sm rounded-xl transition-all font-medium ${language === 'hi' ? 'bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20' : 'bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white border border-white/[0.04]'}`}
-                            >
-                                हिंदी
-                            </motion.button>
+                            <button onClick={() => setLanguage('en')} className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-all ${language === 'en' ? 'bg-purple-600 text-white' : 'bg-white/[0.02] text-white/40'}`}>EN</button>
+                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-all ${language === 'hi' ? 'bg-purple-600 text-white' : 'bg-white/[0.02] text-white/40'}`}>HI</button>
+                        </div>
+                    </div>
+
+                    <div className="p-3 lg:p-4 border-t border-white/[0.04] flex items-center justify-between lg:block">
+                        <div className="lg:hidden scale-75 transform origin-left">
+                            <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
                         </div>
                         <motion.button 
                             onClick={handleLogout} 
-                            whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all text-sm font-medium flex items-center justify-center gap-2 border border-red-500/20"
+                            className="px-4 py-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-medium flex items-center justify-center gap-2 border border-red-500/20 whitespace-nowrap"
                         >
-                            <LogoutIcon /> {t.logout}
+                            <LogoutIcon /> <span className="hidden lg:inline">{t.logout}</span>
                         </motion.button>
                     </div>
                 </div>
