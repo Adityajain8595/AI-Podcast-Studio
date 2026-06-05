@@ -1000,27 +1000,33 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ y: -2 }}
-            className="glass-card rounded-xl p-5 hover:bg-white/[0.03] hover:border-cyan-500/20 transition-all duration-300 group"
+            className="glass-card rounded-xl p-4 sm:p-5 hover:bg-white/[0.03] hover:border-cyan-500/20 transition-all duration-300 group w-full"
         >
-            <div className="flex justify-between items-center">
-                <div className="flex-1 pr-4">
-                    <h3 className="font-semibold text-white text-lg tracking-tight truncate">{podcast.topic}</h3>
-                    <p className="text-xs text-white/30 mt-1 font-mono tracking-wider">{date}</p>
+            {/* Added min-w-0 here to prevent children from swelling the layout */}
+            <div className="flex justify-between items-center gap-2 w-full min-w-0">
+                
+                {/* Enforced min-w-0 on the text block to make truncate work natively */}
+                <div className="flex-1 min-w-0 pr-2 sm:pr-4">
+                    <h3 className="font-semibold text-white text-base sm:text-lg tracking-tight truncate">
+                        {podcast.topic}
+                    </h3>
+                    <p className="text-[10px] sm:text-xs text-white/30 mt-1 font-mono tracking-wider">
+                        {date}
+                    </p>
                 </div>
                 
-                <div className="flex items-center gap-4 flex-shrink-0">
-                    {/* Master Action Trigger: Directly loads audio timeline, log files, and visualizer script views */}
+                {/* Action buttons are locked down tightly so they never shrink or move */}
+                <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                     <motion.button 
                         onClick={() => onPlay(podcast)} 
                         whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.92 }}
-                        className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white flex items-center justify-center shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 transition-all"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white flex items-center justify-center shadow-lg shadow-violet-500/20 transition-all"
                         title={t.play}
                     >
                         <PlayIcon />
                     </motion.button>
 
-                    {/* Secondary File Export Shortcut */}
                     <motion.button 
                         onClick={() => window.open(podcast.audio_url, '_blank')} 
                         whileHover={{ scale: 1.15 }}
@@ -1029,7 +1035,6 @@ const PodcastCard = ({ podcast, onPlay, onDelete, language }) => {
                         <DownloadIcon />
                     </motion.button>
                     
-                    {/* Pipeline Destruct Event Button */}
                     <motion.button 
                         onClick={() => onDelete(podcast.job_id)} 
                         whileHover={{ scale: 1.15 }}
@@ -1502,18 +1507,28 @@ export default function App() {
                         </div>
                     </div>
 
-                    <div className="p-4 border-t border-white/[0.04] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:block">
-                        <div className="lg:hidden max-w-[180px] w-full">
-                            <CreditDisplay credits={credits} creditsUsed={creditsUsedToday} dailyLimit={dailyLimit} resetsInSeconds={resetsInSeconds} language={language} />
-                        </div>
-                        <motion.button 
-                            onClick={handleLogout} 
-                            whileTap={{ scale: 0.98 }}
-                            className="px-4 py-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-medium flex items-center justify-center gap-2 border border-red-500/20 whitespace-nowrap"
-                        >
-                            <LogoutIcon /> <span className="hidden lg:inline">{t.logout}</span>
-                        </motion.button>
+                    <div className="p-4 border-t border-white/[0.04] flex flex-col gap-4 items-center w-full lg:block">
+    
+                    {/* Enforces full width stretching and clear item alignment grids across small viewports */}
+                    <div className="w-full lg:hidden block">
+                        <CreditDisplay 
+                            credits={credits} 
+                            creditsUsed={creditsUsedToday} 
+                            dailyLimit={dailyLimit} 
+                            resetsInSeconds={resetsInSeconds} 
+                            language={language} 
+                        />
                     </div>
+
+                    {/* Center positions the logout interface actions beautifully directly underneath the credit row */}
+                    <motion.button 
+                        onClick={handleLogout} 
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full lg:w-auto lg:mt-4 px-4 py-2.5 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-medium flex items-center justify-center gap-2 border border-red-500/20 whitespace-nowrap"
+                    >
+                        <LogoutIcon /> 
+                        <span>{t.logout}</span>
+                    </motion.button>
                 </div>
                 
                 {/* Main Content */}
