@@ -1312,6 +1312,13 @@ export default function App() {
     const isMounted = useRef(true);
     const eventSourceRef = useRef(null);
 
+    const formatUrl = (url) => {
+            if (!url) return "";
+            if (url.startsWith('http://') || url.startsWith('https://')) return url;
+            if (url.startsWith('/')) return `${BACKEND_URL}${url}`;
+            return `${BACKEND_URL}/${url}`;
+    };
+
     const checkBackendConnection = async () => {
         try {
             const response = await fetch(`${BACKEND_URL}/`, { method: 'GET', signal: AbortSignal.timeout(5000) });
@@ -1382,15 +1389,8 @@ export default function App() {
         } catch (err) { console.error("Failed to delete podcast:", err); }
     };
 
-    // FIX 1: Fixed playPodcast with URL sanitization to prevent double-prefixing
+    // Fixed playPodcast with URL sanitization to prevent double-prefixing
     const playPodcast = (podcastData) => {
-        // Ensure we don't double-prefix if audio_url already contains BACKEND_URL or a leading slash
-        const formatUrl = (url) => {
-            if (!url) return "";
-            if (url.startsWith('http://') || url.startsWith('https://')) return url;
-            if (url.startsWith('/')) return `${BACKEND_URL}${url}`;
-            return `${BACKEND_URL}/${url}`;
-        };
 
         setPodcast({ 
             audioUrl: formatUrl(podcastData.audio_url), 
