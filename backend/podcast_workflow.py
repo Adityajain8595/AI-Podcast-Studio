@@ -410,7 +410,7 @@ def write_full_report(state: ResearchState):
         - Welcome the listener and introduce yourself as Alex.
         - Hook the audience with a relatable observation or funny thought.
         - Introduce your guest expert with a highly realistic, specialized female name and professional designation tailored exactly to the topic context. 
-          CRITICAL VARIETY DIRECTIVE: Do NOT use default names like 'Dr. Maya Patel'. Create an entirely fresh, unique name appropriate for the specific topic domain.
+          CRITICAL VARIETY DIRECTIVE: Create an entirely fresh, unique name appropriate for the specific topic domain, not 'Dr. Maya Patel'
         - Keep it to 150-200 words.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences so you can breathe.
         - Replace any ampersands (&) with the word "and".
@@ -459,10 +459,10 @@ def write_full_report(state: ResearchState):
         outro = outro.replace("```html", "").replace("```text", "").replace("```", "").strip()
 
         # Strict fallback check
-        if not intro or not intro.strip():
+        if not intro or len(intro.strip()) < 40:
             intro = f"Welcome to DailyPods! Today we're diving deep into the fascinating world of {state['topic']}. Joining us is our brilliant guest expert Dr. Maya Patel, who will help unravel the complexities of this topic. We'll explore key themes like {', '.join(state['subtopics'][:3])}, and uncover surprising insights along the way. So sit back, relax, and let's get into it! <break time=\"800ms\"/>"
         
-        if not outro or not outro.strip():
+        if not outro or len(outro.strip()) < 40:
             outro = f"Thanks for joining us today as we explored the intricacies of {state['topic']}. We hope you found the discussion insightful and thought-provoking. Don't forget to tune-in for more episodes like this one. Until next time, keep exploring and stay curious! <break time=\"800ms\"/>"
         
         introduction = f"**Interviewer:** {intro.strip()}"

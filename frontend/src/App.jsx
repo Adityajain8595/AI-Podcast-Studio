@@ -639,8 +639,8 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         let textBlock = '';
 
         for (const line of lines) {
-            const interviewerMatch = line.match(/\*\*Interviewer:\*\*\s*(.*)/);
-            const expertMatch = line.match(/\*\*Expert:\*\*\s*(.*)/);
+            const interviewerMatch = line.match(/^(?:\*\*|)?Interviewer:(?:\*\*|)?\s*(.*)/i);
+            const expertMatch = line.match(/^(?:\*\*|)?Expert:(?:\*\*|)?\s*(.*)/i);
 
             if (interviewerMatch) {
                 if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
