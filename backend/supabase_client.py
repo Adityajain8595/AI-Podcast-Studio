@@ -156,6 +156,56 @@ def get_user_credit_info(user_id: str) -> dict:
             "cost_per_generation": CREDIT_COST_PER_PODCAST
         }
 
+def refund_credit(user_id: str) -> bool:
+    """Refund one daily credit back to the user in case of worker failure"""
+    try:
+        ensure_user_exists(user_id)
+        
+        result = supabase.table("user_credits")\
+            .select("daily_credits_used")\
+            .eq("user_id", user_id)\
+            .execute()
+        
+        if result.data:
+            record = result.data[0]
+            credits_used = record["daily_credits_used"]
+            
+            # Prevent dropping below 0 used credits
+            new_credits_used = max(0, credits_used - 1)
+            
+            supabase.table("user_credits")\
+                .update({
+                    "daily_credits_used": new_credits_used,
+                    "updated_at": datetime.now().isoformat()
+                })\
+                .eq("user_id", user_id)\
+                .execute()
+            print(f"Successfully refunded credit to user: {user_id}")
+            return True
+        return False
+    except Exception as e:
+        print(f"Critical error processing database credit refund: {e}")
+        return False
+
+def upload_podcast_file(job_id: str, audio_bytes: bytes) -> str:
+    """Uploads audio binary directly to Supabase Storage"""
+    try:
+        file_path = f"{job_id}.mp3"
+        
+        # Upload binary array to your storage bucket
+        supabase.storage.from_("podcast-bucket").upload(
+            path=file_path,
+            file=audio_bytes,
+            file_options={"content-type": "audio/mpeg"}
+        )
+        
+        # Get the permanent public viewing URL
+        public_url = supabase.storage.from_("podcast-bucket").get_public_url(file_path)
+        return public_url
+    except Exception as e:
+        print(f"Failed uploading file asset to Supabase Storage: {e}")
+        return ""
+
 # Podcast storage functions
 def save_podcast(user_id: str, job_id: str, topic: str, language: str, script: str, audio_url: str) -> bool:
     """Save generated podcast to user's storage"""

@@ -631,6 +631,8 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
     const lastActiveSegmentRef = useRef(null);
 
     const getRawSegments = useCallback(() => {
+        if (!script || script === "Loading...") return [];
+        
         const lines = script.split('\n');
         const segments = [];
         let currentSpeaker = '';
@@ -678,6 +680,8 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         setDuration(totalDuration);
         
         const segments = getRawSegments();
+        if (segments.length === 0) return;
+        
         const totalChars = segments.reduce((acc, seg) => acc + seg.charCount, 0);
         
         // Use a clean 350ms static padding gap between discrete speaker exchanges
@@ -1378,23 +1382,34 @@ export default function App() {
         } catch (err) { console.error("Failed to delete podcast:", err); }
     };
 
+    // FIX 1: Fixed playPodcast with URL sanitization to prevent double-prefixing
     const playPodcast = (podcastData) => {
+        // Ensure we don't double-prefix if audio_url already contains BACKEND_URL or a leading slash
+        const formatUrl = (url) => {
+            if (!url) return "";
+            if (url.startsWith('http://') || url.startsWith('https://')) return url;
+            if (url.startsWith('/')) return `${BACKEND_URL}${url}`;
+            return `${BACKEND_URL}/${url}`;
+        };
+
         setPodcast({ 
-            audioUrl: `${BACKEND_URL}${podcastData.audio_url}`, 
+            audioUrl: formatUrl(podcastData.audio_url), 
             script: "Loading...", 
             topic: podcastData.topic, 
             jobId: podcastData.job_id 
         });
+        
         fetch(`${BACKEND_URL}/user/podcasts/${podcastData.job_id}`, { headers: { 'Authorization': `Bearer ${session?.access_token}` } })
             .then(res => res.json())
             .then(data => {
                 setPodcast({ 
-                    audioUrl: `${BACKEND_URL}${data.audio_url}`, 
+                    audioUrl: formatUrl(data.audio_url), 
                     script: data.script, 
                     topic: data.topic, 
                     jobId: data.job_id 
                 });
-            });
+            })
+            .catch(err => console.error("Error retrieving saved podcast details:", err));
         setActiveTab("home");
     };
 
@@ -1426,18 +1441,32 @@ export default function App() {
                     if (data.type === 'progress') {
                         setGenerationLogs(prev => [...prev, { ...data.data, timestamp: data.data.timestamp || Date.now() / 1000 }]);
                     } else if (data.type === 'complete') {
-                        fetch(`${BACKEND_URL}/script/${job_id}`).then(res => res.json()).then(scriptData => {
-                            if (isMounted.current) {
-                                setPodcast({ audioUrl: `${BACKEND_URL}${data.download_url}`, script: scriptData.script, topic, jobId: job_id });
-                                setIsGenerating(false);
-                                fetchUserPodcasts(session?.access_token);
-                            }
-                        });
+                        fetch(`${BACKEND_URL}/user/podcasts/${job_id}`, { headers: { 'Authorization': `Bearer ${session?.access_token}` } })
+                            .then(res => res.json())
+                            .then(scriptData => {
+                                if (isMounted.current) {
+                                    // FIX: Pass data.download_url into formatUrl to prevent double-prefixing instantly on creation
+                                    setPodcast({ 
+                                        audioUrl: formatUrl(data.download_url), 
+                                        script: scriptData.script, 
+                                        topic, 
+                                        jobId: job_id 
+                                    });
+                                    setIsGenerating(false);
+                                    fetchUserPodcasts(session?.access_token);
+                                }
+                            });
                         eventSourceRef.current?.close();
                         eventSourceRef.current = null;
                     } else if (data.type === 'error') {
                         setError(data.message);
                         setIsGenerating(false);
+                        
+                        // FIX 2: Fetch new balance instantly when error occurs (credit refund from backend)
+                        if (session) {
+                            fetchUserCredits(session.access_token);
+                        }
+                        
                         eventSourceRef.current?.close();
                         eventSourceRef.current = null;
                     }
