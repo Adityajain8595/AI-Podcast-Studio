@@ -616,7 +616,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
 };
 
 // --- Audio Player with Waveform and Captions ---
-const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast }) => {
+const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast, language}) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentCaption, setCurrentCaption] = useState("");
     const [parsedSegments, setParsedSegments] = useState([]);
@@ -633,42 +633,23 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
     useEffect(() => {
         if (!script || script === "Loading...") return;
         
-        // Exact matching strings 
-        const startMarker = "";
-        
-        const startIndex = script.indexOf(startMarker);
-        if (startIndex !== -1) {
-            const endIndex = script.indexOf(endMarker, startIndex);
-            if (endIndex !== -1) {
-                const jsonStart = startIndex + startMarker.length;
-                const jsonString = script.substring(jsonStart, endIndex).trim();
-                try {
-                    const serverTimestamps = JSON.parse(jsonString);
-                    setParsedSegments(serverTimestamps);
-                    return;
-                } catch (e) {
-                    console.error("Failed to decode inline telemetric segment streams:", e);
-                }
-            }
-        }
-        
-        // Safe Fallback using native string splits if telemetry metadata is missing
         const lines = script.split('\n');
         const fallbackSegments = [];
         let cursor = 0;
-        
+
         for (const line of lines) {
             const isInterviewer = line.toUpperCase().includes("INTERVIEWER:");
             const isExpert = line.toUpperCase().includes("EXPERT:");
-            
+
             if (isInterviewer || isExpert) {
                 const speaker = isInterviewer ? "Interviewer" : "Expert";
                 const cleanLabel = isInterviewer ? "Interviewer:" : "Expert:";
                 const rawText = line.substring(line.toUpperCase().indexOf(cleanLabel) + cleanLabel.length);
                 const textClean = rawText.replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
-                
+
                 if (!textClean) continue;
-                
+
+                // Simple heuristic for timing (duration based on text length)
                 const calculatedDelta = Math.max(3, textClean.length * 0.065);
                 fallbackSegments.push({
                     speaker: speaker,
