@@ -64,9 +64,7 @@ llm = ChatGroq(
     max_tokens=1500,
     api_key=GROQ_API_KEY,
     max_retries=3,
-    timeout=30,
-    model_kwargs={"system_instruction": """The current year is 2026. 
-                  Treat all historical data from 2025 or earlier as past events, never as upcoming events."""}
+    timeout=30
 )
 
 # Faster model for simple query generation
@@ -76,10 +74,7 @@ query_llm = ChatGroq(
     max_tokens=200,
     api_key=GROQ_API_KEY,
     max_retries=3,
-    timeout=20,
-    model_kwargs={"system_instruction": """The current year is 2026. 
-                  Search for trending or recent events of 2026 on web. 
-                  Treat all historical data from 2025 or earlier as past events."""}
+    timeout=20
 )
 
 # Planning Subgraph: Extracts keywords and subtopics from user's topic
@@ -159,8 +154,13 @@ def search_web(state: InterviewState):
         input_variables=["history"],
         template="""Generate a Tavily web search query from this conversation.
         Conversation: {history}
+
+        CRITICAL TIME CONTEXT: The current year is 2026. 
+        Search for trending, current, or recent developments belonging to 2026 on the web.
+        Treat all data points from 2025 or earlier as completed past history.
+
         Focus on the last question asked.
-        # Example output: {{"query": "latest AI developments 2024"}}
+        # Example output: {{"query": "latest AI developments 2026"}}
         You must respond in valid JSON format containing a single key: "query"."""
     )
     try:
