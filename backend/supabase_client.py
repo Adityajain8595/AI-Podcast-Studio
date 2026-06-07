@@ -196,7 +196,7 @@ def upload_podcast_file(job_id: str, audio_bytes: bytes) -> str:
         supabase.storage.from_("podcast-bucket").upload(
             path=file_path,
             file=audio_bytes,
-            file_options={"content-type": "audio/mpeg"}
+            file_options={"content-type": "audio/mpeg", "x-upsert": "true"}
         )
         
         # Get the permanent public viewing URL

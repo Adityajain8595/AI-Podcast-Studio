@@ -96,6 +96,8 @@ def generate_audio_from_script(script: str, language: str, speaker_voices: dict 
         
     combined = AudioSegment.empty()
     total_chunks = len(dialogues)
+    timestamps = []
+    current_ms = 0
     
     emit_progress("tts", "converting", f"Converting {total_chunks} dialogue chunks to audio...")
     
@@ -103,7 +105,7 @@ def generate_audio_from_script(script: str, language: str, speaker_voices: dict 
         if not text:
             continue
             
-        preview = (text[:35] + '...') if len(text) > 35 else text
+        preview = (text[:50] + '...') if len(text) > 50 else text
         preview = preview.replace('\n', ' ')
         emit_progress("tts", "processing", f"  [{i}/{total_chunks}] {speaker}: \"{preview}\"")
         
@@ -112,7 +114,23 @@ def generate_audio_from_script(script: str, language: str, speaker_voices: dict 
         try:
             audio_bytes = text_to_speech_segment(text, language, voice_gender)
             segment = AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3")
+            
+            # Record structural audio boundary alignments
+            start_sec = current_ms / 1000.0
+            current_ms += len(segment)
+            end_sec = current_ms / 1000.0
+                      
+            clean_caption = re.sub(r'<[^>]+>', '', text).strip()          
+            timestamps.append({
+                "speaker": speaker,
+                "text": clean_caption,
+                "start": start_sec,
+                "end": end_sec
+            })
+            
+            # Append track content and apply a 500ms conversational gap
             combined += segment + AudioSegment.silent(duration=500)
+            current_ms += 500
         except Exception as e:
             emit_progress("tts", "error", f"  ❌ Error on chunk {i}: {e}")
             raise e
@@ -123,4 +141,4 @@ def generate_audio_from_script(script: str, language: str, speaker_voices: dict 
     combined.export(output, format="mp3")
     emit_progress("tts", "complete", f"Audio ready! Duration: {len(combined)/1000:.1f} seconds\n")
     
-    return output.getvalue()
+    return output.getvalue(), timestamps

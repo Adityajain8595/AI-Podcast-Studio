@@ -471,11 +471,11 @@ const DocumentationFooter = ({ language }) => {
                                 <pre className="text-xs text-purple-200/80 font-mono whitespace-pre leading-relaxed tracking-wide block min-w-[550px]">
 {`
 ┌─────────────────────────────────────────────────────────────┐
-│                   FRONTEND (React + Vite)                   │
-│  • User authentication (Supabase Auth)                      │
-│  • Real-time progress streaming (SSE)                       │
-│  • Audio player with waveform visualization                 │
-│  • Live captions synchronized with audio                    │
+│                   FRONTEND (React + Vite)                  │
+│  • User authentication (Supabase Auth)                     │
+│  • Real-time progress streaming (SSE)                      │
+│  • Audio player with waveform visualization                │
+│  • Live captions synchronized with audio                   │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -630,79 +630,49 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
     const animationFrameRef = useRef(null);
     const lastActiveSegmentRef = useRef(null);
 
-    const getRawSegments = useCallback(() => {
-        if (!script || script === "Loading...") return [];
+    useEffect(() => {
+        if (!script || script === "Loading...") return;
         
-        const lines = script.split('\n');
-        const segments = [];
-        let currentSpeaker = '';
-        let textBlock = '';
-
-        for (const line of lines) {
-            const interviewerMatch = line.match(/^(?:\*\*|)?Interviewer:(?:\*\*|)?\s*(.*)/i);
-            const expertMatch = line.match(/^(?:\*\*|)?Expert:(?:\*\*|)?\s*(.*)/i);
-
-            if (interviewerMatch) {
-                if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
-                currentSpeaker = 'Interviewer';
-                textBlock = interviewerMatch[1];
-            } else if (expertMatch) {
-                if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
-                currentSpeaker = 'Expert';
-                textBlock = expertMatch[1];
-            } else if (textBlock && line.trim() && !line.startsWith('---')) {
-                textBlock += ' ' + line.trim();
+        // Extract the hidden timestamp payload string from the markdown body
+        const metadataMatch = script.match(/<!--\s*(\[[\s\S]*?\])\s*-->/);
+        
+        if (metadataMatch && metadataMatch[1]) {
+            try {
+                const serverTimestamps = JSON.parse(metadataMatch[1]);
+                setParsedSegments(serverTimestamps);
+                return;
+            } catch (e) {
+                console.error("Failed to decode inline telemetric segment streams:", e);
             }
         }
-        if (textBlock) segments.push({ speaker: currentSpeaker, rawText: textBlock });
-
-        return segments.map(seg => {
-            const break800s = (seg.rawText.match(/<break time=["']800ms["']\s*\/?>/g) || []).length;
-            const break500s = (seg.rawText.match(/<break time=["']500ms["']\s*\/?>/g) || []).length;
-            const break1s = (seg.rawText.match(/<break time=["']1s["']\s*\/?>/g) || []).length;
-
-            const internalSilence = (break800s * 0.8) + (break500s * 0.5) + (break1s * 1.0);
-            const cleanText = seg.rawText.replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
-
-            return {
-                speaker: seg.speaker,
-                text: cleanText,
-                charCount: cleanText.length,
-                internalSilence: internalSilence
-            };
-        });
+        
+        // Secure Fallback
+        const lines = script.split('\n');
+        const fallbackSegments = [];
+        let cursor = 0;
+        
+        for (const line of lines) {
+            const speakerMatch = line.match(/^(?:\*\*|)?(Interviewer|Expert):(?:\*\*|)?\s*(.*)/i);
+            if (speakerMatch) {
+                const textClean = speakerMatch[2].replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
+                if (!textClean) continue;
+                
+                // Approximate pacing if telemetry markers aren't present
+                const calculatedDelta = Math.max(3, textClean.length * 0.065);
+                fallbackSegments.push({
+                    speaker: speakerMatch[1],
+                    text: textClean,
+                    start: cursor,
+                    end: cursor + calculatedDelta
+                });
+                cursor += calculatedDelta + 0.5;
+            }
+        }
+        setParsedSegments(fallbackSegments);
     }, [script]);
 
     const handleLoadedMetadata = () => {
-        if (!audioRef.current) return;
-        
-        const totalDuration = audioRef.current.duration;
-        setDuration(totalDuration);
-        
-        const segments = getRawSegments();
-        if (segments.length === 0) return;
-        
-        const totalChars = segments.reduce((acc, seg) => acc + seg.charCount, 0);
-        
-        // Use a clean 350ms static padding gap between discrete speaker exchanges
-        const baseTransitionGap = 0.35;
-        const totalSilence = segments.reduce((acc, seg) => acc + seg.internalSilence, 0) + (segments.length * baseTransitionGap);
-        
-        const trueSpeakingDuration = Math.max(0, totalDuration - totalSilence);
-        const trueSecPerChar = totalChars > 0 ? trueSpeakingDuration / totalChars : 0;
-        
-        let timelineCursor = 0;
-        const timedSegments = segments.map((seg) => {
-            const speakingDuration = seg.charCount * trueSecPerChar;
-            const start = timelineCursor;
-            const end = start + speakingDuration + seg.internalSilence;
-            
-            // Increment cursor directly to the edge of the next transition window
-            timelineCursor = end + baseTransitionGap;
-            return { ...seg, start, end };
-        });
-        
-        setParsedSegments(timedSegments);
+        if (audioRef.current) setDuration(audioRef.current.duration);
     };
 
     const initAudioVisualizer = () => {
@@ -775,7 +745,7 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         const current = audioRef.current.currentTime;
         setCurrentTime(current);
         
-        // Strict boundary lookups map text layers exactly to the elapsed audio clock
+        // Direct, zero-drift layout lookup matching precise voice track positions
         const activeSegment = parsedSegments.find(seg => 
             current >= seg.start && current <= seg.end
         );
@@ -783,6 +753,8 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
         if (activeSegment && activeSegment !== lastActiveSegmentRef.current) {
             setCurrentCaption(`${activeSegment.speaker}: ${activeSegment.text}`);
             lastActiveSegmentRef.current = activeSegment;
+        } else if (!activeSegment) {
+            setCurrentCaption(""); 
         }
     }, [parsedSegments]);
 
@@ -1177,7 +1149,7 @@ const AuthScreen = ({ onAuth, setSession }) => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {carouselImages.map((img, idx) => (
-                            <div className="flex items-center gap-3 text-white/50 text-sm">
+                            <div key={idx} className="flex items-center gap-3 text-white/50 text-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-indigo-500"></span>
                                 <span>{img.benefit}</span>
                             </div>
@@ -1308,6 +1280,7 @@ export default function App() {
     const [userPodcasts, setUserPodcasts] = useState([]);
     const [loadingPodcasts, setLoadingPodcasts] = useState(false);
     const [inputFocused, setInputFocused] = useState(false);
+    const [isBackendOnline, setIsBackendOnline] = useState(true);
     
     const isMounted = useRef(true);
     const eventSourceRef = useRef(null);
@@ -1321,9 +1294,21 @@ export default function App() {
 
     const checkBackendConnection = async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}/`, { method: 'GET', signal: AbortSignal.timeout(5000) });
-            return response.ok;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            const response = await fetch(`${BACKEND_URL}/`, { 
+                method: 'GET', 
+                signal: controller.signal 
+            });
+            clearTimeout(timeoutId);
+            const isOnline = response.ok;
+            setIsBackendOnline(isOnline);
+            if (!isOnline) setCredits(0); // Force zero credits when backend is offline
+            return isOnline;
         } catch (err) {
+            console.warn("Backend connection check failed:", err.message);
+            setIsBackendOnline(false);
+            setCredits(0); // Reset credits on connection error
             return false;
         }
     };
@@ -1357,7 +1342,21 @@ export default function App() {
         return () => subscription.unsubscribe();
     }, []);
 
+    useEffect(() => {
+        const verifyClusterHealth = async () => {
+            await checkBackendConnection();
+        };
+        
+        verifyClusterHealth();
+        const healthHeartbeat = setInterval(verifyClusterHealth, 10000); // Check every 10 seconds
+        return () => clearInterval(healthHeartbeat);
+    }, []);
+
     const fetchUserCredits = async (token) => {
+        if (!isBackendOnline) {
+            console.warn("Backend offline, skipping credit fetch");
+            return;
+        }
         try {
             const response = await fetch(`${BACKEND_URL}/user/credits`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.ok) {
@@ -1366,23 +1365,42 @@ export default function App() {
                 setCreditsUsedToday(data.credits_used_today);
                 setDailyLimit(data.daily_limit);
                 setResetsInSeconds(data.resets_in_seconds);
+            } else if (response.status === 503 || response.status === 500) {
+                setIsBackendOnline(false);
             }
-        } catch (err) { console.error("Failed to fetch credits:", err); }
+        } catch (err) { 
+            console.error("Failed to fetch credits:", err);
+            setIsBackendOnline(false);
+        }
     };
 
     const fetchUserPodcasts = async (token) => {
+        if (!isBackendOnline) {
+            console.warn("Backend offline, skipping podcasts fetch");
+            setLoadingPodcasts(false);
+            return;
+        }
         setLoadingPodcasts(true);
         try {
             const response = await fetch(`${BACKEND_URL}/user/podcasts`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.ok) {
                 const data = await response.json();
                 setUserPodcasts(data.podcasts);
+            } else if (response.status === 503 || response.status === 500) {
+                setIsBackendOnline(false);
             }
-        } catch (err) { console.error("Failed to fetch podcasts:", err); }
+        } catch (err) { 
+            console.error("Failed to fetch podcasts:", err);
+            setIsBackendOnline(false);
+        }
         finally { setLoadingPodcasts(false); }
     };
 
     const deletePodcast = async (jobId) => {
+        if (!isBackendOnline) {
+            setError(t.errors.backendOffline);
+            return;
+        }
         try {
             await fetch(`${BACKEND_URL}/user/podcasts/${jobId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${session?.access_token}` } });
             setUserPodcasts(prev => prev.filter(p => p.job_id !== jobId));
@@ -1391,7 +1409,6 @@ export default function App() {
 
     // Fixed playPodcast with URL sanitization to prevent double-prefixing
     const playPodcast = (podcastData) => {
-
         setPodcast({ 
             audioUrl: formatUrl(podcastData.audio_url), 
             script: "Loading...", 
@@ -1423,6 +1440,11 @@ export default function App() {
 
     const generatePodcast = async () => {
         if (!topic.trim() || credits <= 0) return;
+        if (!isBackendOnline) {
+            setError(t.errors.backendOffline);
+            return;
+        }
+        
         setIsGenerating(true);
         setGenerationLogs([{ step: 'start', status: 'started', message: `Starting podcast generation for: "${topic}"...`, timestamp: Date.now() / 1000 }]);
         try {
@@ -1430,7 +1452,10 @@ export default function App() {
                 method: 'POST', headers: getAuthHeaders(),
                 body: JSON.stringify({ topic, language, speaker_voices: { "Interviewer": "male", "Expert": "female" } })
             });
-            if (!startRes.ok) { const errorData = await startRes.json(); throw new Error(errorData.detail || "Generation failed"); }
+            if (!startRes.ok) { 
+                const errorData = await startRes.json(); 
+                throw new Error(errorData.detail || "Generation failed"); 
+            }
             const { job_id, credits_remaining } = await startRes.json();
             setCredits(credits_remaining);
             setCreditsUsedToday(prev => prev + 1);
@@ -1441,21 +1466,16 @@ export default function App() {
                     if (data.type === 'progress') {
                         setGenerationLogs(prev => [...prev, { ...data.data, timestamp: data.data.timestamp || Date.now() / 1000 }]);
                     } else if (data.type === 'complete') {
-                        fetch(`${BACKEND_URL}/user/podcasts/${job_id}`, { headers: { 'Authorization': `Bearer ${session?.access_token}` } })
-                            .then(res => res.json())
-                            .then(scriptData => {
-                                if (isMounted.current) {
-                                    // FIX: Pass data.download_url into formatUrl to prevent double-prefixing instantly on creation
-                                    setPodcast({ 
-                                        audioUrl: formatUrl(data.download_url), 
-                                        script: scriptData.script, 
-                                        topic, 
-                                        jobId: job_id 
-                                    });
-                                    setIsGenerating(false);
-                                    fetchUserPodcasts(session?.access_token);
-                                }
+                        if (isMounted.current) {
+                            setPodcast({ 
+                                audioUrl: formatUrl(data.download_url), 
+                                script: data.script, 
+                                topic: topic, 
+                                jobId: job_id 
                             });
+                            setIsGenerating(false);
+                            fetchUserPodcasts(session?.access_token);
+                        }
                         eventSourceRef.current?.close();
                         eventSourceRef.current = null;
                     } else if (data.type === 'error') {
@@ -1561,99 +1581,115 @@ export default function App() {
                     {/* Adjusted px alignment parameters here to save side-screen spaces on mobile grid cards */}
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 relative z-10 w-full min-w-0 overflow-x-hidden">
                         {activeTab === "home" && (
-                            <>
-                                {credits > 0 && (
+                            <>  
+                                {!isBackendOnline && (
                                     <motion.div 
-                                        initial={{ opacity: 0, y: 20 }} 
+                                        initial={{ opacity: 0, y: -10 }} 
                                         animate={{ opacity: 1, y: 0 }} 
-                                        className="glass-card-elevated rounded-2xl p-8 mb-8 shadow-2xl shadow-black/30"
+                                        className="bg-amber-500/10 border border-amber-500/20 text-amber-400 p-4 rounded-xl mb-6 text-center text-sm font-medium tracking-wide flex items-center justify-center gap-3 shadow-lg shadow-amber-950/20"
                                     >
-                                        <label className="block text-white font-semibold mb-3 tracking-tight">{t.topicLabel}</label>
-                                        <div className="flex flex-col sm:flex-row gap-3 relative">
-                                            <div className={`w-full sm:flex-1 relative ${inputFocused ? 'z-10' : ''}`}>
-                                                <input 
-                                                    type="text" 
-                                                    value={topic} 
-                                                    onChange={(e) => setTopic(e.target.value)} 
-                                                    onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} 
-                                                    onFocus={() => setInputFocused(true)}
-                                                    onBlur={() => setInputFocused(false)}
-                                                    disabled={isGenerating} 
-                                                    placeholder={t.topicPlaceholder} 
-                                                    className="w-full px-6 py-4 rounded-xl bg-black/40 text-white placeholder-white/25 border border-white/[0.06] focus:outline-none focus:border-purple-500/50 transition-all input-glow text-lg" 
-                                                />
-                                                {inputFocused && (
-                                                    <motion.div 
-                                                        initial={{ opacity: 0, scale: 0.95 }}
-                                                        animate={{ opacity: 1, scale: 1 }}
-                                                        className="absolute inset-0 -z-10 rounded-xl bg-purple-500/10 blur-2xl"
-                                                    />
-                                                )}
-                                            </div>
-                                        <motion.button 
-                                            onClick={generatePodcast} 
-                                            disabled={!topic.trim() || isGenerating || credits <= 0} 
-                                            whileHover={{ scale: 1.02 }}
-                                            whileTap={{ scale: 0.98 }}
-                                            className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-xl btn-mechanical ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-white/[0.03] text-white/30 cursor-not-allowed border border-white/[0.04]' : 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white hover:from-purple-500 hover:via-fuchsia-500 hover:to-purple-500 shadow-purple-500/20'}`}
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                                        </span>
+                                        <span>{t.errors.backendOffline}</span>
+                                    </motion.div>
+                                )}
+
+                                <div className={!isBackendOnline ? "opacity-40 pointer-events-none select-none transition-all duration-300" : "transition-all duration-300"}>    
+                                    {credits > 0 && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, y: 20 }} 
+                                            animate={{ opacity: 1, y: 0 }} 
+                                            className="glass-card-elevated rounded-2xl p-8 mb-8 shadow-2xl shadow-black/30"
                                         >
-                                                {isGenerating ? t.generating : t.generateButton}
-                                            </motion.button>
-                                        </div>
-                                        <div className="mt-6">
-                                            <p className="text-xs text-white/30 mb-3 uppercase tracking-widest">{t.tryThese}</p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {["AI in Healthcare", "Future of Space Travel", "Climate Solutions", "Digital Art Revolution", "Quantum Computing", "Mars Colonization"].map((sample, idx) => (
-                                                    <motion.button 
-                                                        key={idx} 
-                                                        onClick={() => setTopic(sample)} 
-                                                        whileHover={{ scale: 1.05, y: -2 }}
-                                                        whileTap={{ scale: 0.98 }}
-                                                        className="px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] text-white/50 hover:text-white rounded-full text-sm transition-all border border-white/[0.04] hover:border-purple-500/30"
-                                                    >
-                                                        {sample}
-                                                    </motion.button>
-                                                ))}
+                                            <label className="block text-white font-semibold mb-3 tracking-tight">{t.topicLabel}</label>
+                                            <div className="flex flex-col sm:flex-row gap-3 relative">
+                                                <div className={`w-full sm:flex-1 relative ${inputFocused ? 'z-10' : ''}`}>
+                                                    <input 
+                                                        type="text" 
+                                                        value={topic} 
+                                                        onChange={(e) => setTopic(e.target.value)} 
+                                                        onKeyDown={(e) => e.key === 'Enter' && generatePodcast()} 
+                                                        onFocus={() => setInputFocused(true)}
+                                                        onBlur={() => setInputFocused(false)}
+                                                        disabled={isGenerating} 
+                                                        placeholder={t.topicPlaceholder} 
+                                                        className="w-full px-6 py-4 rounded-xl bg-black/40 text-white placeholder-white/25 border border-white/[0.06] focus:outline-none focus:border-purple-500/50 transition-all input-glow text-lg" 
+                                                    />
+                                                    {inputFocused && (
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, scale: 0.95 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            className="absolute inset-0 -z-10 rounded-xl bg-purple-500/10 blur-2xl"
+                                                        />
+                                                    )}
+                                                </div>
+                                                <motion.button 
+                                                    onClick={generatePodcast} 
+                                                    disabled={!topic.trim() || isGenerating || credits <= 0} 
+                                                    whileHover={{ scale: 1.02 }}
+                                                    whileTap={{ scale: 0.98 }}
+                                                    className={`px-8 py-4 rounded-xl font-semibold transition-all shadow-xl btn-mechanical ${!topic.trim() || isGenerating || credits <= 0 ? 'bg-white/[0.03] text-white/30 cursor-not-allowed border border-white/[0.04]' : 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white hover:from-purple-500 hover:via-fuchsia-500 hover:to-purple-500 shadow-purple-500/20'}`}
+                                                >
+                                                    {isGenerating ? t.generating : t.generateButton}
+                                                </motion.button>
                                             </div>
+                                            <div className="mt-6">
+                                                <p className="text-xs text-white/30 mb-3 uppercase tracking-widest">{t.tryThese}</p>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {["AI in Healthcare", "Future of Space Travel", "Climate Solutions", "Digital Art Revolution", "Quantum Computing", "Mars Colonization"].map((sample, idx) => (
+                                                        <motion.button 
+                                                            key={idx} 
+                                                            onClick={() => setTopic(sample)} 
+                                                            whileHover={{ scale: 1.05, y: -2 }}
+                                                            whileTap={{ scale: 0.98 }}
+                                                            className="px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] text-white/50 hover:text-white rounded-full text-sm transition-all border border-white/[0.04] hover:border-purple-500/30"
+                                                        >
+                                                            {sample}
+                                                        </motion.button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+
+                                    {credits <= 0 && !isGenerating && !podcast && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-10 text-center"
+                                        >
+                                            <div className="text-6xl mb-5">&#x26A0;&#xFE0F;</div>
+                                            <h3 className="text-xl font-semibold text-amber-400 mb-3 tracking-tight">{t.dailyLimitReached}</h3>
+                                            <p className="text-amber-300/70">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
+                                        </motion.div>
+                                    )}
+
+                                    {(isGenerating || generationLogs.length > 0) && generationLogs.length > 0 && (
+                                        <CollapsibleThinkingProcess logs={generationLogs} isComplete={!!podcast && !isGenerating} language={language} isExpanded={isLogsExpanded} onToggle={() => setIsLogsExpanded(!isLogsExpanded)} />
+                                    )}
+
+                                    {podcast && !isGenerating && (
+                                        <div className="space-y-6">
+                                            <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} />
+                                            <TranscriptViewer script={podcast.script} />
                                         </div>
-                                    </motion.div>
-                                )}
+                                    )}
 
-                                {credits <= 0 && !isGenerating && !podcast && (
-                                    <motion.div 
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-10 text-center"
-                                    >
-                                        <div className="text-6xl mb-5">&#x26A0;&#xFE0F;</div>
-                                        <h3 className="text-xl font-semibold text-amber-400 mb-3 tracking-tight">{t.dailyLimitReached}</h3>
-                                        <p className="text-amber-300/70">{t.outOfCredits.replace('{limit}', dailyLimit)}</p>
-                                    </motion.div>
-                                )}
+                                    <DocumentationFooter language={language} />
 
-                                {(isGenerating || generationLogs.length > 0) && generationLogs.length > 0 && (
-                                    <CollapsibleThinkingProcess logs={generationLogs} isComplete={!!podcast && !isGenerating} language={language} isExpanded={isLogsExpanded} onToggle={() => setIsLogsExpanded(!isLogsExpanded)} />
-                                )}
-
-                                {podcast && !isGenerating && (
-                                    <div className="space-y-6">
-                                        <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} />
-                                        <TranscriptViewer script={podcast.script} />
-                                    </div>
-                                )}
-
-                                <DocumentationFooter language={language} />
-
-                                {error && (
-                                    <motion.div 
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="bg-red-500/10 border border-red-500/20 rounded-2xl p-5 text-center mt-6"
-                                    >
-                                        <p className="text-red-400">{error}</p>
-                                        <button onClick={() => setError(null)} className="mt-3 text-sm text-red-500 hover:text-red-400 underline underline-offset-4">Dismiss</button>
-                                    </motion.div>
-                                )}
+                                    {error && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="bg-red-500/10 border border-red-500/20 rounded-2xl p-5 text-center mt-6"
+                                        >
+                                            <p className="text-red-400">{error}</p>
+                                            <button onClick={() => setError(null)} className="mt-3 text-sm text-red-500 hover:text-red-400 underline underline-offset-4">Dismiss</button>
+                                        </motion.div>
+                                    )}
+                                </div>
                             </>
                         )}
                         
@@ -1684,17 +1720,16 @@ export default function App() {
                                     </div>
                                 )}
                                 {!loadingPodcasts && userPodcasts.length > 0 && (
-                                    /* FIX: Forced w-full min-w-0 grid structure layout to constrain flex swelling */
-                                    <div className="grid gap-4 w-full min-w-0 layout-fix-wrapper">
-                                        {userPodcasts.map((podcast, idx) => (
+                                    <div className="grid gap-4 w-full min-w-0">
+                                        {userPodcasts.map((podcastItem, idx) => (
                                             <motion.div
-                                                key={podcast.job_id}
+                                                key={podcastItem.job_id}
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: idx * 0.05 }}
-                                                className="w-full min-w-0 block container-snap"
+                                                className="w-full min-w-0"
                                             >
-                                                <PodcastCard podcast={podcast} onPlay={playPodcast} onDelete={deletePodcast} language={language} />
+                                                <PodcastCard podcast={podcastItem} onPlay={playPodcast} onDelete={deletePodcast} language={language} />
                                             </motion.div>
                                         ))}
                                     </div>

@@ -402,20 +402,21 @@ def write_full_report(state: ResearchState):
         template="""You are Alex, the host of a popular podcast named 'DailyPods'. 
         Please write the introduction script for today's episode on: {topic} 
         
-        Recorded segments to mention:
+        Here are the recorded subtopics you MUST preview in a casual, narrative paragraph:
         {subtopics}
 
         Guidelines:
         - Use a friendly, casual, and relatable tone.
         - Welcome the listener and introduce yourself as Alex.
         - Hook the audience with a relatable observation or funny thought.
-        - Introduce your guest expert with a highly realistic, specialized female name and professional designation tailored exactly to the topic context. 
+        - Introduce a uniquely named specialized female guest expert who is a credible authority on this specific theme.
           CRITICAL VARIETY DIRECTIVE: Create an entirely fresh, unique name appropriate for the specific topic domain, not 'Dr. Maya Patel'
+        - Summarize the subtopics naturally in a single flowing introductory paragraph.
         - Keep it to 150-200 words.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences so you can breathe.
         - Replace any ampersands (&) with the word "and".
         
-        Write the script naturally as if you are speaking directly into the microphone."""
+       Ensure the script finishes fully. Do NOT truncate or cut off mid-sentence."""
     )
 
     outro_prompt = PromptTemplate(
@@ -454,7 +455,7 @@ def write_full_report(state: ResearchState):
         emit_progress("final", "writing_outro", "Writing impactful conclusion...", {})
         outro = rate_limited_invoke(outro_chain, topic=state['topic'], subtopics=subtopics_list, running_summary=state.get("running_summary", ""))
 
-        # Scrub markdown in case the LLM tries to format it anyway
+        # Scrub markdown 
         intro = intro.replace("```html", "").replace("```text", "").replace("```", "").strip()
         outro = outro.replace("```html", "").replace("```text", "").replace("```", "").strip()
 

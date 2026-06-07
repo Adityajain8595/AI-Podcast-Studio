@@ -97,7 +97,7 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
             "timestamp": time.time()
         })
         
-        audio_bytes = generate_audio_from_script(script, language, speaker_voices)
+        audio_bytes, timestamps = generate_audio_from_script(script, language, speaker_voices)
         
         emit_progress({
             "step": "upload",
@@ -110,10 +110,14 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
         if not permanent_audio_url:
             raise Exception("Cloud upload pipeline rejected the asset payload container.")
         
+        # Inject metadata 
+        script_with_telemetry = f"{script}\n\n"
+        
         generated_results[job_id]["status"] = "completed"
         generated_results[job_id]["download_url"] = permanent_audio_url
+        generated_results[job_id]["script"] = script_with_telemetry
         
-        save_podcast(user_id, job_id, topic, language, script, permanent_audio_url)
+        save_podcast(user_id, job_id, topic, language, script_with_telemetry, permanent_audio_url)
         
         emit_progress({
             "step": "complete",
@@ -171,20 +175,6 @@ async def generate_podcast(req: PodcastRequest, background_tasks: BackgroundTask
         "status": "started",
         "credits_remaining": remaining,
         "message": f"Podcast generation started. You have {remaining} free credits remaining today."
-    }
-
-@app.get("/progress/{job_id}")
-async def get_progress(job_id: str):
-    if job_id not in generated_results:
-        return {"error": "Job not found"}
-    result = generated_results[job_id]
-    return {
-        "job_id": job_id,
-        "status": result.get("status", "unknown"),
-        "progress": result.get("progress", []),
-        "script_preview": result.get("script", "")[:500] if result.get("script") else None,
-        "download_url": result.get("download_url"),
-        "error": result.get("error")
     }
 
 @app.get("/stream-progress/{job_id}")
