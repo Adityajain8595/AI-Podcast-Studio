@@ -633,34 +633,45 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
     useEffect(() => {
         if (!script || script === "Loading...") return;
         
-        // Extract the hidden timestamp payload string from the markdown body
-        const metadataMatch = script.match(/<!--\s*(\[[\s\S]*?\])\s*-->/);
+        // Exact matching strings 
+        const startMarker = "";
         
-        if (metadataMatch && metadataMatch[1]) {
-            try {
-                const serverTimestamps = JSON.parse(metadataMatch[1]);
-                setParsedSegments(serverTimestamps);
-                return;
-            } catch (e) {
-                console.error("Failed to decode inline telemetric segment streams:", e);
+        const startIndex = script.indexOf(startMarker);
+        if (startIndex !== -1) {
+            const endIndex = script.indexOf(endMarker, startIndex);
+            if (endIndex !== -1) {
+                const jsonStart = startIndex + startMarker.length;
+                const jsonString = script.substring(jsonStart, endIndex).trim();
+                try {
+                    const serverTimestamps = JSON.parse(jsonString);
+                    setParsedSegments(serverTimestamps);
+                    return;
+                } catch (e) {
+                    console.error("Failed to decode inline telemetric segment streams:", e);
+                }
             }
         }
         
-        // Secure Fallback
+        // Safe Fallback using native string splits if telemetry metadata is missing
         const lines = script.split('\n');
         const fallbackSegments = [];
         let cursor = 0;
         
         for (const line of lines) {
-            const speakerMatch = line.match(/^(?:\*\*|)?(Interviewer|Expert):(?:\*\*|)?\s*(.*)/i);
-            if (speakerMatch) {
-                const textClean = speakerMatch[2].replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
+            const isInterviewer = line.toUpperCase().includes("INTERVIEWER:");
+            const isExpert = line.toUpperCase().includes("EXPERT:");
+            
+            if (isInterviewer || isExpert) {
+                const speaker = isInterviewer ? "Interviewer" : "Expert";
+                const cleanLabel = isInterviewer ? "Interviewer:" : "Expert:";
+                const rawText = line.substring(line.toUpperCase().indexOf(cleanLabel) + cleanLabel.length);
+                const textClean = rawText.replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
+                
                 if (!textClean) continue;
                 
-                // Approximate pacing if telemetry markers aren't present
                 const calculatedDelta = Math.max(3, textClean.length * 0.065);
                 fallbackSegments.push({
-                    speaker: speakerMatch[1],
+                    speaker: speaker,
                     text: textClean,
                     start: cursor,
                     end: cursor + calculatedDelta
@@ -875,8 +886,14 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast })
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <span className="text-xs font-semibold uppercase tracking-widest text-cyan-400">
-                                {currentCaption.split(':')[0]}
+                            <span className="text-xs font-semibold uppercase tracking-widest text-cyan-400 font-mono">
+                                {(() => {
+                                    const rawSpeaker = currentCaption.split(':')[0];
+                                    if (language === 'hi') {
+                                        return rawSpeaker.toLowerCase() === 'interviewer' ? 'होस्ट (Alex)' : 'विशेषज्ञ';
+                                    }
+                                    return rawSpeaker;
+                                })()}
                             </span>
                             <p className="text-white/80 mt-2 leading-relaxed text-lg">
                                 {currentCaption.substring(currentCaption.indexOf(':') + 1)}
@@ -1592,8 +1609,16 @@ export default function App() {
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                                             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                                         </span>
-                                        <span>{t.errors.backendOffline}</span>
+                                        <span>{t.status.waking}</span>
                                     </motion.div>
+                                )}
+
+                                {/* If the user logs in and the app hasn't verified connection metadata tokens yet, present a clean loader interface */}
+                                {isBackendOnline && credits === 0 && userPodcasts.length === 0 && !isGenerating && (
+                                    <div className="text-center py-20 text-white/40 font-mono text-sm">
+                                        <div className="w-6 h-6 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4" />
+                                        {t.status.checking}
+                                    </div>
                                 )}
 
                                 <div className={!isBackendOnline ? "opacity-40 pointer-events-none select-none transition-all duration-300" : "transition-all duration-300"}>    
@@ -1672,7 +1697,7 @@ export default function App() {
 
                                     {podcast && !isGenerating && (
                                         <div className="space-y-6">
-                                            <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} />
+                                            <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} language={language}/>
                                             <TranscriptViewer script={podcast.script} />
                                         </div>
                                     )}

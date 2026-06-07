@@ -64,7 +64,9 @@ llm = ChatGroq(
     max_tokens=1500,
     api_key=GROQ_API_KEY,
     max_retries=3,
-    timeout=30
+    timeout=30,
+    model_kwargs={"system_instruction": """The current year is 2026. 
+                  Treat all historical data from 2025 or earlier as past events, never as upcoming events."""}
 )
 
 # Faster model for simple query generation
@@ -74,7 +76,10 @@ query_llm = ChatGroq(
     max_tokens=200,
     api_key=GROQ_API_KEY,
     max_retries=3,
-    timeout=20
+    timeout=20,
+    model_kwargs={"system_instruction": """The current year is 2026. 
+                  Search for trending or recent events of 2026 on web. 
+                  Treat all historical data from 2025 or earlier as past events."""}
 )
 
 # Planning Subgraph: Extracts keywords and subtopics from user's topic
@@ -188,7 +193,7 @@ def generate_question(state: InterviewState):
         1. Keep it conversational: Ask questions like you're talking a friend or companion.
         2. Break it down: If the topic is complex, ask them to explain it simply or ask for an analogy. 
         3. DYNAMIC STARTERS (POSITIVE FRAMING): Always start your questions with fresh, active hooks (e.g., "Looking closely at...", "I'm curious about...", "What happens when...", "Let's uncover..."). Completely eliminate filler verbal crutches like starting your lines with "So," or "Well,".
-        4. NO PHANTOM CALLBACKS: Do NOT invent things the expert "already mentioned". Look at the Previous conversation. If it's a new topic, introduce it fresh. Never start a question with "So you were talking about..." unless they literally just said it in the history.
+        4. NO PHANTOM CALLBACKS: Do NOT invent things the expert "already mentioned". Look at the Previous conversation. If it's a new topic, introduce it fresh. Never start a question with "So you were talking about..." or "You mentioned ..." unless they literally just said it in the history.
         5. No robotic prompts: NEVER say "Can you give me a concrete example." Instead say things like, "What does that look like in real life?" or "Have you seen that happen?"
 
         Previous conversation: {history}
@@ -348,6 +353,7 @@ interview_graph = interview_builder.compile()
 # Research Graph: Orchestrates multiple interviews and compiles final report
 class ResearchState(TypedDict):
     topic: str
+    language: str
     keywords: List[str]
     subtopics: List[str]
     sections: Annotated[List, operator.add]
@@ -422,25 +428,22 @@ def write_full_report(state: ResearchState):
     outro_prompt = PromptTemplate(
         input_variables=['topic', 'subtopics', 'running_summary'],
         template="""You are Alex, the host of a popular podcast named 'DailyPods'. 
-        Please write the conclusion script for today's episode on: {topic} 
+        Please write a natural, warm, and flowing conclusion script for today's episode on: {topic} 
         
-        Recorded segments:
-        {subtopics}
-
-        Here are the core facts and conversation highlights in today's episode:
+        Review this background summary text for core concepts established today:
         {running_summary}
 
         Guidelines:
-        - Keep the tone super casual, warm, and friendly.
-        - Summarize 1 or 2 mind-blowing things you learned today in plain English.
-        - End with a thought-provoking but relatable closing statement.
-        - Thank the guest (no mention of name) for stopping by and making sense of everything.
+        - Keep the tone super casual, friendly, and deeply human. 
+        - Pick exactly ONE or TWO conceptual takeaways from the summary text and weave them into a smooth, conversational paragraph.
+        - End with a single thought-provoking, relatable closing statement about the future of tech.
+        - Thank your guest for stopping by and making sense of everything.
         - Thank the audience for hanging out. 
-        - Keep it to 100-150 words.
+        - Keep it strictly to a single paragraph of 100-150 words.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences.
         - Replace any ampersands (&) with the word "and".
         
-        Write the script naturally as if you are speaking directly into the microphone."""
+        Write the script naturally as if you are talking casually into the microphone to wrap up the show."""
     )
 
     try:  
@@ -461,10 +464,17 @@ def write_full_report(state: ResearchState):
 
         # Strict fallback check
         if not intro or len(intro.strip()) < 40:
-            intro = f"Welcome to DailyPods! Today we're diving deep into the fascinating world of {state['topic']}. Joining us is our brilliant guest expert Dr. Maya Patel, who will help unravel the complexities of this topic. We'll explore key themes like {', '.join(state['subtopics'][:3])}, and uncover surprising insights along the way. So sit back, relax, and let's get into it! <break time=\"800ms\"/>"
+            if state.get("language") == "hi":
+                clean_topic = state['topic'].split('(')[0].strip()
+                intro = f"DailyPods में आपका स्वागत है! आज हम एक बहुत ही महत्वपूर्ण विषय {state['topic']} के बारे में विस्तार से चर्चा करने जा रहे हैं। इस विषय की बारीकियों को समझने के लिए हमारे साथ आज की विशेषज्ञ डॉ. अनन्या शर्मा जुड़ चुकी हैं। तो अपनी चाय या कॉफी तैयार रखिए, और हमारे साथ इस ज्ञानवर्धक यात्रा पर निकलिए! <break time=\"800ms\"/>"
+            else:
+                intro = f"Welcome to DailyPods! Today we're diving deep into the fascinating world of {state['topic']}. Joining us is our brilliant guest expert Dr. Maya Patel, who will help unravel the complexities of this topic. We'll explore key themes like {', '.join(state['subtopics'][:3])}, and uncover surprising insights along the way. So sit back, relax, and let's get into it! <break time=\"800ms\"/>"
         
         if not outro or len(outro.strip()) < 40:
-            outro = f"Thanks for joining us today as we explored the intricacies of {state['topic']}. We hope you found the discussion insightful and thought-provoking. Don't forget to tune-in for more episodes like this one. Until next time, keep exploring and stay curious! <break time=\"800ms\"/>"
+            if state.get("language") == "hi":
+                outro = f"आज की इस ज्ञानवर्धक और विशेष कड़ी में हमारे साथ जुड़ने के लिए आप सभी श्रोताओं का बहुत-बहुत धन्यवाद। हमें उम्मीद है कि आज की इस चर्चा से आपको नई सोच और अंतर्दृष्टि मिली होगी। अगली कड़ी तक, लगातार कुछ नया सीखते रहें, सुरक्षित रहें और अपनी जिज्ञासा बनाए रखें! <break time=\"800ms\"/>"
+            else:
+                outro = f"Thanks for joining us today as we explored the intricacies of {state['topic']}. We hope you found the discussion insightful and thought-provoking. Don't forget to tune-in for more episodes like this one. Until next time, keep exploring and stay curious! <break time=\"800ms\"/>"
         
         introduction = f"**Interviewer:** {intro.strip()}"
         conclusion = f"**Interviewer:** {outro.strip()}"
@@ -517,7 +527,7 @@ def generate_podcast_script(topic: str, language: str = "en") -> str:
     emit_progress("final", "start", f"Initializing workflow for topic: '{topic}'", {})
     if language == "hi":
         topic = f"{topic} (Answer in Hindi using Devanagari script)"
-    result = podcast_graph.invoke({"topic": topic, "running_summary": ""})
+    result = podcast_graph.invoke({"topic": topic, "language": language, "running_summary": ""})
     
     emit_progress("final", "complete", f"Workflow finished successfully!", {})
     return result["final_report"]
