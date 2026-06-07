@@ -616,7 +616,7 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
 };
 
 // --- Audio Player with Waveform and Captions ---
-const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast, language}) => {
+const AudioPlayerWithCaptions = ({ audioUrl, script, segments, onDownload, onNewPodcast, language }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentCaption, setCurrentCaption] = useState("");
     const [parsedSegments, setParsedSegments] = useState([]);
@@ -631,37 +631,8 @@ const AudioPlayerWithCaptions = ({ audioUrl, script, onDownload, onNewPodcast, l
     const lastActiveSegmentRef = useRef(null);
 
     useEffect(() => {
-        if (!script || script === "Loading...") return;
-        
-        const lines = script.split('\n');
-        const fallbackSegments = [];
-        let cursor = 0;
-
-        for (const line of lines) {
-            const isInterviewer = line.toUpperCase().includes("INTERVIEWER:");
-            const isExpert = line.toUpperCase().includes("EXPERT:");
-
-            if (isInterviewer || isExpert) {
-                const speaker = isInterviewer ? "Interviewer" : "Expert";
-                const cleanLabel = isInterviewer ? "Interviewer:" : "Expert:";
-                const rawText = line.substring(line.toUpperCase().indexOf(cleanLabel) + cleanLabel.length);
-                const textClean = rawText.replace(/<[^>]*>/g, '').replace(/\*/g, '').trim();
-
-                if (!textClean) continue;
-
-                // Simple heuristic for timing (duration based on text length)
-                const calculatedDelta = Math.max(3, textClean.length * 0.065);
-                fallbackSegments.push({
-                    speaker: speaker,
-                    text: textClean,
-                    start: cursor,
-                    end: cursor + calculatedDelta
-                });
-                cursor += calculatedDelta + 0.5;
-            }
-        }
-        setParsedSegments(fallbackSegments);
-    }, [script]);
+        if (segments) setParsedSegments(segments);
+    }, [segments]);
 
     const handleLoadedMetadata = () => {
         if (audioRef.current) setDuration(audioRef.current.duration);
@@ -1414,16 +1385,19 @@ export default function App() {
             jobId: podcastData.job_id 
         });
         
-        fetch(`${BACKEND_URL}/user/podcasts/${podcastData.job_id}`, { headers: { 'Authorization': `Bearer ${session?.access_token}` } })
-            .then(res => res.json())
-            .then(data => {
-                setPodcast({ 
-                    audioUrl: formatUrl(data.audio_url), 
-                    script: data.script, 
-                    topic: data.topic, 
-                    jobId: data.job_id 
-                });
-            })
+        fetch(`${BACKEND_URL}/user/podcasts/${podcastData.job_id}`, { 
+            headers: { 'Authorization': `Bearer ${session?.access_token}` } 
+        })
+        .then(res => res.json())
+        .then(data => {
+            setPodcast({ 
+                audioUrl: formatUrl(data.audio_url), 
+                script: data.script, 
+                topic: data.topic, 
+                jobId: data.job_id,
+                segments: data.timestamps 
+            });
+        })
             .catch(err => console.error("Error retrieving saved podcast details:", err));
         setActiveTab("home");
     };
@@ -1678,7 +1652,7 @@ export default function App() {
 
                                     {podcast && !isGenerating && (
                                         <div className="space-y-6">
-                                            <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} language={language}/>
+                                            <AudioPlayerWithCaptions audioUrl={podcast.audioUrl} script={podcast.script} segments={podcast.segments} onDownload={() => window.open(podcast.audioUrl, '_blank')} onNewPodcast={() => { if (eventSourceRef.current) eventSourceRef.current.close(); setPodcast(null); setTopic(""); setGenerationLogs([]); setError(null); if (session) fetchUserCredits(session.access_token); }} language={language}/>
                                             <TranscriptViewer script={podcast.script} />
                                         </div>
                                     )}

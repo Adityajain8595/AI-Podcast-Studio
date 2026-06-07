@@ -117,7 +117,7 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
         generated_results[job_id]["download_url"] = permanent_audio_url
         generated_results[job_id]["script"] = script_with_telemetry
         
-        save_podcast(user_id, job_id, topic, language, script_with_telemetry, permanent_audio_url)
+        save_podcast(user_id, job_id, topic, language, script_with_telemetry, permanent_audio_url, json.dumps(timestamps))
         
         emit_progress({
             "step": "complete",
@@ -233,7 +233,8 @@ async def get_user_podcast(job_id: str, user_id: str = Depends(verify_auth)):
         "language": podcast["language"],
         "script": podcast["script"],
         "audio_url": podcast["audio_url"],
-        "created_at": podcast["created_at"]
+        "created_at": podcast["created_at"],
+        "timestamps": json.loads(podcast["timestamps"]) if podcast.get("timestamps") else []
     }
 
 @app.delete("/user/podcasts/{job_id}")

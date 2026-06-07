@@ -207,7 +207,7 @@ def upload_podcast_file(job_id: str, audio_bytes: bytes) -> str:
         return ""
 
 # Podcast storage functions
-def save_podcast(user_id: str, job_id: str, topic: str, language: str, script: str, audio_url: str) -> bool:
+def save_podcast(user_id: str, job_id: str, topic: str, language: str, script: str, audio_url: str, timestamps: str) -> bool:
     """Save generated podcast to user's storage"""
     try:
         supabase.table("podcasts").insert({
@@ -216,7 +216,8 @@ def save_podcast(user_id: str, job_id: str, topic: str, language: str, script: s
             "topic": topic,
             "language": language,
             "script": script,
-            "audio_url": audio_url
+            "audio_url": audio_url,
+            "timestamps": timestamps
         }).execute()
         return True
     except Exception as e:
