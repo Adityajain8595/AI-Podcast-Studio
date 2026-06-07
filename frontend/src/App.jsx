@@ -421,7 +421,6 @@ const GlobalStyles = () => (
     `}</style>
 );
 
-// --- Documentation Footer Component ---
 const DocumentationFooter = ({ language }) => {
     const [isOpen, setIsOpen] = useState(false);
     const t = translations[language];
@@ -430,8 +429,6 @@ const DocumentationFooter = ({ language }) => {
         <div className="mt-12 pt-8 border-t border-white/[0.04]">
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
                 className="group w-full flex items-center justify-between py-5 px-6 glass-card rounded-2xl transition-all duration-300 hover:bg-white/[0.03] hover:border-purple-500/20"
             >
                 <div className="flex items-center gap-4">
@@ -440,14 +437,10 @@ const DocumentationFooter = ({ language }) => {
                     </div>
                     <div className="text-left">
                         <h3 className="font-semibold text-white tracking-tight">{t.documentation}</h3>
-                        <p className="text-xs text-white/40 tracking-wide uppercase">Complete system architecture and API guide</p>
+                        <p className="text-xs text-white/40 tracking-wide uppercase">System Workflow & API Reference</p>
                     </div>
                 </div>
-                <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="text-purple-400"
-                >
+                <motion.div animate={{ rotate: isOpen ? 180 : 0 }} className="text-purple-400">
                     <ChevronDownIcon />
                 </motion.div>
             </motion.button>
@@ -458,85 +451,33 @@ const DocumentationFooter = ({ language }) => {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
                         className="overflow-hidden"
                     >
-                        <div className="mt-4 p-6 glass-card-elevated rounded-2xl shadow-2xl shadow-black/20">
-                            <div className="mb-8">
-                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3 tracking-tight">
-                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-fuchsia-600 flex items-center justify-center text-white text-sm shadow-lg shadow-purple-500/20">&#x1F3D7;</span>
-                                    {t.architecture}
-                                </h4>
-                               <div className="bg-black/40 rounded-xl p-5 overflow-x-auto border border-white/[0.04] w-full memory-scroll">
-                                <pre className="text-xs text-purple-200/80 font-mono whitespace-pre leading-relaxed tracking-wide block min-w-[550px]">
-{`
-┌─────────────────────────────────────────────────────────────┐
-│                   FRONTEND (React + Vite)                  │
-│  • User authentication (Supabase Auth)                     │
-│  • Real-time progress streaming (SSE)                      │
-│  • Audio player with waveform visualization                │
-│  • Live captions synchronized with audio                   │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  BACKEND (FastAPI + Uvicorn)                │
-│  • RESTful API endpoints                                    │
-│  • Daily credit management (3 credits/day)                  │
-│  • Asynchronous job queue & progress tracking               │
-│  • Server-Sent Events (SSE) for real-time updates           │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  AI WORKFLOW (LangGraph)                    │
-│  • Multi-agent orchestration framework                      │
-│  • State graph with conditional routing                     │
-│  • Subgraph composition for modular design                  │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   EXTERNAL SERVICES                         │
-│  • Groq: Ultra-fast LLM inference (GPT-OSS-120B)            │
-│  • Tavily: Real-time web search API                         │
-│  • Google Cloud TTS: Neural text-to-speech voices           │
-│  • Supabase: Authentication & credits database              │
-└─────────────────────────────────────────────────────────────┘
-`}
-                                    </pre>
-                                </div>
-                            </div>
-                            
-                            <div className="mb-8">
-                                <h4 className="text-lg font-bold text-white mb-4 flex items-center gap-3 tracking-tight">
-                                    <span className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white text-sm shadow-lg shadow-cyan-500/20">&#x1F50C;</span>
-                                    {t.apiEndpoints}
-                                </h4>
-                                <div className="grid gap-3">
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
-                                        <code className="text-sm font-mono text-cyan-400 font-semibold tracking-wide">POST /generate-podcast</code>
-                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Starts podcast generation. Returns job_id for progress tracking.</p>
-                                    </div>
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
-                                        <code className="text-sm font-mono text-fuchsia-400 font-semibold tracking-wide">GET /stream-progress/{'{job_id}'}</code>
-                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Server-Sent Events endpoint for real-time progress updates.</p>
-                                    </div>
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
-                                        <code className="text-sm font-mono text-cyan-400 font-semibold tracking-wide">GET /user/credits</code>
-                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Returns daily credit usage and remaining credits.</p>
-                                    </div>
-                                    <div className="p-4 bg-black/40 rounded-xl border border-white/[0.04] hover:border-purple-500/20 transition-all">
-                                        <code className="text-sm font-mono text-fuchsia-400 font-semibold tracking-wide">GET /user/podcasts</code>
-                                        <p className="text-xs text-white/40 mt-2 tracking-wide">Returns user&apos;s podcast history.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="pt-6 text-center border-t border-white/[0.04]">
-                                <p className="text-white/60 font-semibold tracking-tight">Built with LangGraph, Groq, Google Cloud TTS & Supabase</p>
-                                <p className="text-sm text-white/30 mt-1 tracking-wide">Developed by Aditya Jain</p>
-                            </div>
+                        <div className="mt-4 p-6 glass-card-elevated rounded-2xl shadow-2xl space-y-8">
+                            {/* Workflow Section */}
+                            <section>
+                                <h4 className="text-sm font-bold text-purple-400 mb-3 uppercase tracking-wider">Generation Workflow</h4>
+                                <ul className="space-y-2 text-sm text-white/60">
+                                    <li><strong>1. Planning:</strong> AI analyzes the topic and decomposes it into research-ready subtopics.</li>
+                                    <li><strong>2. Research & Interview:</strong> Multi-agent loop performs web searches (Tavily) and conducts a simulated interview between a Host and an Expert.</li>
+                                    <li><strong>3. Script Drafting:</strong> The interview transcript is synthesized into a conversational podcast script.</li>
+                                    <li><strong>4. TTS Synthesis:</strong> Google Cloud TTS converts text segments to MP3, creating precise timing metadata.</li>
+                                    <li><strong>5. Asset Storage:</strong> Audio is uploaded to Supabase Storage; script and metadata are saved to PostgreSQL.</li>
+                                </ul>
+                            </section>
+
+                            {/* API Section */}
+                            <section>
+                                <h4 className="text-sm font-bold text-cyan-400 mb-3 uppercase tracking-wider">API Reference</h4>
+                                <ul className="space-y-3 text-sm text-white/60 font-mono">
+                                    <li><span className="text-emerald-400 font-bold">POST</span> /generate-podcast: <em>Initializes the async background generation job.</em></li>
+                                    <li><span className="text-amber-400 font-bold">GET</span> /stream-progress/&#123;job_id&#125;: <em>SSE stream for real-time log updates.</em></li>
+                                    <li><span className="text-amber-400 font-bold">GET</span> /user/credits: <em>Retrieves daily quota usage stats.</em></li>
+                                    <li><span className="text-amber-400 font-bold">GET</span> /user/podcasts: <em>Lists generated historical content.</em></li>
+                                    <li><span className="text-amber-400 font-bold">GET</span> /user/podcasts/&#123;job_id&#125;: <em>Fetches script and timestamp metadata.</em></li>
+                                    <li><span className="text-red-400 font-bold">DELETE</span> /user/podcasts/&#123;job_id&#125;: <em>Removes record (soft-delete).</em></li>
+                                </ul>
+                            </section>
                         </div>
                     </motion.div>
                 )}
@@ -603,6 +544,11 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                                         <span className={`text-sm leading-relaxed ${log.status === 'error' ? 'text-red-400' : 'text-white/70'}`}>
                                             {log.message}
                                         </span>
+                                        {log.details && Object.keys(log.details).length > 0 && (
+                                            <pre className="text-[10px] text-purple-300/50 bg-black/60 p-2 rounded mt-2 font-mono overflow-x-auto">
+                                                {JSON.stringify(log.details)}
+                                            </pre>
+                                        )}
                                     </div>
                                 </motion.div>
                             ))}
@@ -1503,21 +1449,24 @@ export default function App() {
                         <p className="hidden lg:block text-xs text-white/30 text-center mt-1 uppercase tracking-widest">{t.tagline}</p>
                     </div>
                     
-                    <nav className="p-3 lg:p-4 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible shrink-0">
+                    <nav className="p-3 lg:p-4 flex flex-col gap-2 shrink-0">
                         <motion.button 
                             onClick={() => setActiveTab("home")} 
-                            whileTap={{ scale: 0.98 }}
-                            className={`flex-1 lg:w-full px-4 py-2.5 lg:py-3.5 rounded-xl transition-all flex items-center justify-center lg:justify-start gap-3 whitespace-nowrap ${activeTab === "home" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "home" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
                         >
                             <HomeIcon /> <span className="font-medium text-sm">{t.home}</span>
                         </motion.button>
                         <motion.button 
                             onClick={() => { setActiveTab("podcasts"); fetchUserPodcasts(session?.access_token); }} 
-                            whileTap={{ scale: 0.98 }}
-                            className={`flex-1 lg:w-full px-4 py-2.5 lg:py-3.5 rounded-xl transition-all flex items-center justify-center lg:justify-start gap-3 whitespace-nowrap ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
+                            className={`w-full px-4 py-3.5 rounded-xl transition-all flex items-center gap-3 ${activeTab === "podcasts" ? "bg-gradient-to-r from-purple-600/90 via-fuchsia-600/90 to-purple-600/90 text-white shadow-lg shadow-purple-500/20" : "text-white/50 hover:bg-white/[0.03] hover:text-white"}`}
                         >
                             <PodcastIcon /> <span className="font-medium text-sm">{t.yourPodcasts}</span>
                         </motion.button>
+                        
+                        <div className="flex gap-2 mt-4 px-2">
+                            <button onClick={() => setLanguage('en')} className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-all ${language === 'en' ? 'bg-purple-600 text-white' : 'bg-white/[0.02] text-white/40'}`}>EN</button>
+                            <button onClick={() => setLanguage('hi')} className={`flex-1 px-2 py-1.5 text-xs rounded-lg transition-all ${language === 'hi' ? 'bg-purple-600 text-white' : 'bg-white/[0.02] text-white/40'}`}>HI</button>
+                        </div>
                     </nav>
                     
                     <div className="hidden lg:block p-4 border-t border-white/[0.04] space-y-4">
