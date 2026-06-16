@@ -418,11 +418,10 @@ def write_full_report(state: ResearchState):
         - Introduce a uniquely named specialized female guest expert who is a credible authority on this specific theme.
           CRITICAL VARIETY DIRECTIVE: Create an entirely fresh, unique name appropriate for the specific topic domain, not 'Dr. Maya Patel'
         - Summarize the subtopics naturally in a single flowing introductory paragraph.
-        - Keep it to 150-200 words.
+        - Keep the introduction punchy and concise, ideally around 4 to 5 sentences total.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences so you can breathe.
         - Replace any ampersands (&) with the word "and".
-        
-       Ensure the script finishes fully. Do NOT truncate or cut off mid-sentence."""
+        """
     )
 
     outro_prompt = PromptTemplate(
@@ -439,11 +438,10 @@ def write_full_report(state: ResearchState):
         - End with a single thought-provoking, relatable closing statement about the future of tech.
         - Thank your guest for stopping by and making sense of everything.
         - Thank the audience for hanging out. 
-        - Keep it strictly to a single paragraph of 100-150 words.
+        - Keep the conclusion brief and impactful, strictly around 3 to 4 sentences total.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences.
         - Replace any ampersands (&) with the word "and".
-        
-        Write the script naturally as if you are talking casually into the microphone to wrap up the show."""
+        """
     )
 
     try:  
