@@ -546,9 +546,11 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                                                 {log.message}
                                             </span>
                                             {log.details && Object.keys(log.details).length > 0 && (
-                                                <pre className="text-[10px] text-purple-300/50 bg-black/60 p-2.5 rounded-lg mt-2 font-mono overflow-x-auto w-full whitespace-pre-wrap break-words border border-purple-500/10">
-                                                    {JSON.stringify(log.details, null, 2)}
-                                                </pre>
+                                                <div className="text-[11px] text-purple-300/50 font-mono mt-1 tracking-wide">
+                                                    {Object.entries(log.details)
+                                                        .map(([key, value]) => `${key}: ${value}`)
+                                                        .join(', ')}
+                                                </div>
                                             )}
                                         </div>
                                     </div>
