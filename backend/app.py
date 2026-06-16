@@ -116,6 +116,7 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
         generated_results[job_id]["status"] = "completed"
         generated_results[job_id]["download_url"] = permanent_audio_url
         generated_results[job_id]["script"] = script_with_telemetry
+        generated_results[job_id]["timestamps"] = timestamps
         
         save_podcast(user_id, job_id, topic, language, script_with_telemetry, permanent_audio_url, json.dumps(timestamps))
         
@@ -195,7 +196,7 @@ async def stream_progress(job_id: str):
                 last_event_count = len(progress_events)
             
             if job_data.get("status") == "completed":
-                yield f"data: {json.dumps({'type': 'complete', 'download_url': job_data.get('download_url'), 'script': job_data.get('script')})}\n\n"
+                yield f"data: {json.dumps({'type': 'complete', 'download_url': job_data.get('download_url'), 'script': job_data.get('script'), 'timestamps': job_data.get('timestamps')})}\n\n"
                 break
             elif job_data.get("status") == "failed":
                 yield f"data: {json.dumps({'type': 'error', 'message': job_data.get('error')})}\n\n"
@@ -226,6 +227,17 @@ async def get_user_podcast(job_id: str, user_id: str = Depends(verify_auth)):
     podcast = get_podcast_by_job_id(job_id, user_id)
     if not podcast:
         raise HTTPException(status_code=404, detail="Podcast not found")
+    
+    raw_ts = podcast.get("timestamps")
+    parsed_ts = []
+    if isinstance(raw_ts, str):
+        try:
+            parsed_ts = json.loads(raw_ts)
+        except json.JSONDecodeError:
+            parsed_ts = []
+    elif isinstance(raw_ts, list):
+        parsed_ts = raw_ts
+
     return {
         "id": podcast["id"],
         "job_id": podcast["job_id"],
@@ -234,7 +246,7 @@ async def get_user_podcast(job_id: str, user_id: str = Depends(verify_auth)):
         "script": podcast["script"],
         "audio_url": podcast["audio_url"],
         "created_at": podcast["created_at"],
-        "timestamps": json.loads(podcast["timestamps"]) if podcast.get("timestamps") else []
+        "timestamps": parsed_ts
     }
 
 @app.delete("/user/podcasts/{job_id}")

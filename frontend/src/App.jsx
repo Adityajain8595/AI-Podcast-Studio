@@ -537,18 +537,20 @@ const CollapsibleThinkingProcess = ({ logs, isComplete, language, onToggle, isEx
                                     transition={{ delay: Math.min(idx * 0.02, 0.5) }}
                                     className="mb-4 pb-3 border-b border-white/[0.04] last:border-0"
                                 >
-                                    <div className="flex items-start gap-4">
-                                        <span className="text-purple-400/80 text-xs font-mono tracking-wider whitespace-nowrap">
+                                    <div className="flex items-start gap-4 w-full">
+                                        <span className="text-purple-400/80 text-xs font-mono tracking-wider whitespace-nowrap shrink-0">
                                             {log.timestamp ? new Date(log.timestamp * 1000).toLocaleTimeString() : new Date().toLocaleTimeString()}
                                         </span>
-                                        <span className={`text-sm leading-relaxed ${log.status === 'error' ? 'text-red-400' : 'text-white/70'}`}>
-                                            {log.message}
-                                        </span>
-                                        {log.details && Object.keys(log.details).length > 0 && (
-                                            <pre className="text-[10px] text-purple-300/50 bg-black/60 p-2 rounded mt-2 font-mono overflow-x-auto">
-                                                {JSON.stringify(log.details)}
-                                            </pre>
-                                        )}
+                                        <div className="flex-1 min-w-0">
+                                            <span className={`text-sm leading-relaxed block ${log.status === 'error' ? 'text-red-400' : 'text-white/70'}`}>
+                                                {log.message}
+                                            </span>
+                                            {log.details && Object.keys(log.details).length > 0 && (
+                                                <pre className="text-[10px] text-purple-300/50 bg-black/60 p-2.5 rounded-lg mt-2 font-mono overflow-x-auto w-full whitespace-pre-wrap break-words border border-purple-500/10">
+                                                    {JSON.stringify(log.details, null, 2)}
+                                                </pre>
+                                            )}
+                                        </div>
                                     </div>
                                 </motion.div>
                             ))}
@@ -1389,7 +1391,8 @@ export default function App() {
                                 audioUrl: formatUrl(data.download_url), 
                                 script: data.script, 
                                 topic: topic, 
-                                jobId: job_id 
+                                jobId: job_id,
+                                segments: data.timestamps
                             });
                             setIsGenerating(false);
                             fetchUserPodcasts(session?.access_token);
