@@ -13,16 +13,16 @@
 </p>
 
 <p align="center">
-  <a href="#-overview">Overview</a> •
-  <a href="#-features">Features</a> •
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-getting-started">Getting Started</a> •
-  <a href="#-api-reference">API</a>
+  <a href="#overview">Overview</a> •
+  <a href="#features">Features</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#api-reference">API</a>
 </p>
 
 ---
 
-## 📍 Overview
+## 📍 Overview {#-overview}
 
 **AI Podcast Generator** is an end-to-end platform that transforms any topic into a professional AI-generated podcast through a multi-agent workflow powered by LangGraph.
 
@@ -45,7 +45,7 @@ The system automatically:
 
 ---
 
-## 👾 Features
+## 👾 Features {#features}
 
 ### 🧠 Intelligent Content Generation
 - Multi-agent LangGraph workflow
@@ -81,7 +81,7 @@ The system automatically:
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture {#architecture}
 
 ### Backend Stack
 | Technology | Purpose |
@@ -151,8 +151,8 @@ Frontend Playback
    - Save metadata and audio to Supabase
 
 ---
-
-## 🚀 Getting Started
+ 
+## 🚀 Getting Started {#getting-started}
 
 ### ☑️ Prerequisites
 
@@ -330,7 +330,7 @@ Timestamp Generation
 
 ---
 
-## 📊 API Reference
+## 📊 API Reference {#api-reference}
 
 ### Authentication
 All endpoints except `/health` require a Bearer token.
