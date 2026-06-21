@@ -276,6 +276,7 @@ def write_section(state: InterviewState):
         Requirements:
         1. STRICT FACTUAL ACCURACY: Do NOT invent new facts or statistics not in the raw transcript.
         2. Create CHEMISTRY: Add natural reactions without using repetitive crutches.
+        3. DYNAMIC DIALOGUE (CRITICAL): Break down long walls of text! People do not speak in massive paragraphs. Adapt this transcript into a natural, back-and-forth dialogue consisting of 6 to 8 total turns.
         3. BANNED CRUTCHES: Completely eradicate phrases like "Got it", "Exactly", "That makes sense", "So,", "Absolutely". Jump directly into the thought.
         4. CONTINUITY (CRITICAL): This is segment {index} of an ongoing, continuous conversation. DO NOT re-introduce yourselves. DO NOT conclude the podcast. DO NOT say "Thanks for coming." Leave the dialogue open for the next topic.
         5. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
