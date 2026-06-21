@@ -47,11 +47,16 @@ The system automatically:
 
 ## 🖼️ Screenshots
 
-<img width="1101" height="802" alt="iamge" src="https://github.com/user-attachments/assets/6dde3472-aba9-4ed7-959f-6c2ffaabb432" />
-<img width="909" height="775" alt="image" src="https://github.com/user-attachments/assets/e42be92c-164f-48a9-be48-86ab66897e6a" />
-<img width="890" height="677" alt="image" src="https://github.com/user-attachments/assets/47b145e5-1cfd-418b-a9d7-390afdeeea45" />
-<img width="1009" height="417" alt="image" src="https://github.com/user-attachments/assets/294a62f6-443e-42fc-84a5-e257f3c77b27" />
-
+<details>
+  <summary>Click to view screenshots</summary>
+  
+  <img src="https://github.com/user-attachments/assets/6872b7e4-e455-4c1a-8b46-885b63a1f13b" alt="Screenshot 1" width="100%" />
+  <img src="https://github.com/user-attachments/assets/bb831e84-5eb0-49a0-b8ed-ff4102bf0fd6" alt="Screenshot 2" width="100%" />
+  <img src="https://github.com/user-attachments/assets/6dde3472-aba9-4ed7-959f-6c2ffaabb432" alt="Screenshot 3" width="100%" />
+  <img src="https://github.com/user-attachments/assets/e42be92c-164f-48a9-be48-86ab66897e6a" alt="Screenshot 4" width="100%" />
+  <img src="https://github.com/user-attachments/assets/47b145e5-1cfd-418b-a9d7-390afdeeea45" alt="Screenshot 5" width="100%" />
+  <img src="https://github.com/user-attachments/assets/294a62f6-443e-42fc-84a5-e257f3c77b27" alt="Screenshot 6" width="100%" />
+</details>
 ---
 
 ## 👾 Features {#features}
