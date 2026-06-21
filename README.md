@@ -45,6 +45,15 @@ The system automatically:
 
 ---
 
+## 🖼️ Screenshots
+
+<img width="1101" height="802" alt="iamge" src="https://github.com/user-attachments/assets/6dde3472-aba9-4ed7-959f-6c2ffaabb432" />
+<img width="909" height="775" alt="image" src="https://github.com/user-attachments/assets/e42be92c-164f-48a9-be48-86ab66897e6a" />
+<img width="890" height="677" alt="image" src="https://github.com/user-attachments/assets/47b145e5-1cfd-418b-a9d7-390afdeeea45" />
+<img width="1009" height="417" alt="image" src="https://github.com/user-attachments/assets/294a62f6-443e-42fc-84a5-e257f3c77b27" />
+
+---
+
 ## 👾 Features {#features}
 
 ### 🧠 Intelligent Content Generation
@@ -397,12 +406,6 @@ CREATE TABLE podcasts (
 Bucket Name: podcast-bucket
 Public Access: Enabled
 ```
-
----
-
-## 🖼️ Screenshots
-
-> Screenshots coming soon.
 
 ---
 
