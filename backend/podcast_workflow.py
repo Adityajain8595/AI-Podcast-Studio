@@ -261,7 +261,7 @@ def write_section(state: InterviewState):
     emit_progress("writing", "started", f"Drafting script section {state['interview_index']}...")
     prompt = PromptTemplate(
         input_variables=["focus", "section", "index", "running_summary"],
-        template="""You are an expert scriptwriter for top-tier podcasts. 
+        template="""You are an expert scriptwriter for top-tier casual, conversational podcasts.
         Create a natural, engaging podcast section from this interview transcript.
         
         Topic: {focus}
