@@ -12,6 +12,7 @@ from langgraph.types import Send
 from pydantic import BaseModel, Field
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_core.messages import get_buffer_string
+import threading
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,18 +24,18 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 last_call_time = 0
 CALL_DELAY = 5.0
 
-# Global callback for streaming progress to frontend
-progress_callback: Optional[Callable] = None
+# Thread callback for streaming progress to frontend
+thread_local = threading.local()
 
 def set_progress_callback(callback: Callable):
     """Set callback function"""
-    global progress_callback
-    progress_callback = callback
+    thread_local.progress_callback = callback
 
 def emit_progress(step: str, status: str, message: str, details: dict = None):
     """Emit progress event to frontend via callback"""
-    if progress_callback:
-        progress_callback({
+    callback = getattr(thread_local, 'progress_callback', None)
+    if callback:
+        callback({
             "step": step,
             "status": status,
             "message": message,
@@ -185,27 +186,28 @@ def generate_question(state: InterviewState):
     structured_llm = llm.with_structured_output(QuestionOutput, method="json_mode")
     prompt = PromptTemplate(
         input_variables=["topic", "history", "running_summary"],
-        template="""You are a podcast host a highly popular, casual podcast interviewing an expert about: {topic}
-        Your goal: Guide the conversation naturally and make it accessible to a general audience.
+        template="""You are a podcast host interviewing an expert about: {topic}
 
+        PREVIOUS SEGMENT CONTEXT (Do NOT repeat or ask about these points, they are already covered):
+        {running_summary}
+
+        Current Conversation: {history}
         
         Guidelines:
         1. Keep it conversational: Ask questions like you're talking a friend or companion.
         2. Break it down: If the topic is complex, ask them to explain it simply or ask for an analogy. 
-        3. DYNAMIC STARTERS (POSITIVE FRAMING): Always start your questions with fresh, active hooks (e.g., "Looking closely at...", "I'm curious about...", "What happens when...", "Let's uncover..."). Completely eliminate filler verbal crutches like starting your lines with "So," or "Well,".
-        4. NO PHANTOM CALLBACKS: Do NOT invent things the expert "already mentioned". Look at the Previous conversation. If it's a new topic, introduce it fresh. Never start a question with "So you were talking about..." or "You mentioned ..." unless they literally just said it in the history.
-        5. No robotic prompts: NEVER say "Can you give me a concrete example." Instead say things like, "What does that look like in real life?" or "Have you seen that happen?"
+        3. DYNAMIC STARTERS (POSITIVE FRAMING): Always start your questions with fresh, active hooks (e.g., "Looking closely at...", "I'm curious about...", "What happens when..."). 
+        4. BANNED CRUTCHES: Completely eliminate filler verbal crutches. DO NOT start your sentences with "Got it," "So," "Makes sense," or "Well,".
+        5. DO NOT WRAP UP: You are in the middle of the show. DO NOT say "thank you for your help" and DO NOT end the interview.
 
-        Previous conversation: {history}
         Continue to ask questions to drill down and refine your understanding of the topic.
-        Ask a probing question. When satisfied with understanding, end with: "Thank you so much for your help".
         
         You must respond in valid JSON format containing a single key: "question"."""
     )
     try:
         history = get_buffer_string(state["messages"][-4:]) if state["messages"] else "Start of interview"   
         chain = prompt | structured_llm
-        result = rate_limited_invoke(chain, topic=state["topic"], history=history)
+        result = rate_limited_invoke(chain, topic=state["topic"], history=history, running_summary=state.get("running_summary", ""))
         
         emit_progress("interview", "host_asked", f"Host asks: \"{result.question}\"")
         return {"messages": [AIMessage(content=result.question)]}
@@ -219,13 +221,17 @@ def generate_answer(state: InterviewState):
     structured_llm = llm.with_structured_output(AnswerOutput, method="json_mode")
     prompt = PromptTemplate(
         input_variables=["topic","context", "running_summary"],
-        template="""You are an expert being interviewed on a popular, casual podcast. Focus area: {topic}
+        template="""You are an expert being interviewed on a podcast. Focus area: {topic}
+        
+        PREVIOUS POINTS ALREADY ESTABLISHED (Do not repeat these):
+        {running_summary}
+        
         Answer using ONLY this context:{context}
 
         Guidelines:
         1. CONTEXTUAL AWARENESS & FACTUAL GROUNDING: Base your answer RELEVANTLY and STRICTLY on the provided context. If the provided search context lacks specific numeric details, personal names, or exact specs, DO NOT invent fictional data to fill the gap.
-        2. NO REAL-WORLD LORE FABRICATION: Do NOT invent fake historical individuals, fake companies, or fake events. If you must illustrate a complex mechanism, frame it explicitly as an illustrative hypothetical scenario (e.g., "Imagine if..." or "Let's say..").
-        3. TEMPORAL CONSISTENCY: Pay close attention to the time period being discussed. Do not introduce modern concepts (like social media, apps, or modern technology) into historical events unless explicitly making a modern-day comparison.
+        2. AVOID TANGENTS: Ignore irrelevant web search results about random competitions, off-topic events, or unrelated news.
+        3. BANNED CRUTCHES: DO NOT start your sentences with "Exactly", "Absolutely", "That's right", or "Sure". Just answer the question directly.
         4. TONE: Speak like a human. Conversational, warm, and engaging. NO academic jargon. Break down complex ideas with simple analogies.
         5. Keep it concise: Don't monologue endlessly. Give the host room to react.
         
@@ -234,7 +240,7 @@ def generate_answer(state: InterviewState):
     try:   
         context = state["context"][-1] if state["context"] else "No context available." 
         chain = prompt | structured_llm
-        result = rate_limited_invoke(chain, topic=state["topic"], context=context)
+        result = rate_limited_invoke(chain, topic=state["topic"], context=context, running_summary=state.get("running_summary", ""))
         answer = AIMessage(content=result.answer)
         answer.name = "expert"
         
@@ -255,39 +261,30 @@ def write_section(state: InterviewState):
     emit_progress("writing", "started", f"Drafting script section {state['interview_index']}...")
     prompt = PromptTemplate(
         input_variables=["focus", "section", "index", "running_summary"],
-        template="""You are an expert scriptwriter for top-tier podcasts (like Joe Rogan, Huberman Lab, or Armchair Expert). 
+        template="""You are an expert scriptwriter for top-tier podcasts. 
         Create a natural, engaging podcast section from this interview transcript.
+        
         Topic: {focus}
+        Previously Discussed Context: {running_summary}
 
-        Interview transcript:{section}
+        Raw Interview transcript to convert:{section}
 
         The Personas:
-        - Interviewer (Host): 
-            - Curious, casual, relatable. 
-            - Acts as the proxy for the audience; frequently relates topics to everyday life, and asks follow-up questions. 
-            - Will gently interrupt to ask for clarification if the expert uses complex or technical terms.
-            - Uses dynamic conversational starters. Never start lines with "So," or "Well,".
-            - You are already mid-interview, so NEVER introduce yourself. 
-            - Do not overuse phrases like "wow", "exactly", "sure", "so" etc.
-
-        - Expert: 
-            - A brilliant, passionate but down-to-earth storyteller.
-            - Explains complex concepts step-by-step using vivid, everyday analogies. 
-            - Avoids textbook academic speak.
+        - Interviewer (Host): Curious, casual. Acts as the proxy for the audience.
+        - Expert: Passionate, down-to-earth storyteller. Explains using vivid analogies. Avoids heavy, domain-specific jargon. 
 
         Requirements:
-        1. STRICT FACTUAL ACCURACY: Do NOT invent new facts, statistics, historical events, or character names that are not in the raw transcript.
-        2. Create CHEMISTRY: Add conversational bridging, natural reactions, and agreements/disagreements.
-        3. SIMPLIFY: Translate any heavy jargon from the transcript into plain, accessible English.
-        4. DYNAMIC DIALOGUE: Adapt the transcript into a back-and-forth dialogue (6 to 8 shorter turns). People don't speak in giant paragraphs. Break up long expert answers by having the host chime in.
-        5. NO AMNESIA & NO PHANTOM CALLBACKS: This is segment {index} of an ongoing conversation. DO NOT re-introduce yourselves. Dive straight into the dialogue. Do NOT invent references to unseen segments.
-        6. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
-        7. Inject SSML tags for realistic audio pacing (no <emphasis> tags)
+        1. STRICT FACTUAL ACCURACY: Do NOT invent new facts or statistics not in the raw transcript.
+        2. Create CHEMISTRY: Add natural reactions without using repetitive crutches.
+        3. BANNED CRUTCHES: Completely eradicate phrases like "Got it", "Exactly", "That makes sense", "So,", "Absolutely". Jump directly into the thought.
+        4. CONTINUITY (CRITICAL): This is segment {index} of an ongoing, continuous conversation. DO NOT re-introduce yourselves. DO NOT conclude the podcast. DO NOT say "Thanks for coming." Leave the dialogue open for the next topic.
+        5. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
+        6. Inject SSML tags for realistic audio pacing (no <emphasis> tags)
            - Use <break time="500ms"/> for short, dramatic pauses.
            - Use <break time="800ms"/> for a breath after a heavy point.
            - All tags MUST be exactly as shown and self-closing (ending with />). 
            - DO NOT output any other HTML, XML, or SSML tags whatsoever.
-           - DO NOT use the ampersand symbol (&); write the word "and" instead.
+           - Replace any ampersands (&) with the word "and".
         
         Output the dialogue using EXACTLY these prefixes. Do not use XML tags.
         **Interviewer:** [Host text here]
@@ -296,7 +293,7 @@ def write_section(state: InterviewState):
     )
     try:   
         chain = prompt | llm
-        result = rate_limited_invoke(chain, focus=state['topic'], section=state['section'], index=state['interview_index'])
+        result = rate_limited_invoke(chain, focus=state['topic'], section=state['section'], index=state['interview_index'], running_summary=state.get("running_summary", ""))
         content = result.content if hasattr(result, "content") else str(result)
 
         emit_progress("writing", "summarizing", "Extracting key facts for context memory...")
@@ -325,12 +322,7 @@ def route_messages(state: InterviewState, name: str = "expert"):
         emit_progress("interview", "complete", f"Max turns reached, wrapping up this segment...", {})
         return "Save podcast"
         
-    last_question = messages[-2] if len(messages) >= 2 else None
-    if last_question and "Thank you so much for your help" in last_question.content:
-        emit_progress("interview", "complete", f"Host concluded the interview, moving to script writing...", {})
-        return "Save podcast"
-        
-    return "Host question" 
+    return "Host question"
 
 
 interview_builder = StateGraph(InterviewState)
@@ -380,11 +372,11 @@ def initiate_interviews(state: ResearchState):
             starter_msg = f"To start us off, let's dive into {subtopic}. What's the core issue here?"
         else:  
             transitions = [
-                f"Let's shift gears and explore a new angle. What can you tell us about {subtopic}?",
-                f"I'm really curious about another aspect of this. How does {subtopic} fit into the picture?",
-                f"Moving into a slightly different territory, what are your thoughts on {subtopic}?",
-                f"Let's dive into something specific: what's the core issue when it comes to {subtopic}?",
-                f"I want to pivot for a second and ask you about {subtopic}."
+                f"Let's pivot slightly and explore {subtopic}. How does that play out?",
+                f"I want to look at another angle: {subtopic}. What are we seeing on the ground?",
+                f"Moving into a different territory, let's talk about {subtopic}.",
+                f"Another crucial piece of this puzzle is {subtopic}. What should people know?",
+                f"Let's shift our focus over to {subtopic}."
             ]
             starter_msg = random.choice(transitions)
 
@@ -435,7 +427,7 @@ def write_full_report(state: ResearchState):
         Guidelines:
         - Keep the tone super casual, friendly, and deeply human. 
         - Pick exactly ONE or TWO conceptual takeaways from the summary text and weave them into a smooth, conversational paragraph.
-        - End with a single thought-provoking, relatable closing statement about the future of tech.
+        - End with a single thought-provoking, relatable closing statement about the future of {topic}.
         - Thank your guest for stopping by and making sense of everything.
         - Thank the audience for hanging out. 
         - Keep the conclusion brief and impactful, strictly around 3 to 4 sentences total.

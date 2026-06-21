@@ -111,14 +111,13 @@ def generate_with_progress(job_id: str, topic: str, language: str, speaker_voice
             raise Exception("Cloud upload pipeline rejected the asset payload container.")
         
         # Inject metadata 
-        script_with_telemetry = f"{script}\n\n"
+        script = f"{script}\n\n"
         
-        generated_results[job_id]["status"] = "completed"
         generated_results[job_id]["download_url"] = permanent_audio_url
-        generated_results[job_id]["script"] = script_with_telemetry
+        generated_results[job_id]["script"] = script
         generated_results[job_id]["timestamps"] = timestamps
         
-        save_podcast(user_id, job_id, topic, language, script_with_telemetry, permanent_audio_url, json.dumps(timestamps))
+        save_podcast(user_id, job_id, topic, language, script, permanent_audio_url, json.dumps(timestamps))
         
         emit_progress({
             "step": "complete",
