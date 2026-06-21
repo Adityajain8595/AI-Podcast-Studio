@@ -225,6 +225,9 @@ def generate_answer(state: InterviewState):
         
         PREVIOUS POINTS ALREADY ESTABLISHED (Do not repeat these):
         {running_summary}
+
+        CRITICAL PROGRESSION DIRECTIVE: 
+        Assume the audience and host ALREADY know everything in the summary above. Do NOT re-define terms, re-explain concepts, or re-introduce examples if they are already listed in the summary. Your job is to introduce completely NEW information and push the narrative forward.
         
         Answer using ONLY this context:{context}
 
@@ -266,6 +269,9 @@ def write_section(state: InterviewState):
         
         Topic: {focus}
         Previously Discussed Context: {running_summary}
+
+        CRITICAL PROGRESSION DIRECTIVE: 
+        Assume the audience and host ALREADY know everything in the summary above. Do NOT re-define terms, re-explain concepts, or re-introduce examples if they are already listed in the summary. Your job is to introduce completely NEW information and push the narrative forward.
 
         Raw Interview transcript to convert:{section}
 
@@ -421,9 +427,12 @@ def write_full_report(state: ResearchState):
     )
 
     outro_prompt = PromptTemplate(
-        input_variables=['topic', 'subtopics', 'running_summary'],
+        input_variables=['topic', 'subtopics', 'running_summary', 'intro'],
         template="""You are Alex, the host of a popular podcast named 'DailyPods'. 
         Please write a natural, warm, and flowing conclusion script for today's episode on: {topic} 
+
+        For continuity, here is the introduction you already recorded:
+        {intro}
         
         Review this background summary text for core concepts established today:
         {running_summary}
@@ -432,7 +441,7 @@ def write_full_report(state: ResearchState):
         - Keep the tone super casual, friendly, and deeply human. 
         - Pick exactly ONE or TWO conceptual takeaways from the summary text and weave them into a smooth, conversational paragraph.
         - End with a single thought-provoking, relatable closing statement about the future of {topic}.
-        - Thank your guest for stopping by and making sense of everything.
+        - Thank your guest for stopping by and making sense of everything. NO NEED TO MENTION GUEST'S NAME.
         - Thank the audience for hanging out. 
         - Keep the conclusion brief and impactful, strictly around 3 to 4 sentences total.
         - Pacing: Insert the exact tag <break time="800ms"/> between major sentences.
@@ -450,7 +459,8 @@ def write_full_report(state: ResearchState):
         intro = rate_limited_invoke(intro_chain, topic=state['topic'], subtopics=subtopics_list)
         
         emit_progress("final", "writing_outro", "Writing impactful conclusion...", {})
-        outro = rate_limited_invoke(outro_chain, topic=state['topic'], subtopics=subtopics_list, running_summary=state.get("running_summary", ""))
+        outro = rate_limited_invoke(outro_chain, topic=state['topic'], subtopics=subtopics_list, 
+                                    running_summary=state.get("running_summary", ""), intro=intro)
 
         # Scrub markdown 
         intro = intro.replace("```html", "").replace("```text", "").replace("```", "").strip()
@@ -459,7 +469,6 @@ def write_full_report(state: ResearchState):
         # Strict fallback check
         if not intro or len(intro.strip()) < 40:
             if state.get("language") == "hi":
-                clean_topic = state['topic'].split('(')[0].strip()
                 intro = f"DailyPods में आपका स्वागत है! आज हम एक बहुत ही महत्वपूर्ण विषय {state['topic']} के बारे में विस्तार से चर्चा करने जा रहे हैं। इस विषय की बारीकियों को समझने के लिए हमारे साथ आज की विशेषज्ञ डॉ. अनन्या शर्मा जुड़ चुकी हैं। तो अपनी चाय या कॉफी तैयार रखिए, और हमारे साथ इस ज्ञानवर्धक यात्रा पर निकलिए! <break time=\"800ms\"/>"
             else:
                 intro = f"Welcome to DailyPods! Today we're diving deep into the fascinating world of {state['topic']}. Joining us is our brilliant guest expert Dr. Maya Patel, who will help unravel the complexities of this topic. We'll explore key themes like {', '.join(state['subtopics'][:3])}, and uncover surprising insights along the way. So sit back, relax, and let's get into it! <break time=\"800ms\"/>"
