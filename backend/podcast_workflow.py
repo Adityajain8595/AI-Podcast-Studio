@@ -276,11 +276,13 @@ def write_section(state: InterviewState):
         Requirements:
         1. STRICT FACTUAL ACCURACY: Do NOT invent new facts or statistics not in the raw transcript.
         2. Create CHEMISTRY: Add natural reactions without using repetitive crutches.
-        3. DYNAMIC DIALOGUE (CRITICAL): Break down long walls of text! People do not speak in massive paragraphs. Adapt this transcript into a natural, back-and-forth dialogue consisting of 6 to 8 total turns.
-        3. BANNED CRUTCHES: Completely eradicate phrases like "Got it", "Exactly", "That makes sense", "So,", "Absolutely". Jump directly into the thought.
-        4. CONTINUITY (CRITICAL): This is segment {index} of an ongoing, continuous conversation. DO NOT re-introduce yourselves. DO NOT conclude the podcast. DO NOT say "Thanks for coming." Leave the dialogue open for the next topic.
-        5. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
-        6. Inject SSML tags for realistic audio pacing (no <emphasis> tags)
+        3. SIMPLICITY: Translate complex jargon into easily digestible and plain English.
+        4. DYNAMIC DIALOGUE (CRITICAL): Break down long walls of text! People do not speak in massive paragraphs. Adapt this transcript into a natural, back-and-forth dialogue consisting of 6 to 8 total short turns.
+        5. BANNED CRUTCHES: Completely eradicate phrases like "Got it", "Exactly", "That makes sense", "So,", "Absolutely". Jump directly into the thought.
+        6. CONTINUITY (CRITICAL): This is segment {index} of an ongoing, continuous conversation. DO NOT re-introduce yourselves. DO NOT conclude the podcast. DO NOT say "Thanks for coming." Leave the dialogue open for the next topic.
+            MOST IMPORTANTLY: DO NOT end this segment with a trailing hook or question from the Host. The final spoken line MUST be the Expert finishing their thought.
+        7. RESOLVE CLIFFHANGERS: Ensure the dialogue segment has a logical conclusion. The expert MUST answer the question asked by the host. 
+        8. Inject SSML tags for realistic audio pacing (no <emphasis> tags)
            - Use <break time="500ms"/> for short, dramatic pauses.
            - Use <break time="800ms"/> for a breath after a heavy point.
            - All tags MUST be exactly as shown and self-closing (ending with />). 
@@ -333,10 +335,11 @@ interview_builder.add_node("Expert answer", generate_answer)
 interview_builder.add_node("Save podcast", save_podcast)
 interview_builder.add_node("Write script", write_section)
 
-interview_builder.add_edge(START, "Host question")
-interview_builder.add_edge("Host question", "Web research")
+interview_builder.add_edge(START, "Web research")
 interview_builder.add_edge("Web research", "Expert answer")
 interview_builder.add_conditional_edges("Expert answer", route_messages, ["Host question", "Save podcast"])
+interview_builder.add_edge("Host question", "Web research")
+
 interview_builder.add_edge("Save podcast", "Write script")
 interview_builder.add_edge("Write script", END)
 
