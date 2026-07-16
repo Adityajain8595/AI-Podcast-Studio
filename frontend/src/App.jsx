@@ -461,7 +461,7 @@ const DocumentationFooter = ({ language }) => {
                                     <li><strong>1. Planning:</strong> AI analyzes the topic and decomposes it into research-ready subtopics.</li>
                                     <li><strong>2. Research & Interview:</strong> Multi-agent loop performs web searches (Tavily) and conducts a simulated interview between a Host and an Expert.</li>
                                     <li><strong>3. Script Drafting:</strong> The interview transcript is synthesized into a conversational podcast script.</li>
-                                    <li><strong>4. TTS Synthesis:</strong> Google Cloud TTS converts text segments to MP3, creating precise timing metadata.</li>
+                                    <li><strong>4. TTS Synthesis:</strong> Edge TTS converts text segments to MP3, creating precise timing metadata.</li>
                                     <li><strong>5. Asset Storage:</strong> Audio is uploaded to Supabase Storage; script and metadata are saved to PostgreSQL.</li>
                                 </ul>
                             </section>
