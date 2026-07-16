@@ -7,7 +7,7 @@ python-multipart
 fastapi
 pydantic
 uvicorn
-google-cloud-texttospeech
+edge-tts
 langchain-groq
 pydub==0.25.1
 supabase

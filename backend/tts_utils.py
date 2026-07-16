@@ -1,18 +1,18 @@
 import re
 import io
 from pydub import AudioSegment
-from google.cloud import texttospeech
+import asyncio
+import edge_tts
 from podcast_workflow import emit_progress
 
-# Google Cloud TTS client initialization
-try:
-    emit_progress("tts", "initializing", "☁️  Initializing GCP Text-to-Speech Client...")
-    tts_client = texttospeech.TextToSpeechClient()
-except Exception as e:
-    emit_progress("tts", "error", "❌ GCP Auth Error: Make sure GOOGLE_APPLICATION_CREDENTIALS is set!")
-    raise e
+def get_voice(lang: str, gender: str) -> str:
+    """Select Edge TTS voices."""
+    if lang == "hi":
+        return "hi-IN-SwaraNeural" if gender == "female" else "hi-IN-PrabhatNeural"
+    
+    return "en-US-AnaNeural" if gender == "female" else "en-US-ChristopherNeural"
 
-def text_to_speech_segment(text: str, lang: str, voice_gender: str) -> bytes:
+async def tts_segment(text: str, lang: str, voice_gender: str) -> bytes:
     """Synthesize a single text segment and return MP3 bytes."""
 
     # Text cleaning and SSML handling
@@ -31,26 +31,15 @@ def text_to_speech_segment(text: str, lang: str, voice_gender: str) -> bytes:
     text = text.replace('\\"', '"').replace("\\'", "'")
 
     # Synthesis phase
-    synthesis_input = texttospeech.SynthesisInput(ssml=f"<speak>{text}</speak>") 
+    voice = get_voice(lang, voice_gender)
+    communicate = edge_tts.Communicate(text, voice)
     
-    if lang == "hi":
-        language_code = "hi-IN"
-        name = "hi-IN-Neural2-A" if voice_gender == "female" else "hi-IN-Neural2-B"
-    else:
-        language_code = "en-US"
-        if voice_gender == "female":
-            name = "en-US-Studio-O"        
-        else:
-            name = "en-US-Studio-M"
-            
-    voice = texttospeech.VoiceSelectionParams(language_code=language_code, name=name)
+    audio_data = io.BytesIO()
+    async for chunk in communicate.stream():
+        if chunk["type"] == "audio":
+            audio_data.write(chunk["data"])
     
-    audio_config = texttospeech.AudioConfig(
-        audio_encoding=texttospeech.AudioEncoding.MP3
-    )
-    
-    response = tts_client.synthesize_speech(input=synthesis_input, voice=voice, audio_config=audio_config)
-    return response.audio_content
+    return audio_data.getvalue()
 
 def parse_dialogue(script: str):
     """Extract speaker and text pairs from podcast script"""
@@ -85,11 +74,8 @@ def parse_dialogue(script: str):
         
     return dialogues
 
-def generate_audio_from_script(script: str, language: str, speaker_voices: dict = None) -> bytes:
-    """Generate complete podcast audio from script"""
-    if speaker_voices is None:
-        speaker_voices = {"Interviewer": "male", "Expert": "female"}
-        
+async def _generate_audio_async(script: str, language: str, speaker_voices: dict):
+    """Internal async generation logic"""
     dialogues = parse_dialogue(script)
     if not dialogues:
         raise ValueError("No dialogue found in script.")
@@ -99,46 +85,37 @@ def generate_audio_from_script(script: str, language: str, speaker_voices: dict 
     timestamps = []
     current_ms = 0
     
-    emit_progress("tts", "converting", f"Converting {total_chunks} dialogue chunks to audio...")
+    emit_progress("tts", "converting", f"Converting {total_chunks} chunks using Edge TTS...")
     
     for i, (speaker, text) in enumerate(dialogues, 1):
-        if not text:
-            continue
-            
-        preview = (text[:50] + '...') if len(text) > 50 else text
-        preview = preview.replace('\n', ' ')
-        emit_progress("tts", "processing", f"  [{i}/{total_chunks}] {speaker}: \"{preview}\"")
-        
         voice_gender = speaker_voices.get(speaker, "male")
         
-        try:
-            audio_bytes = text_to_speech_segment(text, language, voice_gender)
-            segment = AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3")
-            
-            # Record structural audio boundary alignments
-            start_sec = current_ms / 1000.0
-            current_ms += len(segment)
-            end_sec = current_ms / 1000.0
-                      
-            clean_caption = re.sub(r'<[^>]+>', '', text).strip()          
-            timestamps.append({
-                "speaker": speaker,
-                "text": clean_caption,
-                "start": start_sec,
-                "end": end_sec
-            })
-            
-            # Append track content and apply a 500ms conversational gap
-            combined += segment + AudioSegment.silent(duration=500)
-            current_ms += 500
-        except Exception as e:
-            emit_progress("tts", "error", f"  ❌ Error on chunk {i}: {e}")
-            raise e
-            
-    emit_progress("tts", "rendering", "Rendering final MP3...")
-    
+        # Async call to Edge TTS
+        audio_bytes = await tts_segment(text, language, voice_gender)
+
+        if not audio_bytes or len(audio_bytes) < 100: 
+            emit_progress("tts", "warning", f"Skipping empty audio chunk for: {speaker}")
+            continue
+
+        segment = AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3")
+        
+        # Record timing
+        start_sec = current_ms / 1000.0
+        current_ms += len(segment)
+        end_sec = current_ms / 1000.0
+        
+        timestamps.append({"speaker": speaker, "text": text, "start": start_sec, "end": end_sec})
+        
+        combined += segment + AudioSegment.silent(duration=500)
+        current_ms += 500
+        
     output = io.BytesIO()
     combined.export(output, format="mp3")
-    emit_progress("tts", "complete", f"Audio ready! Duration: {len(combined)/1000:.1f} seconds\n")
-    
     return output.getvalue(), timestamps
+
+def generate_audio_from_script(script: str, language: str, speaker_voices: dict = None) -> bytes:
+    """Synchronous wrapper for the async generation function"""
+    if speaker_voices is None:
+        speaker_voices = {"Interviewer": "male", "Expert": "female"}
+    
+    return asyncio.run(_generate_audio_async(script, language, speaker_voices))
