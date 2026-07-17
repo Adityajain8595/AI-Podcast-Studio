@@ -22,7 +22,7 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
 # Rate limiting for API calls
 last_call_time = 0
-CALL_DELAY = 5.0
+CALL_DELAY = 8.0
 
 # Thread callback for streaming progress to frontend
 thread_local = threading.local()
@@ -64,7 +64,7 @@ llm = ChatGroq(
     temperature=0.2,
     max_tokens=1500,
     api_key=GROQ_API_KEY,
-    max_retries=3,
+    max_retries=5,
     timeout=30
 )
 

@@ -8,27 +8,14 @@ from podcast_workflow import emit_progress
 def get_voice(lang: str, gender: str) -> str:
     """Select Edge TTS voices."""
     if lang == "hi":
-        return "hi-IN-SwaraNeural" if gender == "female" else "hi-IN-PrabhatNeural"
+        return "hi-IN-SwaraNeural" if gender == "female" else "hi-IN-MadhurNeural"
     
-    return "en-US-AnaNeural" if gender == "female" else "en-US-ChristopherNeural"
+    return "en-US-JennyNeural" if gender == "female" else "en-US-AndrewNeural"
 
 async def tts_segment(text: str, lang: str, voice_gender: str) -> bytes:
     """Synthesize a single text segment and return MP3 bytes."""
 
-    # Text cleaning and SSML handling
-    valid_tags = []
-    def save_tag(match):
-        valid_tags.append(match.group(0))
-        return f"___TAG_{len(valid_tags)-1}___"
-        
-    text = re.sub(r'<break[^>]*>', save_tag, text)
-    text = re.sub(r'<[^>]+>', '', text)
-    text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-    for i, tag in enumerate(valid_tags):
-        text = text.replace(f"___TAG_{i}___", tag)
-
-    text = text.replace('\\"', '"').replace("\\'", "'")
+    text = f"<speak>{text}</speak>"
 
     # Synthesis phase
     voice = get_voice(lang, voice_gender)
@@ -89,8 +76,10 @@ async def _generate_audio_async(script: str, language: str, speaker_voices: dict
     
     for i, (speaker, text) in enumerate(dialogues, 1):
         voice_gender = speaker_voices.get(speaker, "male")
-        
-        # Async call to Edge TTS
+
+        emit_progress("tts", "processing", f"Processing chunk {i}/{total_chunks}: {speaker}")
+
+        clean_caption = re.sub(r'<[^>]+>', '', text).strip()
         audio_bytes = await tts_segment(text, language, voice_gender)
 
         if not audio_bytes or len(audio_bytes) < 100: 
@@ -104,7 +93,7 @@ async def _generate_audio_async(script: str, language: str, speaker_voices: dict
         current_ms += len(segment)
         end_sec = current_ms / 1000.0
         
-        timestamps.append({"speaker": speaker, "text": text, "start": start_sec, "end": end_sec})
+        timestamps.append({"speaker": speaker, "text": clean_caption, "start": start_sec, "end": end_sec})
         
         combined += segment + AudioSegment.silent(duration=500)
         current_ms += 500
