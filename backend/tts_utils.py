@@ -15,11 +15,13 @@ def get_voice(lang: str, gender: str) -> str:
 async def tts_segment(text: str, lang: str, voice_gender: str) -> bytes:
     """Synthesize a single text segment and return MP3 bytes."""
 
-    text = f"<speak>{text}</speak>"
+    # Strip all XML/SSML tags completely and clean it
+    clean_text = re.sub(r'<[^>]+>', '', text)   
+    clean_text = clean_text.replace("&", "and").replace('\\"', '"').replace("\\'", "'")
 
     # Synthesis phase
     voice = get_voice(lang, voice_gender)
-    communicate = edge_tts.Communicate(text, voice)
+    communicate = edge_tts.Communicate(clean_text, voice)
     
     audio_data = io.BytesIO()
     async for chunk in communicate.stream():
@@ -79,7 +81,10 @@ async def _generate_audio_async(script: str, language: str, speaker_voices: dict
 
         emit_progress("tts", "processing", f"Processing chunk {i}/{total_chunks}: {speaker}")
 
-        clean_caption = re.sub(r'<[^>]+>', '', text).strip()
+        # Extracting break duration
+        break_match = re.search(r'time="(\d+)ms"', text)
+        duration_ms = int(break_match.group(1)) if break_match else 500
+
         audio_bytes = await tts_segment(text, language, voice_gender)
 
         if not audio_bytes or len(audio_bytes) < 100: 
@@ -93,10 +98,11 @@ async def _generate_audio_async(script: str, language: str, speaker_voices: dict
         current_ms += len(segment)
         end_sec = current_ms / 1000.0
         
+        clean_caption = re.sub(r'<[^>]+>', '', text).strip()
         timestamps.append({"speaker": speaker, "text": clean_caption, "start": start_sec, "end": end_sec})
         
-        combined += segment + AudioSegment.silent(duration=500)
-        current_ms += 500
+        combined += segment + AudioSegment.silent(duration=duration_ms)
+        current_ms += duration_ms
         
     output = io.BytesIO()
     combined.export(output, format="mp3")
