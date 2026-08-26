@@ -70,7 +70,7 @@ llm = ChatGroq(
 
 # Faster model for simple query generation
 query_llm = ChatGroq(
-    model="llama-3.1-8b-instant",
+    model="openai/gpt-oss-20b",
     temperature=0,
     max_tokens=200,
     api_key=GROQ_API_KEY,
